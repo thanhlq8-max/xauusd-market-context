@@ -20,6 +20,7 @@ _JSON_ARTIFACT_KEYS = (
     "state",
     "user_insight",
     "artifact_quality",
+    "context_summary",
 )
 
 
@@ -51,6 +52,7 @@ def build_static_site_html(artifact_dir: str | Path, out_dir: str | Path = "site
     state = _load_optional_json(paths, "state")
     user_insight = _load_optional_json(paths, "user_insight")
     artifact_quality = _load_optional_json(paths, "artifact_quality")
+    context_summary = _load_optional_json(paths, "context_summary")
     event = _load_optional_json(paths, "event_risk")
 
     quality_score = artifact_quality.get("quality_score", "n/a")
@@ -65,6 +67,18 @@ def build_static_site_html(artifact_dir: str | Path, out_dir: str | Path = "site
     warnings = artifact_quality.get("warnings", [])
     errors = artifact_quality.get("errors", [])
     high_impact_count = len(event.get("high_impact_events", []))
+    latest_close = context_summary.get("latest_close", "n/a")
+    freshness_age = context_summary.get("freshness_age_minutes", "n/a")
+    spread_state = context_summary.get("spread_state", "UNKNOWN")
+    nearest_level = context_summary.get("nearest_session_level") or {}
+    nearest_text = (
+        f"{nearest_level.get('session')} {nearest_level.get('level')} @ {nearest_level.get('price')} "
+        f"({nearest_level.get('distance_points')} pts)"
+        if nearest_level
+        else "not available"
+    )
+    confidence_explanation = context_summary.get("confidence_explanation", [])
+    monitor_focus = context_summary.get("monitor_focus") or operator_focus
     generated = utc_now_iso()
 
     body = f"""<!doctype html>
@@ -82,6 +96,7 @@ def build_static_site_html(artifact_dir: str | Path, out_dir: str | Path = "site
     .card {{ border: 1px solid #8884; border-radius: 12px; padding: 14px; background: #8881; }}
     .label {{ font-size: 0.82rem; opacity: 0.75; }}
     .value {{ font-size: 1.35rem; font-weight: 700; }}
+    .small-value {{ font-size: 1.0rem; font-weight: 700; }}
     code {{ background: #8882; padding: 2px 5px; border-radius: 5px; }}
     pre {{ overflow: auto; padding: 12px; border-radius: 10px; background: #8882; }}
     a {{ font-weight: 600; }}
@@ -104,6 +119,21 @@ def build_static_site_html(artifact_dir: str | Path, out_dir: str | Path = "site
   </section>
 
   <section>
+    <h2>Context Summary</h2>
+    <section class="grid" aria-label="context summary">
+      <div class="card"><div class="label">Latest close</div><div class="value">{html.escape(str(latest_close))}</div></div>
+      <div class="card"><div class="label">Freshness age</div><div class="value">{html.escape(str(freshness_age))} min</div></div>
+      <div class="card"><div class="label">Spread state</div><div class="value">{html.escape(str(spread_state))}</div></div>
+      <div class="card"><div class="label">Nearest session level</div><div class="small-value">{html.escape(str(nearest_text))}</div></div>
+    </section>
+  </section>
+
+  <section>
+    <h2>Confidence Explanation</h2>
+    <ul>{_html_list(confidence_explanation)}</ul>
+  </section>
+
+  <section>
     <h2>Current Read</h2>
     <p><strong>{html.escape(str(headline))}</strong></p>
     <p>{html.escape(str(now_read))}</p>
@@ -120,7 +150,7 @@ def build_static_site_html(artifact_dir: str | Path, out_dir: str | Path = "site
 
   <section>
     <h2>What To Monitor</h2>
-    <ul>{_html_list(operator_focus)}</ul>
+    <ul>{_html_list(monitor_focus)}</ul>
   </section>
 
   <section>

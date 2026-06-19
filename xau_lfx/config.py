@@ -22,6 +22,7 @@ def artifact_paths(out_dir: str | Path | None = None) -> dict[str, Path]:
         "state": root / "xau_lfx_external_state.json",
         "user_insight": root / "xau_user_insight.json",
         "artifact_quality": root / "xau_artifact_quality.json",
+        "context_summary": root / "xau_context_summary.json",
         "market_context_report": root / "xau_market_context_report.md",
     }
 

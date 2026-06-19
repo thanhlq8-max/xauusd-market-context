@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.6.0 - Useful context summary
+
+### Added
+
+- Added `xau_context_summary.json` as a compact monitor-only operator summary.
+- Added latest close, freshness age, nearest session level, spread state, event risk state, confidence explanation, and monitor focus.
+- Added context-summary section to Markdown report and static demo site.
+- Added context-summary documentation and tests.
+
+### Preserved
+
+- Existing artifact contract remains compatible.
+- Existing monitor-only behavior remains locked.
+- No execution, account-risk, or profitability claims.
+
 ## v1.5.0 - Source validation hardening
 
 ### Added

@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from pathlib import Path
 from typing import Any
@@ -20,6 +20,23 @@ def _lines_for_sessions(session_ranges: dict[str, Any]) -> list[str]:
     return lines
 
 
+def _bullet_lines(items: list[Any], fallback: str) -> str:
+    if not items:
+        return f"- {fallback}\n"
+    return "".join(f"- {item}\n" for item in items)
+
+
+def _format_nearest_session_level(context_summary: dict[str, Any]) -> str:
+    nearest = context_summary.get("nearest_session_level") or {}
+    if not nearest:
+        return "not available"
+    session = nearest.get("session", "unknown")
+    level = nearest.get("level", "unknown")
+    price = nearest.get("price")
+    distance = nearest.get("distance_points")
+    return f"{session} {level} at {price}, distance={distance}"
+
+
 def build_market_context_markdown(
     data_quality: dict[str, Any],
     composite: dict[str, Any],
@@ -27,9 +44,11 @@ def build_market_context_markdown(
     event: dict[str, Any],
     user_insight: dict[str, Any],
     artifact_quality: dict[str, Any],
+    context_summary: dict[str, Any] | None = None,
 ) -> str:
+    context_summary = context_summary or {}
     session_lines = _lines_for_sessions(session.get("session_ranges", {}))
-    latest_close = composite.get("median_latest_close")
+    latest_close = context_summary.get("latest_close", composite.get("median_latest_close"))
     warnings = artifact_quality.get("warnings", [])
     errors = artifact_quality.get("errors", [])
 
@@ -56,6 +75,24 @@ Symbol: {data_quality.get('symbol', 'XAUUSD')}
 - Spread score: {artifact_quality.get('spread_score')} / 100
 - Event score: {artifact_quality.get('event_score')} / 100
 
+## Context Summary
+
+- Latest close: {latest_close if latest_close is not None else 'not available'}
+- Freshness age minutes: {context_summary.get('freshness_age_minutes', 'not available')}
+- Nearest session level: {_format_nearest_session_level(context_summary)}
+- Spread state: {context_summary.get('spread_state', 'not available')}
+- Event risk state: {context_summary.get('event_risk_state', event.get('risk_state'))}
+- Quality status: {context_summary.get('quality_status', artifact_quality.get('status'))}
+- Quality grade: {context_summary.get('quality_grade', artifact_quality.get('quality_grade'))}
+
+## Confidence Explanation
+
+{_bullet_lines(context_summary.get('confidence_explanation', []), 'No additional confidence explanation was generated.')}
+
+## Monitor Focus
+
+{_bullet_lines(context_summary.get('monitor_focus', user_insight.get('operator_focus', [])), 'No monitor focus was generated.')}
+
 ## M15 Session Map
 
 {chr(10).join(session_lines)}
@@ -69,17 +106,14 @@ Symbol: {data_quality.get('symbol', 'XAUUSD')}
 
 ## Current Read
 
-- Latest cross-timeframe median close: {latest_close if latest_close is not None else 'not available'}
+- Latest cross-timeframe median close: {composite.get('median_latest_close') if composite.get('median_latest_close') is not None else 'not available'}
 - Headline: {user_insight.get('headline')}
 - Now: {user_insight.get('now_read')}
 
-## What To Monitor
+## What This Artifact Cannot Claim
 
 """
-    for item in user_insight.get("operator_focus", []):
-        report += f"- {item}\n"
 
-    report += "\n## What This Artifact Cannot Claim\n\n"
     cannot_claim = [
         "It cannot infer centralized spot-gold orderflow from broker CSV files.",
         "It cannot infer actual dealer inventory or actual retail-side positioning.",
@@ -88,6 +122,12 @@ Symbol: {data_quality.get('symbol', 'XAUUSD')}
     ]
     for item in cannot_claim:
         report += f"- {item}\n"
+
+    report += "\n## Limitations\n\n"
+    report += _bullet_lines(
+        context_summary.get("limitations", []),
+        "No additional context-summary limitations were generated.",
+    )
 
     report += "\n## Warnings\n\n"
     if warnings:
@@ -109,6 +149,11 @@ Symbol: {data_quality.get('symbol', 'XAUUSD')}
 
 def write_market_context_report(artifact_dir: str | Path, write_md: bool = True) -> str:
     paths = artifact_paths(artifact_dir)
+    context_summary_path = paths.get("context_summary")
+    context_summary = {}
+    if context_summary_path is not None and context_summary_path.exists():
+        context_summary = read_json(context_summary_path)
+
     report = build_market_context_markdown(
         data_quality=read_json(paths["data_quality"]),
         composite=read_json(paths["composite_ohlcv"]),
@@ -116,6 +161,7 @@ def write_market_context_report(artifact_dir: str | Path, write_md: bool = True)
         event=read_json(paths["event_risk"]),
         user_insight=read_json(paths["user_insight"]),
         artifact_quality=read_json(paths["artifact_quality"]),
+        context_summary=context_summary,
     )
     if write_md:
         write_text(paths["market_context_report"], report)

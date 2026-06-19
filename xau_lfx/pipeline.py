@@ -14,6 +14,7 @@ from xau_lfx.connectors.mt5_feed import MT5FeedConnector
 from xau_lfx.connectors.public_market import PublicMarketConnector
 from xau_lfx.engines.artifact_quality import build_artifact_quality
 from xau_lfx.engines.composite_ohlcv import build_composite_ohlcv
+from xau_lfx.engines.context_summary import build_context_summary
 from xau_lfx.engines.data_quality import build_data_quality
 from xau_lfx.engines.event_risk import build_event_risk
 from xau_lfx.engines.lfx_state_adapter import build_external_state
@@ -57,8 +58,20 @@ def run_once(
     state = build_external_state(data_quality, composite, session, macro, event)
     user_insight = build_user_insight(data_quality, composite, session, macro, event, state)
     artifact_quality = build_artifact_quality(data_quality, composite, session, event)
+    context_summary = build_context_summary(data_quality, composite, session, event, artifact_quality)
 
-    for payload in [raw_scan, data_quality, composite, session, macro, event, state, user_insight, artifact_quality]:
+    for payload in [
+        raw_scan,
+        data_quality,
+        composite,
+        session,
+        macro,
+        event,
+        state,
+        user_insight,
+        artifact_quality,
+        context_summary,
+    ]:
         assert_clean_language(payload)
 
     write_json(paths["raw_scan"], raw_scan)
@@ -70,6 +83,7 @@ def run_once(
     write_json(paths["state"], state)
     write_json(paths["user_insight"], user_insight)
     write_json(paths["artifact_quality"], artifact_quality)
+    write_json(paths["context_summary"], context_summary)
     return state
 
 
