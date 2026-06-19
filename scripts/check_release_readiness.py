@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-EXPECTED_VERSION = "1.6.0"
+EXPECTED_VERSION = "1.7.0"
 EXPECTED_LICENSE_MARKER = "Apache License"
 EXPECTED_DATA_POLICY_MARKER = "synthetic fixtures"
 
@@ -28,6 +28,10 @@ REQUIRED_FILES = [
     "docs/LICENSE_POLICY.md",
     "docs/CLAUDE_FOR_OSS_POSITIONING.md",
     "docs/SCHEMA_REFERENCE.md",
+    "docs/CONTEXT_SUMMARY.md",
+    "docs/MT5_EXPORT_GUIDE.md",
+    "docs/ADOPTION_GUIDE.md",
+    "docs/ISSUE_BACKLOG_SEED.md",
     ".github/workflows/tests.yml",
     ".github/workflows/pages.yml",
     ".github/PULL_REQUEST_TEMPLATE.md",
@@ -89,7 +93,7 @@ def check_readiness(root: str | Path = ".") -> dict:
     readme = repo / "README.md"
     if readme.exists():
         text = _read_text(readme).lower()
-        for phrase in ["monitor-only", "local csv", "artifact quality", "static demo", "apache-2.0"]:
+        for phrase in ["monitor-only", "local csv", "artifact quality", "static demo", "apache-2.0", "use cases"]:
             if phrase not in text:
                 warnings.append(f"README does not mention required phrase: {phrase}")
 

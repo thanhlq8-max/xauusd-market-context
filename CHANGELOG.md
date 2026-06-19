@@ -1,5 +1,24 @@
 # Changelog
 
+## v1.7.0 - GitHub adoption pack
+
+### Added
+
+- README status badges for tests, Pages, latest release, and Apache-2.0 license.
+- Public use-case and audience sections.
+- MT5 export guide for local XAUUSD CSV preparation.
+- Adoption guide for first-run and GitHub topic setup.
+- Issue backlog seed for good-first-issue, enhancement, and research tasks.
+- Additional issue templates for validation, context-summary, and docs improvements.
+- Public adoption docs tests.
+
+### Preserved
+
+- Existing runtime behavior.
+- Existing artifact contract.
+- Existing monitor-only safety contract.
+- No execution, account-risk, buy/sell, or profitability claims.
+
 ## v1.6.0 - Useful context summary
 
 ### Added

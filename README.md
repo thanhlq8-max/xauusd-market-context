@@ -1,12 +1,17 @@
-# XAUUSD Market Context v1.6.0
+# XAUUSD Market Context v1.7.0
 
-STATUS: USEFUL_CONTEXT_SUMMARY  
+[![tests](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/tests.yml/badge.svg)](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/tests.yml)
+[![pages-demo](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/pages.yml/badge.svg)](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/pages.yml)
+[![Release](https://img.shields.io/github/v/release/thanhlq8-max/xauusd-market-context)](https://github.com/thanhlq8-max/xauusd-market-context/releases)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
+
+STATUS: GITHUB_ADOPTION_PACK  
 MODE: CONTROL  
 TRADING_MODE: MONITOR_ONLY  
 AUTO_EXECUTION: NO  
 DIRECTIONAL_TRADE_CALLS: NO
 
-Generate auditable XAUUSD market-context artifacts from local MT5/broker CSV exports, spread snapshots, and manual USD event files. v1.6.0 adds a compact context-summary artifact with latest close, freshness age, nearest session level, spread state, event risk state, confidence explanation, and monitor focus. The package is a monitor-only sidecar for XAU research workflows; it does not modify the LFX-2 Pine baseline and does not place orders or produce execution instructions.
+Generate auditable XAUUSD market-context artifacts from local MT5/broker CSV exports, spread snapshots, and manual USD event files. v1.7.0 adds public adoption resources: README badges, a practical MT5 export guide, GitHub topic guidance, and an issue-backlog seed for community onboarding. The package is a monitor-only sidecar for XAU research workflows; it does not modify the LFX-2 Pine baseline and does not place orders or produce execution instructions.
 
 ## Why this exists
 
@@ -17,6 +22,21 @@ Most retail XAUUSD workflows depend on one broker feed and opaque indicator outp
 - preserve broker tick activity as `tick_volume`, not centralized volume;
 - generate JSON and Markdown artifacts that can be audited or used by another dashboard;
 - cap confidence when source quality, spread, or event risk is weak.
+
+## Use cases
+
+- Validate local XAUUSD CSV exports before using them in research dashboards.
+- Generate auditable market-context artifacts from broker-controlled source files.
+- Inspect MTF coverage, source freshness, spread state, event-risk state, and context summary.
+- Produce static HTML/Markdown outputs that can be shared without a backend service.
+- Maintain a monitor-only workflow that avoids trading-signal, execution, and profitability claims.
+
+## Who this is for
+
+- XAUUSD researchers who want reproducible local artifacts.
+- Systematic traders who need source-quality gates before downstream analysis.
+- Tool builders who need a small, static, auditable market-context sidecar.
+- Contributors looking for focused OSS issues around validation, docs, and report quality.
 
 ## Hard rules
 
@@ -184,6 +204,25 @@ python -m xau_lfx.pipeline site --artifact-dir examples/sample-artifacts --out-d
 ```
 
 The generated page summarizes artifact quality, source coverage, event risk context, and exported artifacts. It is intentionally static so it can be hosted by GitHub Pages without backend services.
+
+## GitHub adoption resources
+
+This repo includes public-facing adoption material:
+
+```text
+docs/MT5_EXPORT_GUIDE.md
+docs/ADOPTION_GUIDE.md
+docs/ISSUE_BACKLOG_SEED.md
+docs/CONTEXT_SUMMARY.md
+```
+
+Suggested GitHub topics:
+
+```text
+xauusd, market-data, mt5, research, tradingview, monitor-only, csv-validation, static-site, python
+```
+
+These resources are intentionally documentation-first. They improve discoverability and contributor onboarding without changing the monitor-only runtime contract.
 
 ## License
 
