@@ -56,3 +56,16 @@ xau-lfx site --artifact-dir artifacts --out-dir site
 ```
 
 Open `site/index.html` locally. The generated outputs remain monitor-only research context and do not contain execution or account-risk logic.
+
+## Run the OANDA Practice live dashboard
+
+`serve-oanda` requires an explicit private host, port, request timeout, and a local `OANDA_API_TOKEN` environment variable. It has no public-feed fallback.
+
+```powershell
+.\.venv\Scripts\python.exe -m xau_lfx.web serve-oanda `
+  --host 192.168.1.20 `
+  --port 8766 `
+  --request-timeout-seconds 10
+```
+
+The OANDA candle refresh interval is fixed at five seconds. See [`OANDA_LIVE_DASHBOARD.md`](OANDA_LIVE_DASHBOARD.md) for interactive token input, private-network access, and source limitations.

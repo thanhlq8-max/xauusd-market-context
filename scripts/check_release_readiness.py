@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-EXPECTED_VERSION = "2.3.0"
+EXPECTED_VERSION = "2.4.0"
 EXPECTED_LICENSE_MARKER = "Apache License"
 EXPECTED_DATA_POLICY_MARKER = "synthetic fixtures"
 
@@ -37,11 +37,15 @@ REQUIRED_FILES = [
     "docs/DEMO_WALKTHROUGH.md",
     "docs/CLI_USAGE.md",
     "docs/LFX_EXTERNAL_BASELINE.md",
+    "docs/OANDA_LIVE_DASHBOARD.md",
+    "docs/REAL_WORLD_USAGE.md",
+    "docs/SHARING_VALIDATION_REPORTS.md",
     ".github/workflows/tests.yml",
     ".github/workflows/pages.yml",
     ".github/workflows/issue-triage.yml",
     ".github/PULL_REQUEST_TEMPLATE.md",
     ".github/ISSUE_TEMPLATE/user_feedback.md",
+    ".github/ISSUE_TEMPLATE/report_export_issue.md",
 ]
 
 REQUIRED_SAMPLE_FILES = [

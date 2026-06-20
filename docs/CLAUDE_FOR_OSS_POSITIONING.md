@@ -7,7 +7,7 @@ This repository is positioned as a practical OSS utility for auditable XAUUSD ma
 The project is strongest as:
 
 ```text
-Local data artifact generator + quality gate + static research report/demo
+Local data artifact generator + quality gate + private live monitor + static research report/demo
 ```
 
 It helps users:
@@ -16,11 +16,12 @@ It helps users:
 - generate auditable JSON artifacts;
 - inspect data quality and confidence caps;
 - produce Markdown and static HTML reports;
+- inspect OANDA Practice M5/M15/H1 candles on a private-host dashboard without exposing the token to browser code;
 - avoid false precision around XAUUSD broker-fragmented data.
 
 ## OSS readiness foundation
 
-v1.4.0 includes:
+v2.4.0 includes:
 
 - Apache-2.0 license;
 - data redistribution policy;
@@ -32,7 +33,10 @@ v1.4.0 includes:
 - CI test workflow;
 - GitHub Pages static demo workflow;
 - sample synthetic fixtures;
-- release-readiness checker.
+- release-readiness checker;
+- public contributor backlog and triage workflow;
+- four synthetic real-world usage cases and sanitized report-sharing guidance;
+- optional OANDA Practice live dashboard with fixed five-second refresh.
 
 ## What should not be claimed
 

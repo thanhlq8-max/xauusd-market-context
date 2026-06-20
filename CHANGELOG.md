@@ -1,5 +1,22 @@
 # Changelog
 
+## v2.4.0 - OANDA Practice live dashboard and Phase F usage cases
+
+### Added
+
+- Optional OANDA v20 Practice connector for `XAU_USD` M5/M15/H1 midpoint, bid, and ask candles.
+- Five-second live snapshot service with explicit `OK`, `STALE`, and unavailable states.
+- Responsive private-host dashboard for desktop and mobile with candle chart, DID/NOW/NEXT context, and UTC session zones.
+- Four synthetic real-world usage cases, sanitized validation-report sharing guidance, and an export/source issue template.
+- Mock-transport tests that require no credential and commit no live market data.
+
+### Preserved
+
+- Existing CSV pipeline, artifact schemas, static demo, and GitHub Pages output.
+- OANDA token remains inside the local server process and is not returned to the browser.
+- No Pine source modification or Pine logic port.
+- No execution, account-risk, directional trade-call, inventory, or profitability claims.
+
 ## v2.3.0 - User feedback and issue backlog execution
 
 ### Added
