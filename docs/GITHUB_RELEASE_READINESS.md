@@ -1,6 +1,6 @@
 # GitHub Release Readiness
 
-Status: `v2.3.0-community-backlog-ready`
+Status: `v2.4.0-oanda-practice-dashboard-ready`
 
 ## Required checks
 
@@ -36,6 +36,9 @@ The public release pack must include:
 - schema reference
 - CLI usage guide
 - LFX external baseline contract
+- OANDA Practice live-dashboard guide
+- real-world synthetic usage cases
+- sanitized validation-report sharing guide
 - sample data fixtures
 - sample generated artifacts
 - GitHub issue templates
@@ -43,6 +46,7 @@ The public release pack must include:
 - GitHub Pages workflow
 - GitHub issue triage workflow
 - user feedback issue template
+- export/source issue template
 
 ## Expected readiness result
 

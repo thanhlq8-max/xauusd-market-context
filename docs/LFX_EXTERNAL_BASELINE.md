@@ -28,7 +28,7 @@ The external repository may preserve these concepts as documentation and monitor
 
 ## Density boundary
 
-The v7.2-A-R5 density adapter is reference material, not an implemented Python feature in v2.3.0.
+The v7.2-A-R5 density adapter is reference material, not an implemented Python feature in v2.4.0.
 
 Any future external density work must satisfy all of the following:
 
@@ -51,6 +51,6 @@ The external repository must not silently copy or reinterpret:
 - broker tick activity as centralized market volume;
 - predictive, profitability, or financial-advice behavior.
 
-## Phase E effect
+## Phase F effect
 
-Phase E uses the LFX material only to constrain documentation, contributor tasks, issue wording, and roadmap boundaries. It does not add an external density engine, mutate artifact calculations, or change the Pine source.
+Phase F uses the LFX material only to structure bounded DID/NOW/NEXT dashboard rows, explicit unsupported-evidence states, documentation, and safety boundaries. It does not add an external density engine, infer MM mission or inventory from OANDA OHLC, mutate existing artifact calculations, or change the Pine source.

@@ -7,6 +7,7 @@ This roadmap tracks public utility and community adoption for the external Pytho
 - `v1.8.0`: committed synthetic demo artifacts and walkthrough.
 - `v1.9.0`: one-command demo, generated-file paths, CLI documentation, and CLI smoke tests.
 - `v2.3.0`: community backlog, maintainer policy, feedback path, and issue triage automation.
+- `v2.4.0`: synthetic real-world usage cases, sanitized report sharing, and an optional private OANDA Practice live dashboard.
 
 ## Explicit version decision
 
@@ -17,24 +18,21 @@ Skipped work must not be described as complete:
 - stable JSON schema files and compatibility enforcement remain future work;
 - the broader docs-site and screenshot upgrade remain future work.
 
-## Current community milestone
+## Phase F delivery
 
-Phase E acceptance requires:
+Phase F provides:
 
-- 10-20 public, independently scoped issues;
-- at least five `good first issue` tasks;
-- at least three docs or demo tasks that require no market-domain expertise;
-- required community labels;
-- an issue triage workflow;
-- a user feedback issue template;
-- clear maintainer and contributor paths.
+- four synthetic validation/context case studies;
+- a sanitized report-sharing procedure and export-issue template;
+- OANDA v20 Practice M5/M15/H1 candle ingestion with fixed five-second refresh;
+- a mobile-first dashboard served from a local private host;
+- explicit `NOT_INFERRED` states for MM mission and inventory claims unsupported by OHLC alone.
 
 ## Next separately locked work
 
 The following work requires its own scope decision before implementation:
 
 - artifact schema stability and compatibility policy;
-- real-world synthetic case studies and sanitized report sharing;
 - package-name decision before TestPyPI or PyPI publication;
 - static documentation and demo-site expansion;
 - optional local reference-data adapters;
