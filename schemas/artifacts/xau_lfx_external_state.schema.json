@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["ts_utc", "symbol", "monitor_only", "state", "summary", "evidence", "quality"],
+  "properties": {
+    "ts_utc": {},
+    "symbol": {},
+    "monitor_only": {"const": true},
+    "state": {},
+    "summary": {},
+    "evidence": {},
+    "quality": {}
+  }
+}
