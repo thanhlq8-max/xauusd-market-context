@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-EXPECTED_VERSION = "2.4.0"
+EXPECTED_VERSION = "2.5.0"
 EXPECTED_LICENSE_MARKER = "Apache License"
 EXPECTED_DATA_POLICY_MARKER = "synthetic fixtures"
 
@@ -31,6 +31,7 @@ REQUIRED_FILES = [
     "docs/CLAUDE_FOR_OSS_POSITIONING.md",
     "docs/SCHEMA_REFERENCE.md",
     "docs/CONTEXT_SUMMARY.md",
+    "docs/ARTIFACT_CONTRACT.md",
     "docs/MT5_EXPORT_GUIDE.md",
     "docs/ADOPTION_GUIDE.md",
     "docs/ISSUE_BACKLOG_SEED.md",

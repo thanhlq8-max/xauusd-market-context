@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import Any
 
 from xau_lfx.config import ARTIFACTS, DEFAULT_SYMBOL, PACKAGE_ROOT, artifact_paths
+from xau_lfx.artifact_contract import validate_artifact_contract
 from xau_lfx.connectors.base import SourceRequest
 from xau_lfx.connectors.event_calendar import EventCalendarConnector
 from xau_lfx.connectors.event_csv import EventCsvConnector
@@ -177,6 +178,9 @@ def main() -> None:
     report_parser.add_argument("--artifact-dir", default="artifacts")
     report_parser.add_argument("--write-md", action="store_true")
 
+    validate_artifacts_parser = sub.add_parser("validate-artifacts")
+    validate_artifacts_parser.add_argument("--artifact-dir", default="artifacts")
+
     site_parser = sub.add_parser("site")
     site_parser.add_argument("--artifact-dir", default="artifacts")
     site_parser.add_argument("--out-dir", default="site")
@@ -204,6 +208,11 @@ def main() -> None:
     elif args.command == "report":
         report = write_market_context_report(args.artifact_dir, write_md=args.write_md)
         print(report if not args.write_md else str(artifact_paths(args.artifact_dir)["market_context_report"]))
+    elif args.command == "validate-artifacts":
+        result = validate_artifact_contract(args.artifact_dir)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        if result["status"] == "ERROR":
+            raise SystemExit(1)
     elif args.command == "site":
         index_path = write_static_site(artifact_dir=args.artifact_dir, out_dir=args.out_dir)
         print(str(index_path))

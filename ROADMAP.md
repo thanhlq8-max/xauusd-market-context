@@ -8,6 +8,7 @@ This roadmap tracks public utility and community adoption for the external Pytho
 - `v1.9.0`: one-command demo, generated-file paths, CLI documentation, and CLI smoke tests.
 - `v2.3.0`: community backlog, maintainer policy, feedback path, and issue triage automation.
 - `v2.4.0`: synthetic real-world usage cases, sanitized report sharing, and an optional private OANDA Practice live dashboard.
+- `v2.5.0`: artifact contract validation for generated JSON bundles.
 
 ## Explicit version decision
 
@@ -32,7 +33,7 @@ Phase F provides:
 
 The following work requires its own scope decision before implementation:
 
-- artifact schema stability and compatibility policy;
+- full JSON Schema files and semantic compatibility policy;
 - package-name decision before TestPyPI or PyPI publication;
 - static documentation and demo-site expansion;
 - optional local reference-data adapters;

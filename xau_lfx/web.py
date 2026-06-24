@@ -19,7 +19,7 @@ from xau_lfx.pipeline import run_once
 from xau_lfx.reports.live_dashboard import build_live_dashboard_html
 from xau_lfx.utils import read_json
 
-app = FastAPI(title="XAU-LFX External Data Foundation", version="2.4.0")
+app = FastAPI(title="XAU-LFX External Data Foundation", version="2.5.0")
 
 
 @app.get("/api/xau/state")
@@ -79,7 +79,7 @@ def create_oanda_live_app(service: OandaLiveService) -> FastAPI:
 
     live_app = FastAPI(
         title="XAUUSD OANDA Practice Live Context",
-        version="2.4.0",
+        version="2.5.0",
         lifespan=lifespan,
         docs_url=None,
         redoc_url=None,

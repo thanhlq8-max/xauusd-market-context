@@ -43,6 +43,20 @@ The command keeps its existing state output and then prints the absolute path of
 
 Running `xau-lfx run-once` without local files preserves the existing low-confidence readiness behavior.
 
+## Validate generated artifacts
+
+```bash
+xau-lfx validate-artifacts --artifact-dir artifacts
+```
+
+The command checks generated JSON artifacts against the package artifact contract:
+
+- required artifact files must exist;
+- required top-level keys must be present;
+- every checked JSON artifact must keep `monitor_only: true`.
+
+Validation failure exits with code `1`.
+
 ## Generate the Markdown report
 
 ```bash

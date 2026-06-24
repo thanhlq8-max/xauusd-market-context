@@ -1,5 +1,22 @@
 # Changelog
 
+## v2.5.0 - Artifact contract validation
+
+### Added
+
+- `xau-lfx validate-artifacts` command for generated JSON artifact compatibility checks.
+- `xau_lfx.artifact_contract` module with a stable top-level required-key contract.
+- `docs/ARTIFACT_CONTRACT.md` documenting the current artifact contract and validation scope.
+- CI smoke step for the artifact contract validator.
+- Tests for generated sample artifacts, missing artifact handling, and CLI output.
+
+### Preserved
+
+- Existing CSV ingestion, report generation, static site, and OANDA Practice dashboard behavior.
+- Existing artifact payload calculations.
+- Monitor-only safety contract.
+- No Pine source modification, runtime order workflow, account-risk logic, inventory claim, or profitability claim.
+
 ## v2.4.0 - OANDA Practice live dashboard and Phase F usage cases
 
 ### Added

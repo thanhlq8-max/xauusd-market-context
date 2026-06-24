@@ -1,4 +1,4 @@
-# XAUUSD Market Context v2.4.0
+# XAUUSD Market Context v2.5.0
 
 [![tests](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/tests.yml/badge.svg)](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/tests.yml)
 [![pages-demo](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/pages.yml/badge.svg)](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/pages.yml)
@@ -11,7 +11,7 @@ TRADING_MODE: MONITOR_ONLY
 AUTO_EXECUTION: NO  
 DIRECTIONAL_TRADE_CALLS: NO
 
-Generate auditable XAUUSD market-context artifacts from local MT5/broker CSV exports, spread snapshots, manual USD event files, or an optional private OANDA v20 Practice dashboard. v2.4.0 adds five-second live refresh for mobile and desktop while keeping the token in the local server process. The package is a monitor-only sidecar for XAU research workflows; it uses the LFX-2 material as a semantic and safety baseline without modifying or reproducing the Pine source.
+Generate auditable XAUUSD market-context artifacts from local MT5/broker CSV exports, spread snapshots, manual USD event files, or an optional private OANDA v20 Practice dashboard. v2.5.0 adds an artifact contract validator so shared JSON bundles can be checked before downstream inspection. The package is a monitor-only sidecar for XAU research workflows; it uses the LFX-2 material as a semantic and safety baseline without modifying or reproducing the Pine source.
 
 ## Why this exists
 
@@ -86,6 +86,16 @@ docs/DEMO_WALKTHROUGH.md
 The walkthrough explains how to rebuild sample artifacts, inspect `xau_context_summary.json`, open the generated Markdown report, and generate the static demo site without broker credentials.
 
 Complete CLI reference: [`docs/CLI_USAGE.md`](docs/CLI_USAGE.md).
+
+Validate generated artifact compatibility:
+
+```bash
+xau-lfx validate-artifacts --artifact-dir artifacts
+```
+
+This checks required top-level keys, `monitor_only: true`, and JSON readability for the committed artifact contract. It does not validate predictive usefulness and does not infer direction.
+
+Artifact contract reference: [`docs/ARTIFACT_CONTRACT.md`](docs/ARTIFACT_CONTRACT.md).
 
 ## OANDA Practice live dashboard
 
@@ -241,6 +251,7 @@ This repo includes public-facing adoption material:
 docs/MT5_EXPORT_GUIDE.md
 docs/ADOPTION_GUIDE.md
 docs/ISSUE_BACKLOG_SEED.md
+docs/ARTIFACT_CONTRACT.md
 docs/CONTEXT_SUMMARY.md
 docs/CLI_USAGE.md
 docs/LFX_EXTERNAL_BASELINE.md

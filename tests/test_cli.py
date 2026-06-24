@@ -2,7 +2,7 @@ from pathlib import Path
 import sys
 
 from xau_lfx.forbidden_language import assert_clean_language
-from xau_lfx.pipeline import main
+from xau_lfx.pipeline import main, run_once
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -64,9 +64,43 @@ def test_run_once_command_prints_generated_artifact_paths(tmp_path, monkeypatch,
     assert str((artifact_dir / "xau_context_summary.json").resolve()) in output
 
 
+
+def test_validate_artifacts_command_checks_generated_files(tmp_path, monkeypatch, capsys):
+    artifact_dir = tmp_path / "artifacts"
+    sample_dir = ROOT / "examples" / "sample-data"
+    run_once(input_dir=sample_dir, event_file=sample_dir / "usd_events.csv", out_dir=artifact_dir)
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "xau-lfx",
+            "validate-artifacts",
+            "--artifact-dir",
+            str(artifact_dir),
+        ],
+    )
+
+    main()
+
+    output = capsys.readouterr().out
+    assert '"status": "OK"' in output
+    assert '"schema_contract_version": "1.0.0"' in output
+
+
+def test_validate_artifacts_command_exits_on_missing_artifacts(tmp_path, monkeypatch):
+    monkeypatch.setattr(sys, "argv", ["xau-lfx", "validate-artifacts", "--artifact-dir", str(tmp_path)])
+
+    try:
+        main()
+    except SystemExit as exc:
+        assert exc.code == 1
+    else:
+        raise AssertionError("validate-artifacts should fail when artifacts are missing")
+
+
 def test_cli_usage_documents_demo_and_existing_commands():
     text = (ROOT / "docs" / "CLI_USAGE.md").read_text(encoding="utf-8")
-    for command in ["demo", "validate-sources", "run-once", "report", "site"]:
+    for command in ["demo", "validate-sources", "run-once", "validate-artifacts", "report", "site"]:
         assert f"xau-lfx {command}" in text
     assert "synthetic" in text.lower()
     assert "monitor-only" in text.lower()
