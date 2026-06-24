@@ -185,6 +185,8 @@ Only high-impact USD events may cap confidence for XAUUSD, and only as risk cont
 
 - Demo walkthrough: [`docs/DEMO_WALKTHROUGH.md`](docs/DEMO_WALKTHROUGH.md)
 - Adoption guide: [`docs/ADOPTION_GUIDE.md`](docs/ADOPTION_GUIDE.md)
+- Real-world usage guide: [`docs/REAL_WORLD_USAGE.md`](docs/REAL_WORLD_USAGE.md)
+- Sharing validation reports: [`docs/SHARING_VALIDATION_REPORTS.md`](docs/SHARING_VALIDATION_REPORTS.md)
 - Backlog seed: [`docs/ISSUE_BACKLOG_SEED.md`](docs/ISSUE_BACKLOG_SEED.md)
 - Release readiness: [`docs/GITHUB_RELEASE_READINESS.md`](docs/GITHUB_RELEASE_READINESS.md)
 - Package publication readiness: [`docs/PACKAGE_PUBLICATION_READINESS.md`](docs/PACKAGE_PUBLICATION_READINESS.md)
