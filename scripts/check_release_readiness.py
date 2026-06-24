@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-EXPECTED_VERSION = "2.5.1"
+EXPECTED_VERSION = "2.5.2"
 EXPECTED_LICENSE_MARKER = "Apache License"
 EXPECTED_DATA_POLICY_MARKER = "synthetic fixtures"
 
@@ -65,6 +65,12 @@ FORBIDDEN_PUBLIC_FILES = [
     "docs/LICENSE_SELECTION_REQUIRED.md",
 ]
 
+ROOT_ARTIFACT_PATTERNS = [
+    "apply_*.py",
+    "xauusd-market-context-v*.patch",
+    "xauusd-market-context-v*.zip",
+]
+
 
 def _read_text(path: Path) -> str:
     try:
@@ -85,6 +91,17 @@ def check_readiness(root: str | Path = ".") -> dict:
     forbidden_present = [path for path in FORBIDDEN_PUBLIC_FILES if (repo / path).exists()]
     if forbidden_present:
         blockers.append("Remove obsolete pre-license blocker docs: " + ", ".join(forbidden_present))
+
+    root_artifacts = sorted(
+        {
+            path.name
+            for pattern in ROOT_ARTIFACT_PATTERNS
+            for path in repo.glob(pattern)
+            if path.is_file()
+        }
+    )
+    if root_artifacts:
+        blockers.append("Remove generated patch/apply artifacts from repository root: " + ", ".join(root_artifacts))
 
     license_file = repo / "LICENSE"
     if license_file.exists() and EXPECTED_LICENSE_MARKER not in _read_text(license_file):

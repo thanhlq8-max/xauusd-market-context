@@ -1,5 +1,19 @@
 # Changelog
 
+## v2.5.2 - Repository hygiene release gate
+
+### Changed
+
+- Removed generated patch/apply helper artifacts from the repository root.
+- Added release-readiness blocking for root-level generated patch/apply/archive artifacts.
+- Bumped package metadata consistently to `2.5.2`.
+
+### Preserved
+
+- No runtime calculation changes.
+- No CSV ingestion, OANDA Practice dashboard, report, site, artifact contract, or context-summary behavior changes.
+- No Pine source modification, runtime order workflow, account-risk logic, inventory claim, or profitability claim.
+
 ## v2.5.1 - Context summary snapshot coverage
 
 ### Added

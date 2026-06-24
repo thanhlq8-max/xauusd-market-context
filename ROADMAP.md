@@ -10,6 +10,7 @@ This roadmap tracks public utility and community adoption for the external Pytho
 - `v2.4.0`: synthetic real-world usage cases, sanitized report sharing, and an optional private OANDA Practice live dashboard.
 - `v2.5.0`: artifact contract validation for generated JSON bundles.
 - `v2.5.1`: context-summary snapshot coverage for operator-facing wording stability.
+- `v2.5.2`: repository hygiene guard for generated patch/apply artifacts.
 
 ## Explicit version decision
 
