@@ -1,1 +1,64 @@
-{"type":"object","additionalProperties":true,"required":["ts_utc","symbol","monitor_only","headline","now_read","operator_focus","evidence_map","useful_limits","upgrade_requirements","quality_flags"],"properties":{"ts_utc":{},"symbol":{},"monitor_only":{"const":true},"headline":{},"now_read":{},"operator_focus":{},"evidence_map":{},"useful_limits":{},"upgrade_requirements":{},"quality_flags":{}}}
+{
+  "type": "object",
+  "additionalProperties": true,
+  "required": [
+    "ts_utc",
+    "symbol",
+    "monitor_only",
+    "headline",
+    "now_read",
+    "operator_focus",
+    "evidence_map",
+    "useful_limits",
+    "upgrade_requirements",
+    "quality_flags"
+  ],
+  "properties": {
+    "ts_utc": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "monitor_only": {
+      "const": true,
+      "type": "boolean"
+    },
+    "headline": {
+      "type": "string"
+    },
+    "now_read": {
+      "type": "string"
+    },
+    "operator_focus": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "evidence_map": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "useful_limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "upgrade_requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "quality_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

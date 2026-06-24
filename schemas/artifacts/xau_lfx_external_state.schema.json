@@ -1,14 +1,57 @@
 {
   "type": "object",
   "additionalProperties": true,
-  "required": ["ts_utc", "symbol", "monitor_only", "state", "summary", "evidence", "quality"],
+  "required": [
+    "ts_utc",
+    "symbol",
+    "monitor_only",
+    "state",
+    "summary",
+    "evidence",
+    "quality"
+  ],
   "properties": {
-    "ts_utc": {},
-    "symbol": {},
-    "monitor_only": {"const": true},
-    "state": {},
-    "summary": {},
-    "evidence": {},
-    "quality": {}
+    "ts_utc": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "monitor_only": {
+      "const": true,
+      "type": "boolean"
+    },
+    "state": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "quality": {
+      "type": "object",
+      "properties": {
+        "confidence_cap": {
+          "type": "number"
+        },
+        "missing_field_count": {
+          "type": "integer"
+        },
+        "quality_flags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "source_count": {
+          "type": "integer"
+        }
+      }
+    }
   }
 }

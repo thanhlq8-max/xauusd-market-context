@@ -1,14 +1,43 @@
 {
   "type": "object",
   "additionalProperties": true,
-  "required": ["ts_utc", "symbol", "monitor_only", "pressure_state", "drivers", "confidence_cap", "quality_flags"],
+  "required": [
+    "ts_utc",
+    "symbol",
+    "monitor_only",
+    "pressure_state",
+    "drivers",
+    "confidence_cap",
+    "quality_flags"
+  ],
   "properties": {
-    "ts_utc": {"type": "string"},
-    "symbol": {"type": "string"},
-    "monitor_only": {"type": "boolean", "const": true},
-    "pressure_state": {"type": "string"},
-    "drivers": {"type": "array"},
-    "confidence_cap": {"type": "number"},
-    "quality_flags": {"type": "array"}
+    "ts_utc": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "monitor_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "pressure_state": {
+      "type": "string"
+    },
+    "drivers": {
+      "type": "array"
+    },
+    "confidence_cap": {
+      "type": "number"
+    },
+    "quality_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "note": {
+      "type": "string"
+    }
   }
 }

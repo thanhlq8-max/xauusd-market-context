@@ -3,13 +3,260 @@
   "title": "xau_composite_ohlcv",
   "type": "object",
   "additionalProperties": true,
-  "required": ["ts_utc", "symbol", "monitor_only", "timeframes", "primary_timeframe", "bars"],
+  "required": [
+    "ts_utc",
+    "symbol",
+    "monitor_only",
+    "timeframes",
+    "primary_timeframe",
+    "bars"
+  ],
   "properties": {
-    "ts_utc": {"type": "string"},
-    "symbol": {"type": "string"},
-    "monitor_only": {"type": "boolean", "const": true},
-    "timeframes": {"type": "array"},
-    "primary_timeframe": {"type": "string"},
-    "bars": {"type": "array"}
+    "ts_utc": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "monitor_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "timeframes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "primary_timeframe": {
+      "type": "string"
+    },
+    "bars": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "close": {
+            "type": "number"
+          },
+          "high": {
+            "type": "number"
+          },
+          "low": {
+            "type": "number"
+          },
+          "open": {
+            "type": "number"
+          },
+          "tick_volume": {
+            "type": "number"
+          },
+          "ts_utc": {
+            "type": "string"
+          },
+          "volume_type": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "confidence_cap": {
+      "type": "number"
+    },
+    "latest_by_timeframe": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "H1": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "close": {
+              "type": "number"
+            },
+            "high": {
+              "type": "number"
+            },
+            "low": {
+              "type": "number"
+            },
+            "open": {
+              "type": "number"
+            },
+            "tick_volume": {
+              "type": "number"
+            },
+            "ts_utc": {
+              "type": "string"
+            },
+            "volume_type": {
+              "type": "string"
+            }
+          }
+        },
+        "M15": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "close": {
+              "type": "number"
+            },
+            "high": {
+              "type": "number"
+            },
+            "low": {
+              "type": "number"
+            },
+            "open": {
+              "type": "number"
+            },
+            "tick_volume": {
+              "type": "number"
+            },
+            "ts_utc": {
+              "type": "string"
+            },
+            "volume_type": {
+              "type": "string"
+            }
+          }
+        },
+        "M5": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "close": {
+              "type": "number"
+            },
+            "high": {
+              "type": "number"
+            },
+            "low": {
+              "type": "number"
+            },
+            "open": {
+              "type": "number"
+            },
+            "tick_volume": {
+              "type": "number"
+            },
+            "ts_utc": {
+              "type": "string"
+            },
+            "volume_type": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "median_latest_close": {
+      "type": "number"
+    },
+    "mtf_rule": {
+      "type": "string"
+    },
+    "quality_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "timeframe_bars": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "H1": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "close": {
+                "type": "number"
+              },
+              "high": {
+                "type": "number"
+              },
+              "low": {
+                "type": "number"
+              },
+              "open": {
+                "type": "number"
+              },
+              "tick_volume": {
+                "type": "number"
+              },
+              "ts_utc": {
+                "type": "string"
+              },
+              "volume_type": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "M15": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "close": {
+                "type": "number"
+              },
+              "high": {
+                "type": "number"
+              },
+              "low": {
+                "type": "number"
+              },
+              "open": {
+                "type": "number"
+              },
+              "tick_volume": {
+                "type": "number"
+              },
+              "ts_utc": {
+                "type": "string"
+              },
+              "volume_type": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "M5": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "close": {
+                "type": "number"
+              },
+              "high": {
+                "type": "number"
+              },
+              "low": {
+                "type": "number"
+              },
+              "open": {
+                "type": "number"
+              },
+              "tick_volume": {
+                "type": "number"
+              },
+              "ts_utc": {
+                "type": "string"
+              },
+              "volume_type": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "volume_policy": {
+      "type": "string"
+    }
   }
 }

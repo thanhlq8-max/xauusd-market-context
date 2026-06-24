@@ -3,11 +3,229 @@
   "title": "xau_raw_scan",
   "type": "object",
   "additionalProperties": true,
-  "required": ["ts_utc", "symbol", "monitor_only", "source_payloads"],
+  "required": [
+    "ts_utc",
+    "symbol",
+    "monitor_only",
+    "source_payloads"
+  ],
   "properties": {
-    "ts_utc": {"type": "string"},
-    "symbol": {"type": "string"},
-    "monitor_only": {"type": "boolean", "const": true},
-    "source_payloads": {"type": "array"}
+    "ts_utc": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "monitor_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "source_payloads": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "errors": {
+            "type": "array"
+          },
+          "payload": {
+            "type": [
+              "object",
+              "array"
+            ],
+            "additionalProperties": true,
+            "properties": {
+              "ohlcv": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "H1": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "close": {
+                          "type": "number"
+                        },
+                        "high": {
+                          "type": "number"
+                        },
+                        "low": {
+                          "type": "number"
+                        },
+                        "open": {
+                          "type": "number"
+                        },
+                        "tick_volume": {
+                          "type": "number"
+                        },
+                        "ts_utc": {
+                          "type": "string"
+                        },
+                        "volume_type": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "M15": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "close": {
+                          "type": "number"
+                        },
+                        "high": {
+                          "type": "number"
+                        },
+                        "low": {
+                          "type": "number"
+                        },
+                        "open": {
+                          "type": "number"
+                        },
+                        "tick_volume": {
+                          "type": "number"
+                        },
+                        "ts_utc": {
+                          "type": "string"
+                        },
+                        "volume_type": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "M5": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "close": {
+                          "type": "number"
+                        },
+                        "high": {
+                          "type": "number"
+                        },
+                        "low": {
+                          "type": "number"
+                        },
+                        "open": {
+                          "type": "number"
+                        },
+                        "tick_volume": {
+                          "type": "number"
+                        },
+                        "ts_utc": {
+                          "type": "string"
+                        },
+                        "volume_type": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "spread": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "ask": {
+                      "type": "number"
+                    },
+                    "bid": {
+                      "type": "number"
+                    },
+                    "spread_points": {
+                      "type": "number"
+                    },
+                    "spread_policy": {
+                      "type": "string"
+                    },
+                    "ts_utc": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "volume_policy": {
+                "type": "string"
+              }
+            },
+            "items": {
+              "type": "object",
+              "properties": {
+                "currency": {
+                  "type": "string"
+                },
+                "event_policy": {
+                  "type": "string"
+                },
+                "impact": {
+                  "type": "string"
+                },
+                "title": {
+                  "type": "string"
+                },
+                "ts_utc": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "quality_flags": {
+            "type": "array"
+          },
+          "row_counts": {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "ohlcv": {
+                "type": "object",
+                "additionalProperties": true,
+                "properties": {
+                  "H1": {
+                    "type": "integer"
+                  },
+                  "M15": {
+                    "type": "integer"
+                  },
+                  "M5": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "spread": {
+                "type": "integer"
+              }
+            }
+          },
+          "source_id": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "symbol": {
+            "type": "string"
+          },
+          "timeframe": {
+            "type": "string"
+          },
+          "ts_utc": {
+            "type": "string"
+          },
+          "row_count": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "quality_flags": {
+      "type": "array"
+    }
   }
 }

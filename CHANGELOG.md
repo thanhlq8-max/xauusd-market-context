@@ -1,5 +1,19 @@
 # Changelog
 
+## v2.7.0 - Deeper nested artifact schema coverage
+
+### Changed
+
+- Expanded artifact JSON Schemas with conservative nested `properties` and array `items` coverage derived from existing sample artifact structures.
+- Added recursive schema validation for nested object and array values, including readable error paths such as `bars[0].close`.
+- Kept built-in schema registry fallback aligned with the committed schema files.
+
+### Preserved
+
+- No artifact generation changes.
+- No CSV ingestion, OANDA Practice dashboard, report, site, or context-summary behavior changes.
+- No Pine source modification, runtime order workflow, account-risk logic, inventory claim, or profitability claim.
+
 ## v2.6.1 - Packaged schema fallback
 
 ### Changed

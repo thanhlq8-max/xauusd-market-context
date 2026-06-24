@@ -1,16 +1,71 @@
 {
   "type": "object",
   "additionalProperties": true,
-  "required": ["ts_utc", "symbol", "monitor_only", "risk_state", "event_count", "high_impact_events", "near_high_impact_events", "confidence_cap", "quality_flags"],
+  "required": [
+    "ts_utc",
+    "symbol",
+    "monitor_only",
+    "risk_state",
+    "event_count",
+    "high_impact_events",
+    "near_high_impact_events",
+    "confidence_cap",
+    "quality_flags"
+  ],
   "properties": {
-    "ts_utc": {"type": "string"},
-    "symbol": {"type": "string"},
-    "monitor_only": {"type": "boolean", "const": true},
-    "risk_state": {"type": "string"},
-    "event_count": {"type": "integer"},
-    "high_impact_events": {"type": "array"},
-    "near_high_impact_events": {"type": "array"},
-    "confidence_cap": {"type": "number"},
-    "quality_flags": {"type": "array"}
+    "ts_utc": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "monitor_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "risk_state": {
+      "type": "string"
+    },
+    "event_count": {
+      "type": "integer"
+    },
+    "high_impact_events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "event_policy": {
+            "type": "string"
+          },
+          "impact": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "ts_utc": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "near_high_impact_events": {
+      "type": "array"
+    },
+    "confidence_cap": {
+      "type": "number"
+    },
+    "quality_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "note": {
+      "type": "string"
+    }
   }
 }

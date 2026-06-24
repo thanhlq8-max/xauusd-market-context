@@ -61,3 +61,40 @@ def test_schema_validation_rejects_wrong_artifact_type(tmp_path):
 
     assert result["status"] == "ERROR"
     assert any("quality_score expected JSON type number" in error for error in result["schema_errors"])
+
+
+def test_schema_validation_rejects_nested_bar_value_type(tmp_path):
+    run_once(input_dir="examples/sample-data", event_file="examples/sample-data/usd_events.csv", out_dir=tmp_path)
+    paths = artifact_paths(tmp_path)
+    payload = json.loads(paths["composite_ohlcv"].read_text(encoding="utf-8"))
+    payload["bars"][0]["close"] = "not-a-number"
+    paths["composite_ohlcv"].write_text(json.dumps(payload), encoding="utf-8")
+
+    result = validate_artifact_contract(tmp_path)
+
+    assert result["status"] == "ERROR"
+    assert any("bars[0].close expected JSON type number" in error for error in result["schema_errors"])
+
+
+def test_schema_files_include_nested_array_item_properties():
+    schema_dir = ROOT / "schemas" / "artifacts"
+    composite_schema = json.loads((schema_dir / ARTIFACT_SCHEMA_FILES["composite_ohlcv"]).read_text(encoding="utf-8"))
+
+    bar_properties = composite_schema["properties"]["bars"]["items"]["properties"]
+
+    assert bar_properties["ts_utc"]["type"] == "string"
+    assert bar_properties["open"]["type"] == "number"
+    assert bar_properties["high"]["type"] == "number"
+    assert bar_properties["low"]["type"] == "number"
+    assert bar_properties["close"]["type"] == "number"
+    assert bar_properties["tick_volume"]["type"] == "number"
+    assert bar_properties["volume_type"]["type"] == "string"
+
+
+def test_builtin_schema_registry_matches_nested_schema_files():
+    schema_dir = ROOT / "schemas" / "artifacts"
+    composite_schema = json.loads((schema_dir / ARTIFACT_SCHEMA_FILES["composite_ohlcv"]).read_text(encoding="utf-8"))
+    builtin_schema = artifact_contract_module.BUILTIN_ARTIFACT_SCHEMAS["composite_ohlcv"]
+
+    assert builtin_schema["properties"]["bars"]["items"]["properties"] == composite_schema["properties"]["bars"]["items"]["properties"]
+

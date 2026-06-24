@@ -1,17 +1,70 @@
 {
   "type": "object",
   "additionalProperties": true,
-  "required": ["ts_utc", "symbol", "monitor_only", "status", "quality_score", "quality_grade", "source_count", "warnings", "errors", "confidence_cap"],
+  "required": [
+    "ts_utc",
+    "symbol",
+    "monitor_only",
+    "status",
+    "quality_score",
+    "quality_grade",
+    "source_count",
+    "warnings",
+    "errors",
+    "confidence_cap"
+  ],
   "properties": {
-    "ts_utc": {},
-    "symbol": {},
-    "monitor_only": {"const": true},
-    "status": {},
-    "quality_score": {"type": "number"},
-    "quality_grade": {},
-    "source_count": {},
-    "warnings": {},
-    "errors": {},
-    "confidence_cap": {}
+    "ts_utc": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "monitor_only": {
+      "const": true,
+      "type": "boolean"
+    },
+    "status": {
+      "type": "string"
+    },
+    "quality_score": {
+      "type": "number"
+    },
+    "quality_grade": {
+      "type": "string"
+    },
+    "source_count": {
+      "type": "integer"
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "errors": {
+      "type": "array"
+    },
+    "confidence_cap": {
+      "type": "number"
+    },
+    "coverage_score": {
+      "type": "number"
+    },
+    "event_score": {
+      "type": "number"
+    },
+    "freshness_score": {
+      "type": "number"
+    },
+    "schema_score": {
+      "type": "number"
+    },
+    "session_score": {
+      "type": "number"
+    },
+    "spread_score": {
+      "type": "number"
+    }
   }
 }

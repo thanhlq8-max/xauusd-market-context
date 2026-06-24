@@ -1,15 +1,112 @@
 {
   "type": "object",
   "additionalProperties": true,
-  "required": ["ts_utc", "symbol", "monitor_only", "session_state", "primary_timeframe", "session_ranges", "confidence_cap", "quality_flags"],
+  "required": [
+    "ts_utc",
+    "symbol",
+    "monitor_only",
+    "session_state",
+    "primary_timeframe",
+    "session_ranges",
+    "confidence_cap",
+    "quality_flags"
+  ],
   "properties": {
-    "ts_utc": {"type": "string"},
-    "symbol": {"type": "string"},
-    "monitor_only": {"type": "boolean", "const": true},
-    "session_state": {"type": "string"},
-    "primary_timeframe": {"type": "string"},
-    "session_ranges": {},
-    "confidence_cap": {"type": "number"},
-    "quality_flags": {"type": "array"}
+    "ts_utc": {
+      "type": "string"
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "monitor_only": {
+      "type": "boolean",
+      "const": true
+    },
+    "session_state": {
+      "type": "string"
+    },
+    "primary_timeframe": {
+      "type": "string"
+    },
+    "session_ranges": {
+      "type": "object",
+      "properties": {
+        "ASIA": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "bar_count": {
+              "type": "integer"
+            },
+            "high": {
+              "type": "number"
+            },
+            "last_close": {
+              "type": "number"
+            },
+            "low": {
+              "type": "number"
+            },
+            "range_points": {
+              "type": "number"
+            }
+          }
+        },
+        "LONDON": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "bar_count": {
+              "type": "integer"
+            },
+            "high": {
+              "type": "number"
+            },
+            "last_close": {
+              "type": "number"
+            },
+            "low": {
+              "type": "number"
+            },
+            "range_points": {
+              "type": "number"
+            }
+          }
+        },
+        "OFF_SESSION": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "bar_count": {
+              "type": "integer"
+            },
+            "high": {
+              "type": "number"
+            },
+            "last_close": {
+              "type": "number"
+            },
+            "low": {
+              "type": "number"
+            },
+            "range_points": {
+              "type": "number"
+            }
+          }
+        }
+      }
+    },
+    "confidence_cap": {
+      "type": "number"
+    },
+    "quality_flags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "handoff_state": {
+      "type": "string"
+    }
   }
 }

@@ -184,6 +184,38 @@ def _json_type_matches(value: Any, allowed_types: tuple[str, ...]) -> bool:
     return False
 
 
+def _format_schema_path(parent: str, child: str) -> str:
+    return f"{parent}.{child}" if parent else child
+
+
+def _validate_schema_fragment(schema: dict[str, Any], schema_file: str, path: str) -> list[str]:
+    errors: list[str] = []
+    allowed = _type_names(schema.get("type"))
+    if allowed and any(name not in _JSON_TYPE_NAMES for name in allowed):
+        errors.append(f"{schema_file}: schema fragment {path or '$'} has unsupported JSON type")
+
+    properties = schema.get("properties")
+    if properties is not None:
+        if not isinstance(properties, dict):
+            errors.append(f"{schema_file}: schema fragment {path or '$'} properties must be an object")
+        else:
+            for key, child_schema in properties.items():
+                child_path = _format_schema_path(path, key)
+                if not isinstance(child_schema, dict):
+                    errors.append(f"{schema_file}: schema fragment {child_path} must be an object")
+                else:
+                    errors.extend(_validate_schema_fragment(child_schema, schema_file, child_path))
+
+    items = schema.get("items")
+    if items is not None:
+        item_path = f"{path or '$'}[]"
+        if not isinstance(items, dict):
+            errors.append(f"{schema_file}: schema fragment {item_path} items must be an object")
+        else:
+            errors.extend(_validate_schema_fragment(items, schema_file, item_path))
+    return errors
+
+
 def _validate_schema_document(artifact_key: str, schema: dict[str, Any], schema_file: str) -> list[str]:
     errors: list[str] = []
     if schema.get("type") != "object":
@@ -207,13 +239,37 @@ def _validate_schema_document(artifact_key: str, schema: dict[str, Any], schema_
         if not isinstance(property_schema, dict):
             errors.append(f"{schema_file}: property {key} schema must be an object")
             continue
-        allowed = _type_names(property_schema.get("type"))
-        if allowed and any(name not in _JSON_TYPE_NAMES for name in allowed):
-            errors.append(f"{schema_file}: property {key} has unsupported JSON type")
+        errors.extend(_validate_schema_fragment(property_schema, schema_file, key))
 
     monitor_schema = properties.get("monitor_only", {})
     if isinstance(monitor_schema, dict) and monitor_schema.get("const") is not True:
         errors.append(f"{schema_file}: monitor_only must declare const true")
+    return errors
+
+
+def _validate_value_against_schema(file_name: str, path: str, value: Any, schema: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    if "const" in schema and value != schema["const"]:
+        errors.append(f"{file_name}: {path} must equal {schema['const']!r}")
+    enum_values = schema.get("enum")
+    if isinstance(enum_values, list) and value not in enum_values:
+        errors.append(f"{file_name}: {path} must be one of {enum_values!r}")
+
+    allowed_types = _type_names(schema.get("type"))
+    if allowed_types and not _json_type_matches(value, allowed_types):
+        errors.append(f"{file_name}: {path} expected JSON type {'/'.join(allowed_types)}")
+        return errors
+
+    properties = schema.get("properties")
+    if isinstance(value, dict) and isinstance(properties, dict):
+        for key, child_schema in properties.items():
+            if key in value and isinstance(child_schema, dict):
+                errors.extend(_validate_value_against_schema(file_name, _format_schema_path(path, key), value[key], child_schema))
+
+    items = schema.get("items")
+    if isinstance(value, list) and isinstance(items, dict):
+        for index, item in enumerate(value):
+            errors.extend(_validate_value_against_schema(file_name, f"{path}[{index}]", item, items))
     return errors
 
 
@@ -231,15 +287,7 @@ def _validate_payload_with_schema(file_name: str, payload: dict[str, Any], schem
     for key, property_schema in properties.items():
         if key not in payload or not isinstance(property_schema, dict):
             continue
-        value = payload[key]
-        if "const" in property_schema and value != property_schema["const"]:
-            errors.append(f"{file_name}: {key} must equal {property_schema['const']!r}")
-        enum_values = property_schema.get("enum")
-        if isinstance(enum_values, list) and value not in enum_values:
-            errors.append(f"{file_name}: {key} must be one of {enum_values!r}")
-        allowed_types = _type_names(property_schema.get("type"))
-        if allowed_types and not _json_type_matches(value, allowed_types):
-            errors.append(f"{file_name}: {key} expected JSON type {'/'.join(allowed_types)}")
+        errors.extend(_validate_value_against_schema(file_name, key, payload[key], property_schema))
     return errors
 
 

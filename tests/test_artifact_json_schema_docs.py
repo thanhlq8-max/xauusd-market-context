@@ -16,6 +16,8 @@ def test_artifact_json_schema_docs_reference_all_schema_files():
     assert "docs/ARTIFACT_SCHEMA_COMPATIBILITY.md" in text
     assert "built-in schema registry" in text
     assert "wheel install" in text
+    assert "nested `properties`" in text
+    assert "bars[0].close" in text
     assert_clean_language(text)
 
 

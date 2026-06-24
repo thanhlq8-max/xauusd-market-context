@@ -25,7 +25,11 @@ xau_context_summary.schema.json
 
 ## Scope
 
-The schemas define top-level required fields and basic JSON value types. They intentionally remain conservative so artifact producers can add compatible fields without breaking downstream readers.
+The schemas define top-level required fields, basic JSON value types, and conservative nested object/array checks for structures already emitted by the sample artifacts. They intentionally keep additional fields compatible so artifact producers can add compatible fields without breaking downstream readers.
+
+## Nested coverage
+
+The v2.7.0 schema set validates nested `properties` and array `items` for existing emitted structures such as composite OHLCV bars, timeframe bars, event lists, evidence maps, and quality flag arrays. The validator reports nested paths such as `bars[0].close` when a present value has the wrong JSON type.
 
 ## Validation command
 

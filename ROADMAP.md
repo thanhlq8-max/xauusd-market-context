@@ -13,6 +13,7 @@ This roadmap tracks public utility and community adoption for the external Pytho
 - `v2.5.2`: repository hygiene guard for generated patch/apply artifacts.
 - `v2.6.0`: artifact JSON Schema validation for generated JSON bundles.
 - `v2.6.1`: packaged schema fallback for wheel-installed validation.
+- `v2.7.0`: deeper nested artifact schema coverage for existing object and array structures.
 
 ## Explicit version decision
 
@@ -23,7 +24,7 @@ Skipped-version work must not be described as complete under v2.1.0 or v2.2.0. L
 - static demo screenshot documentation shipped after v2.5.2;
 - artifact JSON Schema validation shipped in v2.6.0;
 - wheel-installed schema fallback shipped in v2.6.1;
-- deeper nested semantic schema coverage remains future work.
+- deeper nested schema coverage shipped in v2.7.0.
 
 ## Phase F delivery
 
@@ -39,7 +40,6 @@ Phase F provides:
 
 The following work requires its own scope decision before implementation:
 
-- deeper nested artifact schema coverage beyond the current top-level schema set;
 - package-name decision before TestPyPI or PyPI publication;
 - static documentation and demo-site expansion;
 - optional local reference-data adapters;
