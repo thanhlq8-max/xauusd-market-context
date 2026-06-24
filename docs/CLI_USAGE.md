@@ -20,6 +20,67 @@ xau-lfx demo --out-dir demo-artifacts --site-dir demo-site
 
 The demo reads only `examples/sample-data`. It does not read broker or vendor data.
 
+## Platform demo examples
+
+The examples below use project-relative placeholders such as `<repo>`. They avoid machine-specific personal directories so the commands can be copied into Windows, Linux, or macOS shells.
+
+### Windows PowerShell
+
+```powershell
+py -m venv .venv
+.\.venv\Scripts\Activate.ps1
+py -m pip install -e .
+xau-lfx demo
+```
+
+Expected output shape:
+
+```text
+monitor_state: CONTEXT
+artifact.raw_scan: <repo>\artifacts\xau_raw_scan.json
+artifact.context_summary: <repo>\artifacts\xau_context_summary.json
+artifact.market_context_report: <repo>\artifacts\xau_market_context_report.md
+site: <repo>\site\index.html
+```
+
+### Linux shell
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e .
+xau-lfx demo
+```
+
+Expected output shape:
+
+```text
+monitor_state: CONTEXT
+artifact.raw_scan: <repo>/artifacts/xau_raw_scan.json
+artifact.context_summary: <repo>/artifacts/xau_context_summary.json
+artifact.market_context_report: <repo>/artifacts/xau_market_context_report.md
+site: <repo>/site/index.html
+```
+
+### macOS shell
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -e .
+xau-lfx demo
+```
+
+Expected output shape:
+
+```text
+monitor_state: CONTEXT
+artifact.raw_scan: <repo>/artifacts/xau_raw_scan.json
+artifact.context_summary: <repo>/artifacts/xau_context_summary.json
+artifact.market_context_report: <repo>/artifacts/xau_market_context_report.md
+site: <repo>/site/index.html
+```
+
 ## Validate local sources
 
 ```bash
