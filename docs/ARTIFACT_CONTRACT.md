@@ -4,6 +4,8 @@
 
 The command is intended for shared artifact bundles, GitHub Pages demo outputs, and user-submitted validation reports. It checks structure only. It does not score predictive value, infer direction, or validate any market outcome.
 
+See [`ARTIFACT_SCHEMA_COMPATIBILITY.md`](ARTIFACT_SCHEMA_COMPATIBILITY.md) for the compatibility policy that separates compatible additions from breaking changes.
+
 ## Command
 
 ```bash
