@@ -98,6 +98,28 @@ site/index.html
 
 The static site is backend-free and suitable for GitHub Pages. It summarizes artifact quality, context summary, source coverage, warnings, errors, and exported artifact links.
 
+### Static demo screenshot
+
+![Static demo screenshot](assets/static-demo-screenshot.svg)
+
+The screenshot above was captured from the generated local file:
+
+```text
+site/index.html
+```
+
+To refresh it, rebuild the demo from the committed synthetic fixtures, open the generated page, capture the visible static report, and replace `docs/assets/static-demo-screenshot.svg` only after visually checking that the image still shows the current static demo:
+
+```powershell
+Set-Location E:\xauusd-market-context
+python -m xau_lfx.pipeline run-once --input-dir examples/sample-data --event-file examples/sample-data/usd_events.csv --out-dir artifacts
+python -m xau_lfx.pipeline report --artifact-dir artifacts --write-md
+python -m xau_lfx.pipeline site --artifact-dir artifacts --out-dir site
+Start-Process .\site\index.html
+```
+
+Do not replace this screenshot with broker, vendor, or third-party market data unless redistribution rights are verified and documented.
+
 ## 7. Rebuild committed sample artifacts
 
 Maintainers can refresh the committed sample artifacts with:
