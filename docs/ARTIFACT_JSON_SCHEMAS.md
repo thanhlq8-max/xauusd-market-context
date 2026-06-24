@@ -33,7 +33,17 @@ The schemas define top-level required fields and basic JSON value types. They in
 xau-lfx validate-artifacts --artifact-dir artifacts
 ```
 
-The command returns `status: OK` only when artifacts exist, required fields are present, `monitor_only` is true, schema files are present, and schema-defined field checks pass.
+The command returns `status: OK` only when artifacts exist, required fields are present, `monitor_only` is true, schema files are usable, and schema-defined field checks pass.
+
+## Packaged install behavior
+
+Source distributions include the JSON files under `schemas/artifacts/`. Wheel install paths may not expose repository-root schema files, so the package also includes a built-in schema registry used only as the default fallback when the standard schema directory is unavailable.
+
+When `--schema-dir` is supplied explicitly, missing schema files remain an error. The fallback is not used to silently fill an operator-selected schema directory.
+
+## Packaged fallback
+
+For wheel install usage, the validator can use the built-in schema registry packaged under `xau_lfx` when the source-tree `schemas/artifacts/` directory is not present. An explicit `--schema-dir` still requires files to exist in that selected schema directory.
 
 ## Compatibility
 

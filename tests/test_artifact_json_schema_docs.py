@@ -14,6 +14,8 @@ def test_artifact_json_schema_docs_reference_all_schema_files():
         assert schema_file in text
     assert "xau-lfx validate-artifacts --artifact-dir artifacts" in text
     assert "docs/ARTIFACT_SCHEMA_COMPATIBILITY.md" in text
+    assert "built-in schema registry" in text
+    assert "wheel install" in text
     assert_clean_language(text)
 
 

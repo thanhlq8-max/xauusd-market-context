@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-EXPECTED_VERSION = "2.6.0"
+EXPECTED_VERSION = "2.6.1"
 EXPECTED_LICENSE_MARKER = "Apache License"
 EXPECTED_DATA_POLICY_MARKER = "synthetic fixtures"
 
@@ -51,6 +51,7 @@ REQUIRED_FILES = [
 
 REQUIRED_SCHEMA_FILES = [
     "docs/ARTIFACT_JSON_SCHEMAS.md",
+    "xau_lfx/artifact_schema_registry.py",
     "schemas/artifacts/xau_raw_scan.schema.json",
     "schemas/artifacts/xau_data_quality.schema.json",
     "schemas/artifacts/xau_composite_ohlcv.schema.json",

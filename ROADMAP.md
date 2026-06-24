@@ -11,6 +11,8 @@ This roadmap tracks public utility and community adoption for the external Pytho
 - `v2.5.0`: artifact contract validation for generated JSON bundles.
 - `v2.5.1`: context-summary snapshot coverage for operator-facing wording stability.
 - `v2.5.2`: repository hygiene guard for generated patch/apply artifacts.
+- `v2.6.0`: artifact JSON Schema validation for generated JSON bundles.
+- `v2.6.1`: packaged schema fallback for wheel-installed validation.
 
 ## Explicit version decision
 
@@ -18,7 +20,7 @@ The maintainer explicitly authorized moving from v1.9.0 to Phase E v2.3.0. The p
 
 Skipped work must not be described as complete:
 
-- stable JSON schema files and compatibility enforcement remain future work;
+- deeper nested schema coverage remains future work;
 - the broader docs-site and screenshot upgrade remain future work.
 
 ## Phase F delivery

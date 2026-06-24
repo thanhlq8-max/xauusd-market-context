@@ -1,5 +1,33 @@
 # Changelog
 
+## v2.6.1 - Packaged schema fallback
+
+### Changed
+
+- Added a built-in artifact schema registry inside the Python package so wheel installs can validate artifacts when repository-root schema files are unavailable.
+- Kept explicit `--schema-dir` behavior strict: a missing operator-selected schema directory remains an error.
+- Added tests for built-in fallback behavior and packaged-install documentation.
+
+### Preserved
+
+- No artifact generation changes.
+- No CSV ingestion, OANDA Practice dashboard, report, site, or context-summary behavior changes.
+- No Pine source modification, runtime order workflow, account-risk logic, inventory claim, or profitability claim.
+
+## v2.6.0 - Artifact JSON Schema validation
+
+### Added
+
+- Committed JSON Schema files for the ten generated JSON artifacts.
+- Integrated schema checks into `xau-lfx validate-artifacts`.
+- Added docs and tests so schema files remain part of release readiness.
+
+### Preserved
+
+- No artifact generation changes.
+- No CSV ingestion, OANDA Practice dashboard, report, site, or context-summary behavior changes.
+- No Pine source modification, runtime order workflow, account-risk logic, inventory claim, or profitability claim.
+
 ## v2.5.2 - Repository hygiene release gate
 
 ### Changed

@@ -1,9 +1,11 @@
 from __future__ import annotations
 
+import copy
 import json
 from pathlib import Path
 from typing import Any
 
+from xau_lfx.artifact_schema_registry import BUILTIN_ARTIFACT_SCHEMAS
 from xau_lfx.config import PACKAGE_ROOT, artifact_paths
 from xau_lfx.forbidden_language import assert_clean_language
 
@@ -138,6 +140,23 @@ def _schema_path(artifact_key: str, schema_dir: str | Path | None = None) -> Pat
     return root / ARTIFACT_SCHEMA_FILES[artifact_key]
 
 
+def _load_schema_document(
+    artifact_key: str,
+    schema_dir: str | Path | None = None,
+) -> tuple[dict[str, Any], str, str]:
+    schema_path = _schema_path(artifact_key, schema_dir=schema_dir)
+    if schema_path.exists():
+        return _read_json_object(schema_path), schema_path.name, "file"
+
+    if schema_dir is not None:
+        raise ValueError(f"{schema_path.name}: missing artifact schema")
+
+    builtin_schema = BUILTIN_ARTIFACT_SCHEMAS.get(artifact_key)
+    if not isinstance(builtin_schema, dict):
+        raise ValueError(f"{schema_path.name}: missing built-in artifact schema")
+    return copy.deepcopy(builtin_schema), schema_path.name, "built_in"
+
+
 def _type_names(type_value: Any) -> tuple[str, ...]:
     if isinstance(type_value, str):
         return (type_value,)
@@ -241,6 +260,7 @@ def validate_artifact_contract(
             "artifact_key": artifact_key,
             "file": path.name,
             "schema_file": schema_path.name,
+            "schema_source": None,
             "required_keys": list(required_keys),
             "missing_keys": [],
             "schema_errors": [],
@@ -248,21 +268,18 @@ def validate_artifact_contract(
         checked_artifacts.append(checked)
 
         schema: dict[str, Any] | None = None
-        if not schema_path.exists():
-            message = f"{schema_path.name}: missing artifact schema"
-            schema_errors.append(message)
-            checked["schema_errors"].append(message)
+        try:
+            schema, schema_file, schema_source = _load_schema_document(artifact_key, schema_dir=schema_dir)
+        except ValueError as exc:
+            schema_errors.append(str(exc))
+            checked["schema_errors"].append(str(exc))
         else:
-            try:
-                schema = _read_json_object(schema_path)
-            except ValueError as exc:
-                schema_errors.append(str(exc))
-                checked["schema_errors"].append(str(exc))
-            else:
-                checked_schema_count += 1
-                schema_doc_errors = _validate_schema_document(artifact_key, schema, schema_path.name)
-                schema_errors.extend(schema_doc_errors)
-                checked["schema_errors"].extend(schema_doc_errors)
+            checked_schema_count += 1
+            checked["schema_file"] = schema_file
+            checked["schema_source"] = schema_source
+            schema_doc_errors = _validate_schema_document(artifact_key, schema, schema_file)
+            schema_errors.extend(schema_doc_errors)
+            checked["schema_errors"].extend(schema_doc_errors)
 
         if not path.exists():
             contract_errors.append(f"{path.name}: missing artifact")

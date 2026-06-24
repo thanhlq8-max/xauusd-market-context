@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+import xau_lfx.artifact_contract as artifact_contract_module
 from xau_lfx.artifact_contract import ARTIFACT_REQUIRED_KEYS, ARTIFACT_SCHEMA_FILES, validate_artifact_contract
 from xau_lfx.config import artifact_paths
 from xau_lfx.pipeline import run_once
@@ -27,6 +28,26 @@ def test_schema_files_match_artifact_contract_required_keys():
         payload = json.loads((schema_dir / schema_file).read_text(encoding="utf-8"))
         assert payload["required"] == list(ARTIFACT_REQUIRED_KEYS[artifact_key])
         assert payload["properties"]["monitor_only"]["const"] is True
+
+
+def test_default_schema_validation_falls_back_to_builtin_registry(tmp_path, monkeypatch):
+    run_once(input_dir="examples/sample-data", event_file="examples/sample-data/usd_events.csv", out_dir=tmp_path)
+    monkeypatch.setattr(artifact_contract_module, "ARTIFACT_SCHEMA_DIR", tmp_path / "missing-schema-dir")
+
+    result = artifact_contract_module.validate_artifact_contract(tmp_path)
+
+    assert result["status"] == "OK"
+    assert result["checked_schema_count"] == 10
+    assert {item["schema_source"] for item in result["checked_artifacts"]} == {"built_in"}
+
+
+def test_explicit_missing_schema_dir_is_not_silently_filled(tmp_path):
+    run_once(input_dir="examples/sample-data", event_file="examples/sample-data/usd_events.csv", out_dir=tmp_path)
+
+    result = validate_artifact_contract(tmp_path, schema_dir=tmp_path / "missing-schema-dir")
+
+    assert result["status"] == "ERROR"
+    assert any("missing artifact schema" in error for error in result["schema_errors"])
 
 
 def test_schema_validation_rejects_wrong_artifact_type(tmp_path):
