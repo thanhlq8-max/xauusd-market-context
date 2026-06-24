@@ -180,3 +180,11 @@ LOW,MEDIUM,HIGH
 ```
 
 Only high-impact USD events may cap confidence for XAUUSD, and only as risk context. The system does not infer direction from events.
+
+## GitHub adoption resources
+
+- Demo walkthrough: [`docs/DEMO_WALKTHROUGH.md`](docs/DEMO_WALKTHROUGH.md)
+- Adoption guide: [`docs/ADOPTION_GUIDE.md`](docs/ADOPTION_GUIDE.md)
+- Backlog seed: [`docs/ISSUE_BACKLOG_SEED.md`](docs/ISSUE_BACKLOG_SEED.md)
+- Release readiness: [`docs/GITHUB_RELEASE_READINESS.md`](docs/GITHUB_RELEASE_READINESS.md)
+- Package publication readiness: [`docs/PACKAGE_PUBLICATION_READINESS.md`](docs/PACKAGE_PUBLICATION_READINESS.md)
