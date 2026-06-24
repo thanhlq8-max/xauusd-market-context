@@ -50,11 +50,12 @@ Rules:
 - `tick_volume` must not be negative.
 - `tick_volume` is broker tick activity, not centralized XAUUSD volume.
 
-Example:
+Example synthetic rows:
 
 ```csv
 ts_utc,open,high,low,close,tick_volume
-2026-01-02T08:00:00+00:00,2340.10,2341.20,2339.80,2340.90,153
+2026-06-18T14:00:00Z,2339.70,2341.50,2338.10,2339.34,120
+2026-06-18T15:00:00Z,2339.19,2341.09,2337.49,2338.95,123
 ```
 
 ## Spread schema
@@ -71,6 +72,14 @@ Rules:
 - `spread_points` must not be negative.
 - spread is broker-specific and is used only as source-quality context.
 
+Example synthetic rows:
+
+```csv
+ts_utc,bid,ask,spread_points
+2026-06-19T05:25:00Z,2340.00,2340.02,2.00
+2026-06-19T05:30:00Z,2340.05,2340.07,2.10
+```
+
 ## Event schema
 
 `usd_events.csv` must use this header:
@@ -86,6 +95,13 @@ LOW,MEDIUM,HIGH
 ```
 
 High-impact USD events may cap confidence. The project does not infer event direction.
+
+Example synthetic row:
+
+```csv
+ts_utc,currency,impact,title
+2026-06-18T12:30:00Z,USD,HIGH,Core Retail Sales m/m
+```
 
 ## Run
 
