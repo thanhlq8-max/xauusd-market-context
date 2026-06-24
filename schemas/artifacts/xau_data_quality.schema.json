@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "xau_data_quality",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["ts_utc", "symbol", "monitor_only", "freshness_score", "coverage_score", "schema_score", "source_count", "confidence_cap", "present_timeframes", "errors", "quality_flags"],
+  "properties": {
+    "ts_utc": {"type": "string"},
+    "symbol": {"type": "string"},
+    "monitor_only": {"type": "boolean", "const": true},
+    "freshness_score": {"type": ["number", "null"]},
+    "coverage_score": {"type": "number"},
+    "schema_score": {"type": "number"},
+    "source_count": {"type": "integer"},
+    "confidence_cap": {"type": ["number", "null"]},
+    "present_timeframes": {"type": "array"},
+    "errors": {"type": "array"},
+    "quality_flags": {"type": "array"}
+  }
+}
