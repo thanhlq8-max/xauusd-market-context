@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["ts_utc", "symbol", "monitor_only", "headline", "now_read", "operator_focus", "evidence_map", "useful_limits", "upgrade_requirements", "quality_flags"],
+  "properties": {
+    "ts_utc": {"type": "string"},
+    "symbol": {"type": "string"},
+    "monitor_only": {"type": "boolean", "const": true},
+    "headline": {"type": "string"},
+    "now_read": {"type": "string"},
+    "operator_focus": {"type": "array"},
+    "evidence_map": {"type": "object"},
+    "useful_limits": {"type": "array"},
+    "upgrade_requirements": {"type": "array"},
+    "quality_flags": {"type": "array"}
+  }
+}
