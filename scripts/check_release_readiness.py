@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-EXPECTED_VERSION = "2.7.0"
+EXPECTED_VERSION = "2.8.0"
 EXPECTED_LICENSE_MARKER = "Apache License"
 EXPECTED_DATA_POLICY_MARKER = "synthetic fixtures"
 
@@ -26,6 +26,7 @@ REQUIRED_FILES = [
     "docs/LOCAL_CSV_QUICKSTART.md",
     "docs/ARTIFACT_QUALITY.md",
     "docs/GITHUB_RELEASE_READINESS.md",
+    "docs/PACKAGE_PUBLICATION_READINESS.md",
     "docs/GITHUB_PAGES_DEMO.md",
     "docs/LICENSE_POLICY.md",
     "docs/CLAUDE_FOR_OSS_POSITIONING.md",
@@ -135,6 +136,13 @@ def check_readiness(root: str | Path = ".") -> dict:
             blockers.append(f"Package version is not consistently set to {EXPECTED_VERSION}.")
         if 'license = "Apache-2.0"' not in py_text or 'license-files = ["LICENSE", "NOTICE"]' not in py_text:
             blockers.append("pyproject.toml does not declare Apache-2.0 packaging metadata.")
+
+    publication_doc = repo / "docs" / "PACKAGE_PUBLICATION_READINESS.md"
+    if publication_doc.exists():
+        pub_text = _read_text(publication_doc)
+        for phrase in ["PACKAGE_NAME_DECISION", "TestPyPI", "PyPI", "Upload credentials must remain outside the repository"]:
+            if phrase not in pub_text:
+                blockers.append(f"Package publication readiness doc missing required phrase: {phrase}")
 
     readme = repo / "README.md"
     if readme.exists():
