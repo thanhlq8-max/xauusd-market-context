@@ -8,6 +8,6 @@
     "ts_utc": {"type": "string"},
     "symbol": {"type": "string"},
     "monitor_only": {"type": "boolean", "const": true},
-    "source_payloads": {"type": "object"}
+    "source_payloads": {"type": "array"}
   }
 }
