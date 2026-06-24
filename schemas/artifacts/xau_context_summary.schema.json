@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["ts_utc", "symbol", "monitor_only", "latest_close", "spread_state", "event_risk_state", "quality_status", "quality_grade", "confidence_cap", "confidence_explanation", "monitor_focus", "limitations", "quality_flags"],
+  "properties": {
+    "ts_utc": {"type": "string"},
+    "symbol": {"type": "string"},
+    "monitor_only": {"type": "boolean", "const": true},
+    "latest_close": {"type": ["number", "null"]},
+    "spread_state": {"type": "string"},
+    "event_risk_state": {"type": "string"},
+    "quality_status": {"type": "string"},
+    "quality_grade": {"type": "string"},
+    "confidence_cap": {"type": "number"},
+    "confidence_explanation": {"type": "array"},
+    "monitor_focus": {"type": "array"},
+    "limitations": {"type": "array"},
+    "quality_flags": {"type": "array"}
+  }
+}
