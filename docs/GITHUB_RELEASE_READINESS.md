@@ -1,6 +1,6 @@
 # GitHub Release Readiness
 
-Status: `v2.4.0-oanda-practice-dashboard-ready`
+Status: `v2.8.0-package-publication-preflight-ready`
 
 ## Required checks
 
@@ -34,9 +34,11 @@ The public release pack must include:
 - local CSV docs
 - artifact quality docs
 - schema reference
+- artifact JSON Schema docs and schema files
 - CLI usage guide
 - LFX external baseline contract
 - OANDA Practice live-dashboard guide
+- package publication readiness guide
 - real-world synthetic usage cases
 - sanitized validation-report sharing guide
 - sample data fixtures
