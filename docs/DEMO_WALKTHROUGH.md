@@ -1,4 +1,4 @@
-﻿# Demo Walkthrough
+# Demo Walkthrough
 
 This walkthrough shows the shortest path from a fresh clone to inspectable XAUUSD market-context artifacts.
 
@@ -11,6 +11,17 @@ python -m venv .venv
 source .venv/bin/activate  # Windows: .venv\Scripts\Activate.ps1
 pip install -e .
 ```
+
+## Recommended artifact reading order
+
+When inspecting generated outputs or reviewing the static demo, use this order so source quality is checked before interpretation:
+
+1. **Artifact quality** — inspect source coverage, freshness, structural errors, warnings, and confidence caps first.
+2. **Context summary** — read the compact monitor-only summary, spread state, event-risk state, and monitor-focus bullets.
+3. **Markdown report** — review the human-readable report for expanded context and artifact links.
+4. **Source policy** — cross-check source limits, synthetic fixture policy, and redistribution boundaries.
+
+This order is for inspection only. It does not turn artifacts into execution instructions, position sizing, or profitability evidence.
 
 ## One-command path
 
@@ -117,4 +128,3 @@ It does not provide:
 - profitability claims;
 - centralized spot-gold orderbook claims;
 - real dealer inventory or retail positioning claims.
-
