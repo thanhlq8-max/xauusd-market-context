@@ -105,3 +105,19 @@ def test_cli_usage_documents_demo_and_existing_commands():
     assert "synthetic" in text.lower()
     assert "monitor-only" in text.lower()
     assert_clean_language(text)
+
+
+def test_cli_usage_documents_cross_platform_demo_examples():
+    text = (ROOT / "docs" / "CLI_USAGE.md").read_text(encoding="utf-8")
+    for platform_heading in ["Windows PowerShell", "Linux shell", "macOS shell"]:
+        assert platform_heading in text
+    for output_line in [
+        "monitor_state: CONTEXT",
+        "artifact.raw_scan:",
+        "artifact.context_summary:",
+        "artifact.market_context_report:",
+        "site:",
+    ]:
+        assert output_line in text
+    assert "<repo>" in text
+    assert "personal directories" in text
