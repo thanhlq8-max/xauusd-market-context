@@ -16,12 +16,14 @@ This roadmap tracks public utility and community adoption for the external Pytho
 
 ## Explicit version decision
 
-The maintainer explicitly authorized moving from v1.9.0 to Phase E v2.3.0. The planned Phase C v2.1.0 schema work and Phase D v2.2.0 docs-site work were skipped, not delivered.
+The maintainer explicitly authorized moving from v1.9.0 to Phase E v2.3.0. The planned Phase C v2.1.0 schema work and Phase D v2.2.0 docs-site work were skipped, not delivered under those version numbers.
 
-Skipped work must not be described as complete:
+Skipped-version work must not be described as complete under v2.1.0 or v2.2.0. Later shipped replacements are tracked above:
 
-- deeper nested schema coverage remains future work;
-- the broader docs-site and screenshot upgrade remain future work.
+- static demo screenshot documentation shipped after v2.5.2;
+- artifact JSON Schema validation shipped in v2.6.0;
+- wheel-installed schema fallback shipped in v2.6.1;
+- deeper nested semantic schema coverage remains future work.
 
 ## Phase F delivery
 
@@ -37,7 +39,7 @@ Phase F provides:
 
 The following work requires its own scope decision before implementation:
 
-- full JSON Schema files and semantic compatibility policy;
+- deeper nested artifact schema coverage beyond the current top-level schema set;
 - package-name decision before TestPyPI or PyPI publication;
 - static documentation and demo-site expansion;
 - optional local reference-data adapters;
