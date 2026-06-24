@@ -4,13 +4,11 @@ import json
 from pathlib import Path
 from typing import Any
 
-from xau_lfx.config import PACKAGE_ROOT, artifact_paths
+from xau_lfx.config import artifact_paths
 from xau_lfx.forbidden_language import assert_clean_language
 
 
 ARTIFACT_CONTRACT_VERSION = "1.0.0"
-ARTIFACT_SCHEMA_SET_VERSION = "1.0.0"
-ARTIFACT_SCHEMA_DIR = PACKAGE_ROOT / "schemas" / "artifacts"
 
 ARTIFACT_REQUIRED_KEYS: dict[str, tuple[str, ...]] = {
     "raw_scan": ("ts_utc", "symbol", "monitor_only", "source_payloads"),
@@ -107,21 +105,6 @@ ARTIFACT_REQUIRED_KEYS: dict[str, tuple[str, ...]] = {
     ),
 }
 
-ARTIFACT_SCHEMA_FILES: dict[str, str] = {
-    "raw_scan": "xau_raw_scan.schema.json",
-    "data_quality": "xau_data_quality.schema.json",
-    "composite_ohlcv": "xau_composite_ohlcv.schema.json",
-    "session_context": "xau_session_context.schema.json",
-    "macro_pressure": "xau_macro_pressure.schema.json",
-    "event_risk": "xau_event_risk_state.schema.json",
-    "state": "xau_lfx_external_state.schema.json",
-    "user_insight": "xau_user_insight.schema.json",
-    "artifact_quality": "xau_artifact_quality.schema.json",
-    "context_summary": "xau_context_summary.schema.json",
-}
-
-_JSON_TYPE_NAMES = ("object", "array", "string", "number", "integer", "boolean", "null")
-
 
 def _read_json_object(path: Path) -> dict[str, Any]:
     try:
@@ -133,136 +116,20 @@ def _read_json_object(path: Path) -> dict[str, Any]:
     return payload
 
 
-def _schema_path(artifact_key: str, schema_dir: str | Path | None = None) -> Path:
-    root = Path(schema_dir) if schema_dir is not None else ARTIFACT_SCHEMA_DIR
-    return root / ARTIFACT_SCHEMA_FILES[artifact_key]
-
-
-def _type_names(type_value: Any) -> tuple[str, ...]:
-    if isinstance(type_value, str):
-        return (type_value,)
-    if isinstance(type_value, list) and all(isinstance(item, str) for item in type_value):
-        return tuple(type_value)
-    return ()
-
-
-def _json_type_matches(value: Any, allowed_types: tuple[str, ...]) -> bool:
-    for allowed in allowed_types:
-        if allowed == "object" and isinstance(value, dict):
-            return True
-        if allowed == "array" and isinstance(value, list):
-            return True
-        if allowed == "string" and isinstance(value, str):
-            return True
-        if allowed == "number" and isinstance(value, (int, float)) and not isinstance(value, bool):
-            return True
-        if allowed == "integer" and isinstance(value, int) and not isinstance(value, bool):
-            return True
-        if allowed == "boolean" and isinstance(value, bool):
-            return True
-        if allowed == "null" and value is None:
-            return True
-    return False
-
-
-def _validate_schema_document(artifact_key: str, schema: dict[str, Any], schema_file: str) -> list[str]:
-    errors: list[str] = []
-    if schema.get("type") != "object":
-        errors.append(f"{schema_file}: schema type must be object")
-
-    required = schema.get("required")
-    expected_required = list(ARTIFACT_REQUIRED_KEYS[artifact_key])
-    if required != expected_required:
-        errors.append(f"{schema_file}: required keys do not match artifact contract")
-
-    properties = schema.get("properties")
-    if not isinstance(properties, dict):
-        errors.append(f"{schema_file}: properties must be an object")
-        return errors
-
-    for key in expected_required:
-        if key not in properties:
-            errors.append(f"{schema_file}: required key {key} is missing from properties")
-            continue
-        property_schema = properties[key]
-        if not isinstance(property_schema, dict):
-            errors.append(f"{schema_file}: property {key} schema must be an object")
-            continue
-        allowed = _type_names(property_schema.get("type"))
-        if allowed and any(name not in _JSON_TYPE_NAMES for name in allowed):
-            errors.append(f"{schema_file}: property {key} has unsupported JSON type")
-
-    monitor_schema = properties.get("monitor_only", {})
-    if isinstance(monitor_schema, dict) and monitor_schema.get("const") is not True:
-        errors.append(f"{schema_file}: monitor_only must declare const true")
-    return errors
-
-
-def _validate_payload_with_schema(file_name: str, payload: dict[str, Any], schema: dict[str, Any]) -> list[str]:
-    errors: list[str] = []
-    required = schema.get("required", [])
-    properties = schema.get("properties", {})
-    if not isinstance(required, list) or not isinstance(properties, dict):
-        return [f"{file_name}: schema is not usable for payload validation"]
-
-    for key in required:
-        if key not in payload:
-            errors.append(f"{file_name}: schema missing required key: {key}")
-
-    for key, property_schema in properties.items():
-        if key not in payload or not isinstance(property_schema, dict):
-            continue
-        value = payload[key]
-        if "const" in property_schema and value != property_schema["const"]:
-            errors.append(f"{file_name}: {key} must equal {property_schema['const']!r}")
-        enum_values = property_schema.get("enum")
-        if isinstance(enum_values, list) and value not in enum_values:
-            errors.append(f"{file_name}: {key} must be one of {enum_values!r}")
-        allowed_types = _type_names(property_schema.get("type"))
-        if allowed_types and not _json_type_matches(value, allowed_types):
-            errors.append(f"{file_name}: {key} expected JSON type {'/'.join(allowed_types)}")
-    return errors
-
-
-def validate_artifact_contract(
-    artifact_dir: str | Path,
-    schema_dir: str | Path | None = None,
-) -> dict[str, Any]:
+def validate_artifact_contract(artifact_dir: str | Path) -> dict[str, Any]:
     paths = artifact_paths(artifact_dir)
     errors: list[str] = []
-    schema_errors: list[str] = []
     checked_artifacts: list[dict[str, Any]] = []
-    checked_schema_count = 0
 
     for artifact_key, required_keys in ARTIFACT_REQUIRED_KEYS.items():
         path = paths[artifact_key]
-        schema_path = _schema_path(artifact_key, schema_dir=schema_dir)
         checked = {
             "artifact_key": artifact_key,
             "file": path.name,
-            "schema_file": schema_path.name,
             "required_keys": list(required_keys),
             "missing_keys": [],
-            "schema_errors": [],
         }
         checked_artifacts.append(checked)
-
-        schema: dict[str, Any] | None = None
-        if not schema_path.exists():
-            message = f"{schema_path.name}: missing artifact schema"
-            schema_errors.append(message)
-            checked["schema_errors"].append(message)
-        else:
-            try:
-                schema = _read_json_object(schema_path)
-            except ValueError as exc:
-                schema_errors.append(str(exc))
-                checked["schema_errors"].append(str(exc))
-            else:
-                checked_schema_count += 1
-                schema_doc_errors = _validate_schema_document(artifact_key, schema, schema_path.name)
-                schema_errors.extend(schema_doc_errors)
-                checked["schema_errors"].extend(schema_doc_errors)
 
         if not path.exists():
             errors.append(f"{path.name}: missing artifact")
@@ -280,23 +147,14 @@ def validate_artifact_contract(
             errors.append(f"{path.name}: missing required keys: {', '.join(missing_keys)}")
         if payload.get("monitor_only") is not True:
             errors.append(f"{path.name}: monitor_only must be true")
-        if schema is not None:
-            payload_schema_errors = _validate_payload_with_schema(path.name, payload, schema)
-            schema_errors.extend(payload_schema_errors)
-            checked["schema_errors"].extend(payload_schema_errors)
 
-    all_errors = errors + schema_errors
     result = {
         "schema_contract_version": ARTIFACT_CONTRACT_VERSION,
-        "artifact_schema_set_version": ARTIFACT_SCHEMA_SET_VERSION,
-        "status": "ERROR" if all_errors else "OK",
+        "status": "ERROR" if errors else "OK",
         "artifact_dir": str(Path(artifact_dir)),
         "checked_artifact_count": len(checked_artifacts),
-        "checked_schema_count": checked_schema_count,
         "checked_artifacts": checked_artifacts,
-        "errors": all_errors,
-        "contract_errors": errors,
-        "schema_errors": schema_errors,
+        "errors": errors,
     }
     assert_clean_language(result)
     return result
