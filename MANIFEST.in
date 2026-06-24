@@ -21,3 +21,5 @@ recursive-include examples/sample-artifacts *.json *.md
 recursive-include .github *.yml *.md
 recursive-include tests *.py
 recursive-include tests/fixtures *.json *.csv
+
+recursive-include schemas *.json

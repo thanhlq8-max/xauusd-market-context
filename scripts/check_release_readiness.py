@@ -4,7 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
-EXPECTED_VERSION = "2.5.2"
+EXPECTED_VERSION = "2.6.0"
 EXPECTED_LICENSE_MARKER = "Apache License"
 EXPECTED_DATA_POLICY_MARKER = "synthetic fixtures"
 
@@ -49,6 +49,20 @@ REQUIRED_FILES = [
     ".github/ISSUE_TEMPLATE/report_export_issue.md",
 ]
 
+REQUIRED_SCHEMA_FILES = [
+    "docs/ARTIFACT_JSON_SCHEMAS.md",
+    "schemas/artifacts/xau_raw_scan.schema.json",
+    "schemas/artifacts/xau_data_quality.schema.json",
+    "schemas/artifacts/xau_composite_ohlcv.schema.json",
+    "schemas/artifacts/xau_session_context.schema.json",
+    "schemas/artifacts/xau_macro_pressure.schema.json",
+    "schemas/artifacts/xau_event_risk_state.schema.json",
+    "schemas/artifacts/xau_lfx_external_state.schema.json",
+    "schemas/artifacts/xau_user_insight.schema.json",
+    "schemas/artifacts/xau_artifact_quality.schema.json",
+    "schemas/artifacts/xau_context_summary.schema.json",
+]
+
 REQUIRED_SAMPLE_FILES = [
     "examples/sample-data/XAUUSD_M5.csv",
     "examples/sample-data/XAUUSD_M15.csv",
@@ -81,7 +95,7 @@ def _read_text(path: Path) -> str:
 
 def check_readiness(root: str | Path = ".") -> dict:
     repo = Path(root)
-    missing = [path for path in REQUIRED_FILES + REQUIRED_SAMPLE_FILES if not (repo / path).exists()]
+    missing = [path for path in REQUIRED_FILES + REQUIRED_SCHEMA_FILES + REQUIRED_SAMPLE_FILES if not (repo / path).exists()]
     blockers: list[str] = []
     warnings: list[str] = []
 
@@ -138,7 +152,7 @@ def check_readiness(root: str | Path = ".") -> dict:
         "status": status,
         "blockers": blockers,
         "warnings": warnings,
-        "checked_files": len(REQUIRED_FILES) + len(REQUIRED_SAMPLE_FILES),
+        "checked_files": len(REQUIRED_FILES) + len(REQUIRED_SCHEMA_FILES) + len(REQUIRED_SAMPLE_FILES),
         "license": "Apache-2.0" if license_file.exists() and EXPECTED_LICENSE_MARKER in _read_text(license_file) else "UNKNOWN",
         "version": EXPECTED_VERSION,
     }

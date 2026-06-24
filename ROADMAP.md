@@ -44,3 +44,12 @@ The following work requires its own scope decision before implementation:
 ## Adoption evidence
 
 Technical releases are not adoption proof. The project will track public stars, forks, watchers, external issues, external pull requests, package downloads after publication, Pages usage when available, and documented user workflows. Artificial engagement is not acceptable evidence.
+
+
+## v2.6.0 - Artifact JSON Schema Validation
+
+Status: shipped.
+
+- Committed JSON Schema files for the ten generated JSON artifacts.
+- Integrated schema checks into `validate-artifacts`.
+- Added docs/tests so schema files remain part of release readiness.

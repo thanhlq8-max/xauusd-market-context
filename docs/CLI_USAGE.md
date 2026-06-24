@@ -144,3 +144,6 @@ Open `site/index.html` locally. The generated outputs remain monitor-only resear
 ```
 
 The OANDA candle refresh interval is fixed at five seconds. See [`OANDA_LIVE_DASHBOARD.md`](OANDA_LIVE_DASHBOARD.md) for interactive token input, private-network access, and source limitations.
+
+The validator also loads the committed JSON Schema files under `schemas/artifacts/`.
+Those schema files must match the required artifact keys and must keep `monitor_only` fixed as a true value.

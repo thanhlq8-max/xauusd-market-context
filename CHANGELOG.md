@@ -250,3 +250,10 @@
 ## v1.0.0 - External Data Foundation Skeleton
 
 - Added no-source monitor skeleton and local API artifacts.
+
+
+## v2.6.0
+
+- Added committed JSON Schema files for all generated JSON artifacts.
+- Extended `validate-artifacts` to check schema files and schema-defined field types.
+- Added JSON Schema documentation and release-readiness coverage.

@@ -63,3 +63,14 @@ Removing a required key, changing an artifact file name, or changing the meaning
 ## Safety boundary
 
 The contract is a data compatibility gate only. It does not convert artifacts into a trading system and does not relax the monitor-only project rules.
+
+
+## JSON Schema files
+
+v2.6.0 adds committed JSON Schema files under:
+
+```text
+schemas/artifacts/
+```
+
+`xau-lfx validate-artifacts --artifact-dir artifacts` now checks both the existing artifact contract and those schema files. The schema files are a compatibility aid for dashboards and downstream readers. They do not add any execution behavior.
