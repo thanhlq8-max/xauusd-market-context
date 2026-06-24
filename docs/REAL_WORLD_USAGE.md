@@ -95,6 +95,21 @@ artifacts/xau_composite_ohlcv.json: timeframe_bars, quality_flags
 artifacts/xau_artifact_quality.json: coverage_score, warnings
 ```
 
+## Case 7: context-summary wording is snapshot-guarded
+
+**Input condition:** synthetic context inputs are passed directly into the context-summary builder.
+
+**Expected result:** `tests/fixtures/context_summary_snapshot.json` records the expected public shape and monitor-only wording after normalizing the generated timestamp.
+
+**Practical value:** future edits to operator-facing wording or public fields become intentional review changes instead of silent drift.
+
+Inspect:
+
+```text
+tests/test_context_summary_snapshot.py
+tests/fixtures/context_summary_snapshot.json
+```
+
 ## Live OANDA Practice case
 
 The private live dashboard adds five-second OANDA Practice refresh without changing the CSV cases above. It displays:

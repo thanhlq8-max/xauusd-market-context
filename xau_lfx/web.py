@@ -12,6 +12,7 @@ import uvicorn
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 
+from xau_lfx import __version__
 from xau_lfx.config import ARTIFACTS
 from xau_lfx.connectors.oanda_v20 import OandaPracticeConfig, OandaPracticeConnector, UrllibJsonTransport
 from xau_lfx.live import LiveSnapshotUnavailable, OandaLiveService
@@ -19,7 +20,7 @@ from xau_lfx.pipeline import run_once
 from xau_lfx.reports.live_dashboard import build_live_dashboard_html
 from xau_lfx.utils import read_json
 
-app = FastAPI(title="XAU-LFX External Data Foundation", version="2.5.0")
+app = FastAPI(title="XAU-LFX External Data Foundation", version=__version__)
 
 
 @app.get("/api/xau/state")

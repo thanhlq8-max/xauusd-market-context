@@ -1,5 +1,18 @@
 # Changelog
 
+## v2.5.1 - Context summary snapshot coverage
+
+### Added
+
+- Deterministic snapshot coverage for `xau_context_summary.json` monitor-only wording and key public fields.
+- Static fixture under `tests/fixtures/` for context-summary review.
+
+### Preserved
+
+- No runtime calculation changes.
+- No CSV ingestion, OANDA Practice dashboard, report, site, or artifact contract behavior changes.
+- No Pine source modification, runtime order workflow, account-risk logic, inventory claim, or profitability claim.
+
 ## v2.5.0 - Artifact contract validation
 
 ### Added

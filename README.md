@@ -1,4 +1,4 @@
-# XAUUSD Market Context v2.5.0
+# XAUUSD Market Context v2.5.1
 
 [![tests](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/tests.yml/badge.svg)](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/tests.yml)
 [![pages-demo](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/pages.yml/badge.svg)](https://github.com/thanhlq8-max/xauusd-market-context/actions/workflows/pages.yml)
@@ -11,7 +11,7 @@ TRADING_MODE: MONITOR_ONLY
 AUTO_EXECUTION: NO  
 DIRECTIONAL_TRADE_CALLS: NO
 
-Generate auditable XAUUSD market-context artifacts from local MT5/broker CSV exports, spread snapshots, manual USD event files, or an optional private OANDA v20 Practice dashboard. v2.5.0 adds an artifact contract validator so shared JSON bundles can be checked before downstream inspection. The package is a monitor-only sidecar for XAU research workflows; it uses the LFX-2 material as a semantic and safety baseline without modifying or reproducing the Pine source.
+Generate auditable XAUUSD market-context artifacts from local MT5/broker CSV exports, spread snapshots, manual USD event files, or an optional private OANDA v20 Practice dashboard. v2.5.0 adds an artifact contract validator so shared JSON bundles can be checked before downstream inspection. v2.5.1 adds deterministic context-summary snapshot coverage so operator-facing wording changes are intentional. The package is a monitor-only sidecar for XAU research workflows; it uses the LFX-2 material as a semantic and safety baseline without modifying or reproducing the Pine source.
 
 ## Why this exists
 
