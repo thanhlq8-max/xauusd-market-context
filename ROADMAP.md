@@ -14,6 +14,7 @@ This roadmap tracks public utility and community adoption for the external Pytho
 - `v2.6.0`: artifact JSON Schema validation for generated JSON bundles.
 - `v2.6.1`: packaged schema fallback for wheel-installed validation.
 - `v2.7.0`: deeper nested artifact schema coverage for existing object and array structures.
+- `v2.8.0`: package publication preflight and package-name decision gate.
 
 ## Explicit version decision
 
@@ -24,7 +25,8 @@ Skipped-version work must not be described as complete under v2.1.0 or v2.2.0. L
 - static demo screenshot documentation shipped after v2.5.2;
 - artifact JSON Schema validation shipped in v2.6.0;
 - wheel-installed schema fallback shipped in v2.6.1;
-- deeper nested schema coverage shipped in v2.7.0.
+- deeper nested schema coverage shipped in v2.7.0;
+- package publication preflight shipped in v2.8.0.
 
 ## Phase F delivery
 
@@ -40,10 +42,9 @@ Phase F provides:
 
 The following work requires its own scope decision before implementation:
 
-- package-name decision before TestPyPI or PyPI publication;
+- package-name confirmation and TestPyPI rehearsal;
 - static documentation and demo-site expansion;
-- optional local reference-data adapters;
-- any external density module derived from the LFX v7.2-A-R5 reference.
+- optional local reference-data adapters.
 
 ## Adoption evidence
 
