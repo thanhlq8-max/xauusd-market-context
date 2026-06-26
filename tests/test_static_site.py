@@ -19,6 +19,7 @@ def test_static_site_builds_from_sample_artifacts(tmp_path):
     assert "XAUUSD Market Context" in html
     assert "Quality" in html
     assert "Context Summary" in html
+    assert "Practical Zone Deck" in html
     assert "Confidence Explanation" in html
     assert (site_dir / "artifacts" / "xau_artifact_quality.json").exists()
     assert (site_dir / "artifacts" / "xau_market_context_report.md").exists()
