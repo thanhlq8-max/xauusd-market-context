@@ -27,16 +27,17 @@ site/index.html
 - confidence cap;
 - high-impact USD event count;
 - monitor-only current read;
+- Practical Zone Deck references ranked by distance from the latest composite close;
 - operator focus list;
 - exported JSON and Markdown artifacts.
 
 ## What the site does not show
 
-- order instructions;
+- directional trade-call instructions;
 - account-risk instructions;
 - broker execution;
-- true dealer inventory claims;
-- real retail positioning claims;
+- actual dealer inventory claims;
+- actual retail-side positioning claims;
 - profitability claims.
 
 ## GitHub workflow
