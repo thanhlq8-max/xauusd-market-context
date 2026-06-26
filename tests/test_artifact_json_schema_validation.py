@@ -76,6 +76,20 @@ def test_schema_validation_rejects_nested_bar_value_type(tmp_path):
     assert any("bars[0].close expected JSON type number" in error for error in result["schema_errors"])
 
 
+def test_schema_validation_rejects_practical_zone_deck_item_value_type(tmp_path):
+    run_once(input_dir="examples/sample-data", event_file="examples/sample-data/usd_events.csv", out_dir=tmp_path)
+    paths = artifact_paths(tmp_path)
+    payload = json.loads(paths["context_summary"].read_text(encoding="utf-8"))
+    assert payload["practical_zone_deck"]
+    payload["practical_zone_deck"][0]["distance_points"] = "not-a-number"
+    paths["context_summary"].write_text(json.dumps(payload), encoding="utf-8")
+
+    result = validate_artifact_contract(tmp_path)
+
+    assert result["status"] == "ERROR"
+    assert any("practical_zone_deck[0].distance_points expected JSON type number" in error for error in result["schema_errors"])
+
+
 def test_schema_files_include_nested_array_item_properties():
     schema_dir = ROOT / "schemas" / "artifacts"
     composite_schema = json.loads((schema_dir / ARTIFACT_SCHEMA_FILES["composite_ohlcv"]).read_text(encoding="utf-8"))
@@ -91,10 +105,24 @@ def test_schema_files_include_nested_array_item_properties():
     assert bar_properties["volume_type"]["type"] == "string"
 
 
+def test_context_summary_schema_includes_practical_zone_deck_item_properties():
+    schema_dir = ROOT / "schemas" / "artifacts"
+    context_schema = json.loads((schema_dir / ARTIFACT_SCHEMA_FILES["context_summary"]).read_text(encoding="utf-8"))
+
+    zone_properties = context_schema["properties"]["practical_zone_deck"]["items"]["properties"]
+
+    assert zone_properties["rank"]["type"] == "integer"
+    assert zone_properties["price"]["type"] == "number"
+    assert zone_properties["side_from_latest"]["enum"] == ["above", "below", "at"]
+    assert zone_properties["distance_points"]["type"] == "number"
+    assert zone_properties["range_points"]["type"] == ["number", "null"]
+    assert zone_properties["bar_count"]["type"] == ["integer", "null"]
+    assert zone_properties["operator_read"]["type"] == "string"
+
+
 def test_builtin_schema_registry_matches_nested_schema_files():
     schema_dir = ROOT / "schemas" / "artifacts"
     composite_schema = json.loads((schema_dir / ARTIFACT_SCHEMA_FILES["composite_ohlcv"]).read_text(encoding="utf-8"))
     builtin_schema = artifact_contract_module.BUILTIN_ARTIFACT_SCHEMAS["composite_ohlcv"]
 
     assert builtin_schema["properties"]["bars"]["items"]["properties"] == composite_schema["properties"]["bars"]["items"]["properties"]
-
