@@ -49,7 +49,7 @@ Each deck item may include:
 | `session` | Session name from the supplied session range object. |
 | `level` | Source level, usually `high` or `low`. |
 | `price` | Reference price from the supplied session context. |
-| `side_from_latest` | `above`, `below`, or `at_latest` relative to the latest composite close. |
+| `side_from_latest` | `above`, `below`, or `at` relative to the latest composite close. |
 | `distance_points` | Absolute distance from latest composite close. |
 | `range_points` | Optional supplied session range size when available. |
 | `bar_count` | Optional supplied session bar count when available. |
