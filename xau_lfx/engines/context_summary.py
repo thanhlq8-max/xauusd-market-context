@@ -75,6 +75,85 @@ def _nearest_session_level(session: dict[str, Any], latest_close: float | None) 
     return best
 
 
+def _optional_float(value: Any) -> float | None:
+    if value is None:
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _optional_int(value: Any) -> int | None:
+    if value is None:
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
+
+
+def _side_from_latest(level_price: float, latest_close: float) -> str:
+    if level_price > latest_close:
+        return "above"
+    if level_price < latest_close:
+        return "below"
+    return "at"
+
+
+def _practical_zone_deck(session: dict[str, Any], latest_close: float | None) -> list[dict[str, Any]]:
+    """Build ranked monitor-only session references for practical inspection.
+
+    The deck is derived only from supplied session high/low levels and the latest
+    composite close. It does not infer direction, execution, or profitability.
+    """
+    if latest_close is None:
+        return []
+
+    deck: list[dict[str, Any]] = []
+    for session_name, block in session.get("session_ranges", {}).items():
+        if not isinstance(block, dict):
+            continue
+
+        bar_count = _optional_int(block.get("bar_count"))
+        range_points = _optional_float(block.get("range_points"))
+
+        for level_name in ("high", "low"):
+            level_price = _optional_float(block.get(level_name))
+            if level_price is None:
+                continue
+
+            distance = abs(latest_close - level_price)
+            side = _side_from_latest(level_price, latest_close)
+            deck.append(
+                {
+                    "rank": 0,
+                    "role": f"{session_name}_{level_name.upper()}_REFERENCE",
+                    "session": session_name,
+                    "level": level_name,
+                    "price": round(level_price, 4),
+                    "side_from_latest": side,
+                    "distance_points": round(distance, 4),
+                    "range_points": round(range_points, 4) if range_points is not None else None,
+                    "bar_count": bar_count,
+                    "why_it_matters": (
+                        "Ranked session reference from supplied M15 context; useful for observing "
+                        "accept, reject, or rotation behavior without directional instruction."
+                    ),
+                    "operator_read": (
+                        f"Observe accept or reject behavior around {session_name} {level_name} "
+                        "reference; use M5 only as confirmation context."
+                    ),
+                }
+            )
+
+    deck.sort(key=lambda item: (item["distance_points"], item["session"], item["level"]))
+    practical_deck = deck[:4]
+    for rank, item in enumerate(practical_deck, start=1):
+        item["rank"] = rank
+    return practical_deck
+
+
 def _spread_state(data_quality: dict[str, Any]) -> str:
     flags = set(data_quality.get("quality_flags", []))
     stability = float(data_quality.get("spread_stability", 0.0) or 0.0)
@@ -118,13 +197,17 @@ def _confidence_explanation(data_quality: dict[str, Any], event: dict[str, Any],
         lines.append("Event file is loaded and used as risk context only.")
     else:
         lines.append("Event source is not configured; confidence is reduced.")
-
     if data_quality.get("errors"):
         lines.append("Source validation errors are present; inspect xau_data_quality.json before using artifacts.")
     return lines
 
 
-def _monitor_focus(nearest_level: dict[str, Any] | None, spread_state: str, event: dict[str, Any]) -> list[str]:
+def _monitor_focus(
+    nearest_level: dict[str, Any] | None,
+    spread_state: str,
+    event: dict[str, Any],
+    practical_zones: list[dict[str, Any]],
+) -> list[str]:
     focus: list[str] = []
     if nearest_level:
         focus.append(
@@ -134,6 +217,13 @@ def _monitor_focus(nearest_level: dict[str, Any] | None, spread_state: str, even
         )
     else:
         focus.append("Observe whether new local exports create usable session reference levels.")
+    if practical_zones:
+        lead_zone = practical_zones[0]
+        focus.append(
+            "Start inspection with practical zone rank "
+            f"{lead_zone['rank']}: {lead_zone['session']} {lead_zone['level']} "
+            f"at {lead_zone['price']}."
+        )
     focus.append("Compare M15 context with M5 confirmation behavior and H1 structural context.")
     if spread_state in {"WATCH", "UNSTABLE", "MISSING"}:
         focus.append("Reduce confidence if spread remains unstable, unavailable, or widens during the session.")
@@ -156,14 +246,15 @@ def build_context_summary(
     """Build a compact monitor-only summary for human inspection.
 
     This is an interpretation aid for artifact users. It does not infer direction,
-    entries, account risk, or execution actions.
+    order timing, account risk, or execution actions.
     """
     latest_close = _latest_close(composite)
     freshness_age_minutes = _freshness_age_minutes(composite)
     nearest_level = _nearest_session_level(session, latest_close)
+    practical_zones = _practical_zone_deck(session, latest_close)
     spread_state = _spread_state(data_quality)
     explanation = _confidence_explanation(data_quality, event, spread_state)
-    focus = _monitor_focus(nearest_level, spread_state, event)
+    focus = _monitor_focus(nearest_level, spread_state, event, practical_zones)
 
     summary = {
         "ts_utc": utc_now_iso(),
@@ -172,6 +263,7 @@ def build_context_summary(
         "latest_close": round(latest_close, 4) if latest_close is not None else None,
         "freshness_age_minutes": freshness_age_minutes,
         "nearest_session_level": nearest_level,
+        "practical_zone_deck": practical_zones,
         "spread_state": spread_state,
         "event_risk_state": event.get("risk_state", "UNKNOWN"),
         "quality_status": artifact_quality.get("status", "UNKNOWN"),
@@ -183,6 +275,7 @@ def build_context_summary(
             "Monitor-only context summary; not an execution plan.",
             "Broker tick activity remains a local activity proxy, not centralized volume.",
             "Session levels are references from supplied CSV data only.",
+            "Practical zone deck ranks supplied session references by distance only; it does not infer direction.",
         ],
         "quality_flags": sorted(set(data_quality.get("quality_flags", [])) | set(event.get("quality_flags", []))),
     }
