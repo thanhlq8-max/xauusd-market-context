@@ -17,7 +17,7 @@ pip install -e .
 When inspecting generated outputs or reviewing the static demo, use this order so source quality is checked before interpretation:
 
 1. **Artifact quality** — inspect source coverage, freshness, structural errors, warnings, and confidence caps first.
-2. **Context summary** — read the compact monitor-only summary, spread state, event-risk state, and monitor-focus bullets.
+2. **Context summary** — read the compact monitor-only summary, practical zone deck, spread state, event-risk state, and monitor-focus bullets.
 3. **Markdown report** — review the human-readable report for expanded context and artifact links.
 4. **Source policy** — cross-check source limits, synthetic fixture policy, and redistribution boundaries.
 
@@ -66,7 +66,9 @@ Open:
 artifacts/xau_context_summary.json
 ```
 
-This file is the compact operator-facing summary. It can include latest close, source freshness age, nearest session level context, spread state, event-risk state, confidence explanation, and monitor-focus bullets.
+This file is the compact operator-facing summary. It can include latest close, source freshness age, nearest session level context, a practical zone deck, spread state, event-risk state, confidence explanation, and monitor-focus bullets.
+
+The practical zone deck ranks supplied session high/low references by distance from the latest composite close. It is designed for inspecting accept, reject, or rotation behavior around known references. It does not infer direction, execution, account risk, or profitability.
 
 It is monitor-only. It must not be interpreted as directional trade-call guidance, execution instruction, position sizing, or profitability evidence.
 
@@ -96,7 +98,7 @@ Open:
 site/index.html
 ```
 
-The static site is backend-free and suitable for GitHub Pages. It summarizes artifact quality, context summary, source coverage, warnings, errors, and exported artifact links.
+The static site is backend-free and suitable for GitHub Pages. It summarizes artifact quality, context summary, practical zone deck, source coverage, warnings, errors, and exported artifact links.
 
 ### Static demo screenshot
 
