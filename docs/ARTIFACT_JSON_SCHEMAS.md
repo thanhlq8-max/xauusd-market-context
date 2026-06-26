@@ -31,6 +31,8 @@ The schemas define top-level required fields, basic JSON value types, and conser
 
 The v2.7.0 schema set validates nested `properties` and array `items` for existing emitted structures such as composite OHLCV bars, timeframe bars, event lists, evidence maps, and quality flag arrays. The validator reports nested paths such as `bars[0].close` when a present value has the wrong JSON type.
 
+The context-summary schema also validates the optional `practical_zone_deck` item structure emitted by current context-summary generation, including paths such as `practical_zone_deck[0].distance_points`.
+
 ## Validation command
 
 ```bash
