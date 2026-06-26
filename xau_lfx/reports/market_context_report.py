@@ -1,4 +1,4 @@
-﻿from __future__ import annotations
+from __future__ import annotations
 
 from pathlib import Path
 from typing import Any
@@ -37,6 +37,26 @@ def _format_nearest_session_level(context_summary: dict[str, Any]) -> str:
     return f"{session} {level} at {price}, distance={distance}"
 
 
+def _lines_for_practical_zones(context_summary: dict[str, Any]) -> list[str]:
+    zones = context_summary.get("practical_zone_deck", [])
+    if not zones:
+        return ["- No practical zone deck was generated from the current source set."]
+    lines: list[str] = []
+    for zone in zones:
+        rank = zone.get("rank", "n/a")
+        session = zone.get("session", "unknown")
+        level = zone.get("level", "unknown")
+        price = zone.get("price", "n/a")
+        side = zone.get("side_from_latest", "n/a")
+        distance = zone.get("distance_points", "n/a")
+        operator_read = zone.get("operator_read", "Observe this supplied session reference.")
+        lines.append(
+            f"- Rank {rank}: {session} {level} at {price} "
+            f"({side}, distance={distance}) — {operator_read}"
+        )
+    return lines
+
+
 def build_market_context_markdown(
     data_quality: dict[str, Any],
     composite: dict[str, Any],
@@ -48,6 +68,7 @@ def build_market_context_markdown(
 ) -> str:
     context_summary = context_summary or {}
     session_lines = _lines_for_sessions(session.get("session_ranges", {}))
+    practical_zone_lines = _lines_for_practical_zones(context_summary)
     latest_close = context_summary.get("latest_close", composite.get("median_latest_close"))
     warnings = artifact_quality.get("warnings", [])
     errors = artifact_quality.get("errors", [])
@@ -84,6 +105,10 @@ Symbol: {data_quality.get('symbol', 'XAUUSD')}
 - Event risk state: {context_summary.get('event_risk_state', event.get('risk_state'))}
 - Quality status: {context_summary.get('quality_status', artifact_quality.get('status'))}
 - Quality grade: {context_summary.get('quality_grade', artifact_quality.get('quality_grade'))}
+
+## Practical Zone Deck
+
+{chr(10).join(practical_zone_lines)}
 
 ## Confidence Explanation
 
