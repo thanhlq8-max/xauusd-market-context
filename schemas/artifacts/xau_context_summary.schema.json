@@ -92,6 +92,59 @@
           "type": "string"
         }
       }
+    },
+    "practical_zone_deck": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "rank": {
+            "type": "integer"
+          },
+          "role": {
+            "type": "string"
+          },
+          "session": {
+            "type": "string"
+          },
+          "level": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          },
+          "side_from_latest": {
+            "type": "string",
+            "enum": [
+              "above",
+              "below",
+              "at"
+            ]
+          },
+          "distance_points": {
+            "type": "number"
+          },
+          "range_points": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "bar_count": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "why_it_matters": {
+            "type": "string"
+          },
+          "operator_read": {
+            "type": "string"
+          }
+        }
+      }
     }
   }
 }
