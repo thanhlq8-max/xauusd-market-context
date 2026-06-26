@@ -31,6 +31,13 @@ Symbol: XAUUSD
 - Quality status: OK
 - Quality grade: A
 
+## Practical Zone Deck
+
+- Rank 1: OFF_SESSION low at 2337.15 (below, distance=1.68) — Observe accept or reject behavior around OFF_SESSION low reference; use M5 only as confirmation context.
+- Rank 2: ASIA low at 2336.93 (below, distance=1.9) — Observe accept or reject behavior around ASIA low reference; use M5 only as confirmation context.
+- Rank 3: LONDON high at 2340.73 (above, distance=1.9) — Observe accept or reject behavior around LONDON high reference; use M5 only as confirmation context.
+- Rank 4: LONDON low at 2336.93 (below, distance=1.9) — Observe accept or reject behavior around LONDON low reference; use M5 only as confirmation context.
+
 ## Confidence Explanation
 
 - M5/M15/H1 local bar coverage is complete.
@@ -42,6 +49,7 @@ Symbol: XAUUSD
 ## Monitor Focus
 
 - Observe behavior around OFF_SESSION low (2337.15); distance 1.68 points.
+- Start inspection with practical zone rank 1: OFF_SESSION low at 2337.15.
 - Compare M15 context with M5 confirmation behavior and H1 structural context.
 - Keep spread stability on the monitor list during active sessions.
 - Keep the event file current before major USD macro windows.
@@ -78,6 +86,7 @@ Symbol: XAUUSD
 - Monitor-only context summary; not an execution plan.
 - Broker tick activity remains a local activity proxy, not centralized volume.
 - Session levels are references from supplied CSV data only.
+- Practical zone deck ranks supplied session references by distance only; it does not infer direction.
 
 ## Warnings
 
