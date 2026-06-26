@@ -124,6 +124,27 @@ ARTIFACT_SCHEMA_FILES: dict[str, str] = {
 
 _JSON_TYPE_NAMES = ("object", "array", "string", "number", "integer", "boolean", "null")
 
+_CONTEXT_SUMMARY_PRACTICAL_ZONE_DECK_SCHEMA: dict[str, Any] = {
+    "type": "array",
+    "items": {
+        "type": "object",
+        "additionalProperties": True,
+        "properties": {
+            "rank": {"type": "integer"},
+            "role": {"type": "string"},
+            "session": {"type": "string"},
+            "level": {"type": "string"},
+            "price": {"type": "number"},
+            "side_from_latest": {"type": "string", "enum": ["above", "below", "at"]},
+            "distance_points": {"type": "number"},
+            "range_points": {"type": ["number", "null"]},
+            "bar_count": {"type": ["integer", "null"]},
+            "why_it_matters": {"type": "string"},
+            "operator_read": {"type": "string"},
+        },
+    },
+}
+
 
 def _read_json_object(path: Path) -> dict[str, Any]:
     try:
@@ -140,6 +161,20 @@ def _schema_path(artifact_key: str, schema_dir: str | Path | None = None) -> Pat
     return root / ARTIFACT_SCHEMA_FILES[artifact_key]
 
 
+def _with_builtin_schema_compatibility(artifact_key: str, schema: dict[str, Any]) -> dict[str, Any]:
+    """Keep packaged fallback schemas aligned with compatible source-tree schema additions."""
+    if artifact_key != "context_summary":
+        return schema
+    properties = schema.setdefault("properties", {})
+    if not isinstance(properties, dict):
+        return schema
+    properties.setdefault(
+        "practical_zone_deck",
+        copy.deepcopy(_CONTEXT_SUMMARY_PRACTICAL_ZONE_DECK_SCHEMA),
+    )
+    return schema
+
+
 def _load_schema_document(
     artifact_key: str,
     schema_dir: str | Path | None = None,
@@ -154,7 +189,8 @@ def _load_schema_document(
     builtin_schema = BUILTIN_ARTIFACT_SCHEMAS.get(artifact_key)
     if not isinstance(builtin_schema, dict):
         raise ValueError(f"{schema_path.name}: missing built-in artifact schema")
-    return copy.deepcopy(builtin_schema), schema_path.name, "built_in"
+    schema = copy.deepcopy(builtin_schema)
+    return _with_builtin_schema_compatibility(artifact_key, schema), schema_path.name, "built_in"
 
 
 def _type_names(type_value: Any) -> tuple[str, ...]:
