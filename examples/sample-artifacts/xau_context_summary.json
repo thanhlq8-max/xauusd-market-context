@@ -10,6 +10,60 @@
     "price": 2337.15,
     "distance_points": 1.68
   },
+  "practical_zone_deck": [
+    {
+      "rank": 1,
+      "role": "OFF_SESSION_LOW_REFERENCE",
+      "session": "OFF_SESSION",
+      "level": "low",
+      "price": 2337.15,
+      "side_from_latest": "below",
+      "distance_points": 1.68,
+      "range_points": 4.35,
+      "bar_count": 3,
+      "why_it_matters": "Ranked session reference from supplied M15 context; useful for observing accept, reject, or rotation behavior without directional instruction.",
+      "operator_read": "Observe accept or reject behavior around OFF_SESSION low reference; use M5 only as confirmation context."
+    },
+    {
+      "rank": 2,
+      "role": "ASIA_LOW_REFERENCE",
+      "session": "ASIA",
+      "level": "low",
+      "price": 2336.93,
+      "side_from_latest": "below",
+      "distance_points": 1.9,
+      "range_points": 5.07,
+      "bar_count": 28,
+      "why_it_matters": "Ranked session reference from supplied M15 context; useful for observing accept, reject, or rotation behavior without directional instruction.",
+      "operator_read": "Observe accept or reject behavior around ASIA low reference; use M5 only as confirmation context."
+    },
+    {
+      "rank": 3,
+      "role": "LONDON_HIGH_REFERENCE",
+      "session": "LONDON",
+      "level": "high",
+      "price": 2340.73,
+      "side_from_latest": "above",
+      "distance_points": 1.9,
+      "range_points": 3.8,
+      "bar_count": 1,
+      "why_it_matters": "Ranked session reference from supplied M15 context; useful for observing accept, reject, or rotation behavior without directional instruction.",
+      "operator_read": "Observe accept or reject behavior around LONDON high reference; use M5 only as confirmation context."
+    },
+    {
+      "rank": 4,
+      "role": "LONDON_LOW_REFERENCE",
+      "session": "LONDON",
+      "level": "low",
+      "price": 2336.93,
+      "side_from_latest": "below",
+      "distance_points": 1.9,
+      "range_points": 3.8,
+      "bar_count": 1,
+      "why_it_matters": "Ranked session reference from supplied M15 context; useful for observing accept, reject, or rotation behavior without directional instruction.",
+      "operator_read": "Observe accept or reject behavior around LONDON low reference; use M5 only as confirmation context."
+    }
+  ],
   "spread_state": "STABLE",
   "event_risk_state": "CONTEXT",
   "quality_status": "OK",
@@ -23,6 +77,7 @@
   ],
   "monitor_focus": [
     "Observe behavior around OFF_SESSION low (2337.15); distance 1.68 points.",
+    "Start inspection with practical zone rank 1: OFF_SESSION low at 2337.15.",
     "Compare M15 context with M5 confirmation behavior and H1 structural context.",
     "Keep spread stability on the monitor list during active sessions.",
     "Keep the event file current before major USD macro windows."
@@ -30,7 +85,8 @@
   "limitations": [
     "Monitor-only context summary; not an execution plan.",
     "Broker tick activity remains a local activity proxy, not centralized volume.",
-    "Session levels are references from supplied CSV data only."
+    "Session levels are references from supplied CSV data only.",
+    "Practical zone deck ranks supplied session references by distance only; it does not infer direction."
   ],
   "quality_flags": [
     "USD_HIGH_IMPACT_EVENT_PRESENT"
