@@ -9,5 +9,6 @@ def test_market_context_report_writes_markdown(tmp_path):
     report = write_market_context_report(tmp_path, write_md=True)
     assert "# XAUUSD Market Context Report" in report
     assert "Artifact Quality" in report
+    assert "Practical Zone Deck" in report
     assert artifact_paths(tmp_path)["market_context_report"].exists()
     assert_clean_language(report)
