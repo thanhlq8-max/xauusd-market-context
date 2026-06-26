@@ -28,9 +28,15 @@ xau_market_context_report.md
 ## What to inspect first
 
 1. `xau_artifact_quality.json` - quality score, grade, warnings, and confidence cap.
-2. `xau_context_summary.json` - compact operator-facing context summary.
-3. `xau_market_context_report.md` - human-readable report.
+2. `xau_context_summary.json` - compact operator-facing context summary, including the Practical Zone Deck.
+3. `xau_market_context_report.md` - human-readable report, including the Practical Zone Deck section.
 4. `xau_data_quality.json` - source coverage, freshness, spread, and confidence details.
+
+## Practical Zone Deck in the sample
+
+The committed sample context summary includes `practical_zone_deck` so users can inspect the current deck shape without generating artifacts first.
+
+The sample deck ranks supplied session high/low references by distance from `latest_close`. It is an inspection aid only and does not infer direction, timing for execution, account risk, or profitability.
 
 ## Data policy
 
