@@ -35,6 +35,29 @@ def _html_list(items: list[Any]) -> str:
     return "".join(f"<li>{html.escape(str(item))}</li>" for item in items)
 
 
+def _html_zone_cards(zones: list[dict[str, Any]]) -> str:
+    if not zones:
+        return "<p>No practical zone deck emitted.</p>"
+    cards: list[str] = []
+    for zone in zones:
+        rank = html.escape(str(zone.get("rank", "n/a")))
+        session = html.escape(str(zone.get("session", "unknown")))
+        level = html.escape(str(zone.get("level", "unknown")))
+        price = html.escape(str(zone.get("price", "n/a")))
+        side = html.escape(str(zone.get("side_from_latest", "n/a")))
+        distance = html.escape(str(zone.get("distance_points", "n/a")))
+        operator_read = html.escape(str(zone.get("operator_read", "Observe this supplied session reference.")))
+        cards.append(
+            '<div class="card">'
+            f'<div class="label">Rank {rank}</div>'
+            f'<div class="small-value">{session} {level} @ {price}</div>'
+            f'<p>{side}, distance={distance} pts</p>'
+            f'<p>{operator_read}</p>'
+            "</div>"
+        )
+    return '<section class="grid" aria-label="practical zone deck">' + "".join(cards) + "</section>"
+
+
 def _artifact_link_rows(out_dir: Path, source_artifact_dir: Path) -> str:
     exported_artifact_dir = out_dir / "artifacts"
     candidate_dir = exported_artifact_dir if exported_artifact_dir.exists() else source_artifact_dir
@@ -77,6 +100,7 @@ def build_static_site_html(artifact_dir: str | Path, out_dir: str | Path = "site
         if nearest_level
         else "not available"
     )
+    practical_zones = context_summary.get("practical_zone_deck", [])
     confidence_explanation = context_summary.get("confidence_explanation", [])
     monitor_focus = context_summary.get("monitor_focus") or operator_focus
     generated = utc_now_iso()
@@ -126,6 +150,11 @@ def build_static_site_html(artifact_dir: str | Path, out_dir: str | Path = "site
       <div class="card"><div class="label">Spread state</div><div class="value">{html.escape(str(spread_state))}</div></div>
       <div class="card"><div class="label">Nearest session level</div><div class="small-value">{html.escape(str(nearest_text))}</div></div>
     </section>
+  </section>
+
+  <section>
+    <h2>Practical Zone Deck</h2>
+    {_html_zone_cards(practical_zones)}
   </section>
 
   <section>
