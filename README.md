@@ -97,7 +97,7 @@ xau-lfx validate-artifacts --artifact-dir artifacts
 
 This checks required top-level keys, `monitor_only: true`, JSON readability, and the committed JSON Schema files under `schemas/artifacts/`. It does not validate predictive usefulness and does not infer direction.
 
-Artifact contract reference: [`docs/ARTIFACT_CONTRACT.md`](docs/ARTIFACT_CONTRACT.md). JSON Schema reference: [`docs/ARTIFACT_JSON_SCHEMAS.md`](docs/ARTIFACT_JSON_SCHEMAS.md).
+Artifact contract reference: [`docs/ARTIFACT_CONTRACT.md`](docs/ARTIFACT_CONTRACT.md). JSON Schema reference: [`docs/ARTIFACT_JSON_SCHEMAS.md`](docs/ARTIFACT_JSON_SCHEMAS.md). Practical Zone Deck guide: [`docs/PRACTICAL_ZONE_DECK.md`](docs/PRACTICAL_ZONE_DECK.md).
 
 ## OANDA Practice live dashboard
 
@@ -184,6 +184,7 @@ Only high-impact USD events may cap confidence for XAUUSD, and only as risk cont
 ## GitHub adoption resources
 
 - Demo walkthrough: [`docs/DEMO_WALKTHROUGH.md`](docs/DEMO_WALKTHROUGH.md)
+- Practical Zone Deck guide: [`docs/PRACTICAL_ZONE_DECK.md`](docs/PRACTICAL_ZONE_DECK.md)
 - Adoption guide: [`docs/ADOPTION_GUIDE.md`](docs/ADOPTION_GUIDE.md)
 - Real-world usage guide: [`docs/REAL_WORLD_USAGE.md`](docs/REAL_WORLD_USAGE.md)
 - Sharing validation reports: [`docs/SHARING_VALIDATION_REPORTS.md`](docs/SHARING_VALIDATION_REPORTS.md)
