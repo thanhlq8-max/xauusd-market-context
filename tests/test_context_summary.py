@@ -16,6 +16,14 @@ def test_context_summary_artifact_is_generated_from_sample_data(tmp_path):
     assert summary["confidence_explanation"]
     assert isinstance(summary["monitor_focus"], list)
     assert summary["monitor_focus"]
+    assert isinstance(summary["practical_zone_deck"], list)
+    assert summary["practical_zone_deck"]
+    lead_zone = summary["practical_zone_deck"][0]
+    assert lead_zone["rank"] == 1
+    assert lead_zone["role"].endswith("_REFERENCE")
+    assert lead_zone["side_from_latest"] in {"above", "below", "at"}
+    assert lead_zone["distance_points"] >= 0
+    assert "operator_read" in lead_zone
     assert_clean_language(summary)
 
 
@@ -32,5 +40,6 @@ def test_context_summary_handles_empty_sources_without_signal_language():
 
     assert summary["latest_close"] is None
     assert summary["nearest_session_level"] is None
+    assert summary["practical_zone_deck"] == []
     assert summary["spread_state"] == "MISSING"
     assert_clean_language(summary)
