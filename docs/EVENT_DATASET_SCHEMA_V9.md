@@ -1,7 +1,7 @@
 # Event Dataset Schema — v9 Draft
 
-STATUS: SCHEMA_DRAFT
-RUNTIME_CHANGE: NO
+STATUS: SCHEMA_DRAFT_WITH_VALIDATOR
+RUNTIME_CHANGE: CLI_VALIDATOR_ONLY
 PURPOSE: forward-validation dataset for LFX-2 behavior monitoring
 
 ---
@@ -108,9 +108,35 @@ Outcome metrics can be filled only after future bars complete.
 event_id,ts_utc,symbol,broker_source,timeframe,session,shock_slot,manual_news_block,spread_state,dashboard_state,trader_mode,sweep_source,sweep_level,sweep_side,sweep_score,lifecycle_state,absorb_score,zone_role,zone_price,route_dir,route_origin,target_ref,delivery_state,route_age_bars,target_dist_at_lock_atr,current_target_dist_atr,terminal_state,mfe_5,mae_5,mfe_10,mae_10,mfe_20,mae_20,time_to_resolution_bars,target_hit,route_failed,manual_review_result,review_notes
 ```
 
+Committed template:
+
+```text
+data/events/event_log_template.csv
+```
+
 ---
 
-## 8. Validation rules
+## 8. Validation command
+
+```bash
+xau-lfx validate-event-log --event-log data/events/event_log_template.csv
+```
+
+The validator checks:
+
+- required columns;
+- duplicate `event_id` values;
+- timezone-aware `ts_utc` values;
+- enum compatibility for timeframe/session/lifecycle/delivery/review states;
+- numeric, integer, and boolean fields;
+- sensitive columns such as token/account/position-size fields;
+- terminal-state conflicts such as `D_TARGET_HIT` with `route_failed=true`.
+
+It does not score predictive usefulness and does not infer trade direction.
+
+---
+
+## 9. Validation rules
 
 - Required fields must not be empty.
 - Timestamps must be UTC-compatible.
@@ -122,7 +148,7 @@ event_id,ts_utc,symbol,broker_source,timeframe,session,shock_slot,manual_news_bl
 
 ---
 
-## 9. First dataset target
+## 10. First dataset target
 
 Initial validation target:
 
