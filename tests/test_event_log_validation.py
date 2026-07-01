@@ -77,5 +77,5 @@ def _valid_row(event_id: str) -> str:
         f"{event_id},2026-07-01T08:00:00Z,XAUUSD,SYNTHETIC,M15,LONDON,Normal clock,"
         "false,stable,Reclaim route active,TRACK ROUTE HEALTH,PDH,4044.140,DN,"
         "0.62,RECLAIM,0.71,TargetRef,4076.015,UP,4044.140,4076.015,"
-        "D_ACTIVE,3,2.1,1.4,OPEN,,,,,,,false,false,MATCH,synthetic test row"
+        "D_ACTIVE,3,2.1,1.4,OPEN,,,,,,,,false,false,MATCH,synthetic test row"
     )
