@@ -187,7 +187,7 @@ def cluster_nodes(nodes: list[LiquidityNode], band: float) -> list[NodeCluster]:
             current = [node]
     if current:
         clusters.append(_build_cluster(current, len(clusters) + 1))
-    return clusters
+    return sorted(clusters, key=lambda cluster: (-cluster.node_count, -cluster.score, cluster.center_price))
 
 
 def _build_cluster(nodes: list[LiquidityNode], index: int) -> NodeCluster:
