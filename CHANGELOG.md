@@ -1,5 +1,27 @@
 # Changelog
 
+## Unreleased - v9 case review batch evidence pack
+
+### Added
+
+- Added `xau_lfx.validation.evidence_pack` for offline evidence-pack generation from case review index artifacts.
+- Added `xau_lfx.validation.evidence_pack_cli` command boundary.
+- Added grouping by review status: `ACCEPTED`, `NEEDS_DATA`, `REJECTED`, `REVIEWED`, and `NEW`.
+- Added review checklist output for manual review workflow.
+- Added JSON and Markdown evidence-pack writer for `evidence_pack.json` and `evidence_pack.md`.
+- Added `tests/test_evidence_pack.py` and `tests/test_evidence_pack_cli.py`.
+- Added CI coverage for building the evidence pack from generated case-index output.
+- Added `docs/CASE_REVIEW_BATCH_EVIDENCE_PACK_V9.md` as the evidence-pack contract.
+
+### Preserved
+
+- No package version change.
+- No main market-context artifact-generation behavior change.
+- No OANDA Practice dashboard behavior change.
+- No Pine source import.
+- No live pipeline connection.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## Unreleased - v9 case library index review workflow
 
 ### Added
