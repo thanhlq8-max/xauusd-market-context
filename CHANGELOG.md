@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased - v9 case library seed
+
+### Added
+
+- Added `xau_lfx.validation.case_library` for offline case-library seed generation from replay/node graph outputs.
+- Added case summaries containing lifecycle, delivery, node, cluster, and manual-review fields.
+- Added descriptive quality labels: `STRONG`, `VALID`, `WEAK`, `REVIEW`, and `REJECT`.
+- Added JSON and Markdown case-library seed writer.
+- Added `tests/test_case_library.py` covering successful seed generation, rejection paths, and report writing.
+- Added `docs/CASE_LIBRARY_SEED_V9.md` as the case-library seed contract.
+
+### Preserved
+
+- No package version change.
+- No artifact-generation behavior change.
+- No OANDA Practice dashboard behavior change.
+- No replay or node-graph behavior change.
+- No Pine source import.
+- No live pipeline connection.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## Unreleased - v9 node graph replay integration
 
 ### Added

@@ -1,6 +1,6 @@
 # PROJECT_STATE — XAUUSD Market Context / LFX-2 v9 Foundation
 
-STATUS: V9_NODE_GRAPH_REPLAY_INTEGRATION_BRANCH
+STATUS: V9_CASE_LIBRARY_SEED_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
@@ -21,7 +21,7 @@ STATISTICAL_EDGE_CLAIM: NO
 
 This repository is being prepared as the GitHub foundation for a hybrid LFX-2 research/tooling stack.
 
-The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, liquidity node schema, node graph replay reports, and future extension points without changing market-context artifact generation behavior.
+The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, liquidity node schema, node graph replay reports, case library seeds, and future extension points without changing market-context artifact generation behavior.
 
 Current locked LFX-2 Pine reference outside this repository:
 
@@ -95,6 +95,7 @@ The correct near-term use is:
 - port compact lifecycle primitives only under tests;
 - replay logged rows against compact lifecycle outputs;
 - build liquidity node graph reports from replay-validated rows;
+- seed case-library summaries from node graph outputs;
 - keep future alert bridges monitor-only.
 
 ---
@@ -109,7 +110,8 @@ The correct near-term use is:
 | Compact lifecycle engine | Added in v9.0-C | Isolated tested primitives |
 | Event replay harness | Added in v9.0-D | CLI/report only; no live connection |
 | Liquidity node graph | Added in v9.0-E | Schema/scoring only; no live connection |
-| Node graph replay integration | Added in v9.0-F branch | Offline report only; no live connection |
+| Node graph replay integration | Added in v9.0-F | Offline report only; no live connection |
+| Case library seed | Added in v9.0-G branch | Offline evidence summary only |
 | Research notebooks/reports | Future | Must use generated/logged data |
 | Alert bridge | Future | Monitor-only alerts first; no execution |
 
@@ -117,22 +119,22 @@ The correct near-term use is:
 
 ## 6. Current branch scope
 
-This branch implements Gate F node graph replay integration.
+This branch implements Gate G case-library seed scaffolding.
 
 Allowed in this branch:
 
-- add `xau_lfx.validation.node_graph_replay`;
-- build LiquidityNode updates from replay-validated rows;
-- derive NodeReaction from lifecycle/delivery states;
-- generate node and cluster report payloads;
-- write JSON/Markdown node graph reports;
+- add `xau_lfx.validation.case_library`;
+- build case summaries from replay/node graph outputs;
+- include lifecycle, delivery, node, cluster, and manual review fields;
+- assign descriptive quality labels;
+- write JSON/Markdown case-library seed outputs;
 - add tests and documentation.
 
 Forbidden in this branch:
 
 - change market-context artifact generation behavior;
-- connect node graph to live pipeline;
-- connect node graph to alert bridge;
+- connect case library to live pipeline;
+- connect case library to alert bridge;
 - move existing modules;
 - delete current docs/tests/examples;
 - add Pine source;
@@ -193,20 +195,27 @@ Status: COMPLETE / MERGED SCAFFOLD.
 
 ### Gate F — Node graph replay integration
 
-Status: IN PROGRESS.
+Status: COMPLETE / MERGED SCAFFOLD.
 
-- update nodes from replay rows;
-- generate node/cluster reports;
-- keep reports descriptive and monitor-only.
+- node updates from replay rows exist;
+- node/cluster reports exist;
+- reports remain descriptive and monitor-only.
 
 ### Gate G — Node graph quality report / case library seed
 
-Status: FUTURE.
+Status: IN PROGRESS.
 
 - build curated case summaries from replay and node graph outputs;
 - keep case library descriptive and evidence-based.
 
-### Gate H — Alert bridge
+### Gate H — Case library CLI / artifact boundary
+
+Status: FUTURE.
+
+- expose case-library generation as an explicit offline command or curated artifact writer;
+- no live dashboard connection.
+
+### Gate I — Alert bridge
 
 Status: FUTURE.
 
@@ -218,8 +227,8 @@ Status: FUTURE.
 ## 8. Current decision
 
 ```text
-DECISION: Add node graph replay integration as v9.0-F scaffold.
-PATCH_TYPE: offline node graph report module + tests + docs.
+DECISION: Add case library seed as v9.0-G scaffold.
+PATCH_TYPE: offline case-library module + tests + docs.
 RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
 NEXT_ACTION: run CI, review PR, merge if clean.
 ```
