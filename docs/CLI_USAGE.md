@@ -134,6 +134,20 @@ The command checks a forward-validation CSV against the v9 event dataset contrac
 
 The validator does not score predictive usefulness and does not infer direction.
 
+## Replay v9 event logs
+
+```bash
+xau-lfx replay-event-log \
+  --event-log data/events/event_replay_template.csv \
+  --out-dir replay-report
+```
+
+The command validates the event log first, then maps each replay row into compact lifecycle inputs and compares expected lifecycle/delivery states against engine output.
+
+It writes optional JSON and Markdown replay reports when `--out-dir` is supplied. A replay `MISMATCH` exits with code `1` so CI can catch regressions.
+
+The replay harness does not connect to live feeds, dashboards, brokers, or alert bridges.
+
 ## Generate the Markdown report
 
 ```bash
