@@ -26,6 +26,7 @@ jobs:
       - run: python -m xau_lfx.pipeline replay-event-log --event-log data/events/event_replay_template.csv --out-dir replay-report
       - run: python -m xau_lfx.validation.case_library_cli --event-log data/events/event_replay_template.csv --out-dir case-library-seed
       - run: python -m xau_lfx.validation.case_index_cli --case-library case-library-seed/case_library_seed.json --out-dir case-index
+      - run: python -m xau_lfx.validation.evidence_pack_cli --case-index case-index/case_index.json --out-dir evidence-pack
       - run: python -m xau_lfx.pipeline report --artifact-dir artifacts --write-md
       - run: python -m xau_lfx.pipeline site --artifact-dir artifacts --out-dir site
       - run: python -m xau_lfx.pipeline demo --out-dir demo-artifacts --site-dir demo-site
