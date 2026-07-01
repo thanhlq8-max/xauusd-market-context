@@ -5,11 +5,27 @@
 [![Release](https://img.shields.io/github/v/release/thanhlq8-max/xauusd-market-context)](https://github.com/thanhlq8-max/xauusd-market-context/releases)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 
-STATUS: OANDA_PRACTICE_LIVE_DASHBOARD
+STATUS: OANDA_PRACTICE_LIVE_DASHBOARD  
 MODE: CONTROL  
 TRADING_MODE: MONITOR_ONLY  
 AUTO_EXECUTION: NO  
 DIRECTIONAL_TRADE_CALLS: NO
+
+## v9 transition note
+
+This repository is being prepared as the GitHub foundation for the **LFX-2 v9.0 — Desk-like Hybrid Research Stack**.
+
+The current package remains `v2.8.0` and continues to operate as a monitor-only market-context sidecar. The v9 cleanup path is non-destructive: it adds project-state governance, roadmap, event dataset design, and future directory boundaries without changing runtime behavior.
+
+Start here for the v9 track:
+
+- [`PROJECT_STATE.md`](PROJECT_STATE.md)
+- [`docs/V9_DESK_LIKE_HYBRID_STACK_ROADMAP.md`](docs/V9_DESK_LIKE_HYBRID_STACK_ROADMAP.md)
+- [`docs/REPO_STRUCTURE_TARGET_v9.md`](docs/REPO_STRUCTURE_TARGET_v9.md)
+- [`docs/EVENT_DATASET_SCHEMA_V9.md`](docs/EVENT_DATASET_SCHEMA_V9.md)
+- [`docs/REPO_CLEANUP_V9.md`](docs/REPO_CLEANUP_V9.md)
+
+The cleanup track does not add Pine source, trading signals, position sizing, broker execution, or profitability claims.
 
 Generate auditable XAUUSD market-context artifacts from local MT5/broker CSV exports, spread snapshots, manual USD event files, or an optional private OANDA v20 Practice dashboard. v2.5.0 adds an artifact contract validator so shared JSON bundles can be checked before downstream inspection. v2.5.1 adds deterministic context-summary snapshot coverage so operator-facing wording changes are intentional. v2.5.2 removes committed patch helper artifacts and blocks generated patch/apply files from release readiness. v2.6.0 adds committed JSON Schema files and validates generated artifacts against them. v2.6.1 adds a packaged built-in schema fallback so wheel installs can validate artifacts without relying on repository-root schema files. v2.7.0 deepens nested schema coverage for existing object and array structures while preserving artifact generation behavior. v2.8.0 adds a package publication readiness gate for package-name and TestPyPI/PyPI decisions without publishing or changing runtime behavior. The package is a monitor-only sidecar for XAU research workflows; it uses the LFX-2 material as a semantic and safety baseline without modifying or reproducing the Pine source.
 
@@ -31,6 +47,7 @@ Most retail XAUUSD workflows depend on one broker feed and opaque indicator outp
 - Produce static HTML/Markdown outputs that can be shared without a backend service.
 - Run a private-host OANDA Practice candle dashboard on a PC and view it from a phone on the same LAN.
 - Maintain a monitor-only workflow that avoids trading-signal, execution, and profitability claims.
+- Prepare v9 event logs, case libraries, and validation reports for LFX-2 behavior-monitoring research.
 
 ## Who this is for
 
@@ -38,15 +55,17 @@ Most retail XAUUSD workflows depend on one broker feed and opaque indicator outp
 - Systematic traders who need source-quality gates before downstream analysis.
 - Tool builders who need a small, static, auditable market-context sidecar.
 - Contributors looking for focused OSS issues around validation, docs, and report quality.
+- LFX-2 operators preparing a validated hybrid Pine + Python workflow.
 
 ## Hard rules
 
-- Does not modify or reproduce the LFX-2 v7.1-F/v7.2-A-R5 Pine source.
 - Does not create order execution, position sizing, or account-risk logic.
 - Does not claim centralized XAUUSD spot orderbook.
 - Does not treat CFD tick activity as centralized traded volume.
 - Does not claim actual dealer inventory or actual retail-side positioning.
 - Does not claim statistical edge or profitability.
+- Does not add or publish Pine source in the v9 cleanup branch.
+- Any future Pine source inclusion must be a separate explicit PR with version, license/publication boundary, and monitor-only validation notes.
 
 ## Install
 
@@ -77,7 +96,6 @@ xau-lfx demo
 ```
 
 The command validates the committed synthetic fixtures, generates JSON and Markdown artifacts, prints their absolute paths, and builds `site/index.html`. Open that file for the static demo used by GitHub Pages.
-
 
 Demo walkthrough:
 
@@ -183,6 +201,9 @@ Only high-impact USD events may cap confidence for XAUUSD, and only as risk cont
 
 ## GitHub adoption resources
 
+- v9 project state: [`PROJECT_STATE.md`](PROJECT_STATE.md)
+- v9 roadmap: [`docs/V9_DESK_LIKE_HYBRID_STACK_ROADMAP.md`](docs/V9_DESK_LIKE_HYBRID_STACK_ROADMAP.md)
+- v9 event schema: [`docs/EVENT_DATASET_SCHEMA_V9.md`](docs/EVENT_DATASET_SCHEMA_V9.md)
 - Demo walkthrough: [`docs/DEMO_WALKTHROUGH.md`](docs/DEMO_WALKTHROUGH.md)
 - Practical Zone Deck guide: [`docs/PRACTICAL_ZONE_DECK.md`](docs/PRACTICAL_ZONE_DECK.md)
 - Adoption guide: [`docs/ADOPTION_GUIDE.md`](docs/ADOPTION_GUIDE.md)
