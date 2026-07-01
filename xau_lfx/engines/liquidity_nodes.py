@@ -64,6 +64,10 @@ class NodeCluster:
     upper_price: float
     score: float
 
+    @property
+    def node_count(self) -> int:
+        return len(self.nodes)
+
 
 def _clamp_01(value: float) -> float:
     return min(1.0, max(0.0, float(value)))
@@ -208,6 +212,6 @@ def serialize_cluster(cluster: NodeCluster) -> dict[str, Any]:
         "upper_price": cluster.upper_price,
         "score": cluster.score,
         "node_ids": [node.node_id for node in cluster.nodes],
-        "node_count": len(cluster.nodes),
+        "node_count": cluster.node_count,
         "monitor_only": True,
     }
