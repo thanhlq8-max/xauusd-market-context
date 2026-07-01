@@ -28,6 +28,7 @@ from xau_lfx.reports.market_context_report import write_market_context_report
 from xau_lfx.reports.static_site import write_static_site
 from xau_lfx.utils import write_json
 from xau_lfx.validation.event_log import validate_event_log
+from xau_lfx.validation.event_replay import replay_event_log, write_replay_report
 
 
 RUN_ARTIFACT_KEYS = (
@@ -188,6 +189,13 @@ def main() -> None:
     )
     validate_event_log_parser.add_argument("--event-log", required=True)
 
+    replay_event_log_parser = sub.add_parser(
+        "replay-event-log",
+        help="Replay a v9 event log through compact lifecycle primitives.",
+    )
+    replay_event_log_parser.add_argument("--event-log", required=True)
+    replay_event_log_parser.add_argument("--out-dir", default=None)
+
     site_parser = sub.add_parser("site")
     site_parser.add_argument("--artifact-dir", default="artifacts")
     site_parser.add_argument("--out-dir", default="site")
@@ -224,6 +232,14 @@ def main() -> None:
         result = validate_event_log(args.event_log)
         print(json.dumps(result, indent=2, ensure_ascii=False))
         if result["status"] == "ERROR":
+            raise SystemExit(1)
+    elif args.command == "replay-event-log":
+        result = replay_event_log(args.event_log)
+        if args.out_dir:
+            report_paths = write_replay_report(result, args.out_dir)
+            result = {**result, "report_paths": report_paths}
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        if result["status"] in {"ERROR", "MISMATCH"}:
             raise SystemExit(1)
     elif args.command == "site":
         index_path = write_static_site(artifact_dir=args.artifact_dir, out_dir=args.out_dir)
