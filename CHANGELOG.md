@@ -1,5 +1,29 @@
 # Changelog
 
+## Unreleased - v9 cleanup foundation
+
+### Added
+
+- Added root `PROJECT_STATE.md` for the LFX-2 v9 repository-governance track.
+- Added `docs/V9_DESK_LIKE_HYBRID_STACK_ROADMAP.md` for the hybrid Pine + Python + validation roadmap.
+- Added `docs/REPO_STRUCTURE_TARGET_v9.md` to define future repository layout without moving current runtime modules.
+- Added `docs/EVENT_DATASET_SCHEMA_V9.md` as a draft event-log schema for forward validation.
+- Added `docs/REPO_CLEANUP_V9.md` documenting the non-destructive cleanup decision.
+- Added placeholder boundary READMEs under `data/`, `pine/`, `research/`, and `bridges/`.
+
+### Changed
+
+- Expanded `.gitignore` for local v9 research data, generated reports, patch/archive scratch files, and notebook checkpoints.
+- Updated README navigation with v9 transition links and monitor-only boundaries.
+
+### Preserved
+
+- No package version change.
+- No runtime calculation changes.
+- No CSV ingestion, OANDA Practice dashboard, report, site, context-summary, schema validation, or artifact-generation behavior changes.
+- No Pine source import.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## v2.8.0 - Package publication preflight
 
 ### Added
