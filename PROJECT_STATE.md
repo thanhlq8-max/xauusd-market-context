@@ -1,6 +1,6 @@
 # PROJECT_STATE — XAUUSD Market Context / LFX-2 v9 Foundation
 
-STATUS: V9_LIQUIDITY_NODE_GRAPH_SCHEMA_BRANCH
+STATUS: V9_NODE_GRAPH_REPLAY_INTEGRATION_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
@@ -21,7 +21,7 @@ STATISTICAL_EDGE_CLAIM: NO
 
 This repository is being prepared as the GitHub foundation for a hybrid LFX-2 research/tooling stack.
 
-The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, liquidity node schema, and future extension points without changing market-context artifact generation behavior.
+The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, liquidity node schema, node graph replay reports, and future extension points without changing market-context artifact generation behavior.
 
 Current locked LFX-2 Pine reference outside this repository:
 
@@ -94,7 +94,7 @@ The correct near-term use is:
 - validate event logs before building replay/dashboards;
 - port compact lifecycle primitives only under tests;
 - replay logged rows against compact lifecycle outputs;
-- add liquidity node objects outside Pine only after replay scaffold exists;
+- build liquidity node graph reports from replay-validated rows;
 - keep future alert bridges monitor-only.
 
 ---
@@ -108,7 +108,8 @@ The correct near-term use is:
 | Event dataset schema | Validator added in v9.0-B | No data inference claim |
 | Compact lifecycle engine | Added in v9.0-C | Isolated tested primitives |
 | Event replay harness | Added in v9.0-D | CLI/report only; no live connection |
-| Liquidity node graph | Added in v9.0-E branch | Schema/scoring only; no live connection |
+| Liquidity node graph | Added in v9.0-E | Schema/scoring only; no live connection |
+| Node graph replay integration | Added in v9.0-F branch | Offline report only; no live connection |
 | Research notebooks/reports | Future | Must use generated/logged data |
 | Alert bridge | Future | Monitor-only alerts first; no execution |
 
@@ -116,15 +117,15 @@ The correct near-term use is:
 
 ## 6. Current branch scope
 
-This branch implements Gate E liquidity-node schema scaffolding.
+This branch implements Gate F node graph replay integration.
 
 Allowed in this branch:
 
-- add `xau_lfx.engines.liquidity_nodes`;
-- define `LiquidityNode`, `NodeReaction`, and `NodeCluster`;
-- add reaction update primitive;
-- add node quality scoring skeleton;
-- add price-band clustering primitive;
+- add `xau_lfx.validation.node_graph_replay`;
+- build LiquidityNode updates from replay-validated rows;
+- derive NodeReaction from lifecycle/delivery states;
+- generate node and cluster report payloads;
+- write JSON/Markdown node graph reports;
 - add tests and documentation.
 
 Forbidden in this branch:
@@ -182,23 +183,30 @@ Status: COMPLETE / MERGED SCAFFOLD.
 
 ### Gate E — Liquidity node graph schema
 
-Status: IN PROGRESS.
+Status: COMPLETE / MERGED SCAFFOLD.
 
-- define node object;
-- define historical reaction fields;
-- define node scoring skeleton;
-- define clustering primitive;
-- keep node graph outside live operation.
+- node object exists;
+- historical reaction fields exist;
+- node scoring skeleton exists;
+- clustering primitive exists;
+- node graph remains outside live operation.
 
 ### Gate F — Node graph replay integration
 
-Status: FUTURE.
+Status: IN PROGRESS.
 
 - update nodes from replay rows;
 - generate node/cluster reports;
 - keep reports descriptive and monitor-only.
 
-### Gate G — Alert bridge
+### Gate G — Node graph quality report / case library seed
+
+Status: FUTURE.
+
+- build curated case summaries from replay and node graph outputs;
+- keep case library descriptive and evidence-based.
+
+### Gate H — Alert bridge
 
 Status: FUTURE.
 
@@ -210,8 +218,8 @@ Status: FUTURE.
 ## 8. Current decision
 
 ```text
-DECISION: Add liquidity node graph schema as v9.0-E scaffold.
-PATCH_TYPE: isolated schema module + tests + docs.
+DECISION: Add node graph replay integration as v9.0-F scaffold.
+PATCH_TYPE: offline node graph report module + tests + docs.
 RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
 NEXT_ACTION: run CI, review PR, merge if clean.
 ```
