@@ -1,6 +1,6 @@
 # PROJECT_STATE — XAUUSD Market Context / LFX-2 v9 Foundation
 
-STATUS: V9_COMPACT_LIFECYCLE_ENGINE_BRANCH
+STATUS: V9_EVENT_REPLAY_HARNESS_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
@@ -21,7 +21,7 @@ STATISTICAL_EDGE_CLAIM: NO
 
 This repository is being prepared as the GitHub foundation for a hybrid LFX-2 research/tooling stack.
 
-The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, and future extension points without changing market-context artifact generation behavior.
+The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, and future extension points without changing market-context artifact generation behavior.
 
 Current locked LFX-2 Pine reference outside this repository:
 
@@ -93,6 +93,7 @@ The correct near-term use is:
 - keep the existing CSV/OANDA artifact pipeline stable;
 - validate event logs before building replay/dashboards;
 - port compact lifecycle primitives only under tests;
+- replay logged rows against compact lifecycle outputs;
 - compare Pine logs and Python lifecycle outputs before any live connection;
 - keep future alert bridges monitor-only.
 
@@ -105,7 +106,8 @@ The correct near-term use is:
 | Pine monitor | External locked reference | Do not import in this branch |
 | Python artifact sidecar | Existing | Preserve artifact-generation behavior |
 | Event dataset schema | Validator added in v9.0-B | No data inference claim |
-| Compact lifecycle engine | Added in v9.0-C branch | Tests only; not connected to pipeline |
+| Compact lifecycle engine | Added in v9.0-C | Isolated tested primitives |
+| Event replay harness | Added in v9.0-D branch | CLI/report only; no live connection |
 | Liquidity node graph | Future | Implement after replay harness |
 | Research notebooks/reports | Future | Must use generated/logged data |
 | Alert bridge | Future | Monitor-only alerts first; no execution |
@@ -114,20 +116,22 @@ The correct near-term use is:
 
 ## 6. Current branch scope
 
-This branch implements Gate C primitive engine scaffolding.
+This branch implements Gate D replay validation scaffolding.
 
 Allowed in this branch:
 
-- add `xau_lfx.engines.compact_lifecycle`;
-- add deterministic dataclasses for candle, liquidity level, lifecycle, route, and delivery health;
-- add unit tests for lifecycle and delivery states;
-- add compact lifecycle engine documentation;
-- update project state and changelog.
+- add `xau_lfx.validation.event_replay`;
+- add `xau-lfx replay-event-log`;
+- add committed synthetic replay template;
+- add JSON/Markdown replay report writer;
+- add replay harness tests;
+- add CI replay step;
+- update CLI docs, project state, and changelog.
 
 Forbidden in this branch:
 
 - change market-context artifact generation behavior;
-- connect compact lifecycle to live pipeline;
+- connect replay harness to live pipeline;
 - move existing modules;
 - delete current docs/tests/examples;
 - add Pine source;
@@ -160,22 +164,31 @@ Status: COMPLETE / MERGED SCAFFOLD.
 
 ### Gate C — Python engine port
 
-Status: IN PROGRESS.
+Status: COMPLETE / MERGED SCAFFOLD.
 
-- compact lifecycle primitives added;
-- route target and delivery health skeleton added;
-- tests required before merge;
+- compact lifecycle primitives exist;
+- route target and delivery health skeleton exist;
+- tests cover core lifecycle and delivery states;
 - not connected to dashboard/live pipeline.
 
 ### Gate D — Logged event replay harness
 
-Status: FUTURE.
+Status: IN PROGRESS.
 
 - compare event-log rows with compact lifecycle outputs;
 - generate mismatch reports;
-- keep reports descriptive and monitor-only.
+- keep reports descriptive and monitor-only;
+- fail CI on replay mismatch.
 
-### Gate E — Alert bridge
+### Gate E — Liquidity node graph schema
+
+Status: FUTURE.
+
+- define node object;
+- define historical reaction fields;
+- no live operation until replay validation is stable.
+
+### Gate F — Alert bridge
 
 Status: FUTURE.
 
@@ -187,8 +200,8 @@ Status: FUTURE.
 ## 8. Current decision
 
 ```text
-DECISION: Add compact lifecycle engine primitives as v9.0-C scaffold.
-PATCH_TYPE: isolated engine module + tests + docs.
+DECISION: Add logged event replay harness as v9.0-D scaffold.
+PATCH_TYPE: validation replay CLI + reports + tests + docs.
 RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
 NEXT_ACTION: run CI, review PR, merge if clean.
 ```
