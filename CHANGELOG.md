@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased - v9 compact lifecycle engine
+
+### Added
+
+- Added `xau_lfx.engines.compact_lifecycle` with tested lifecycle primitives for v9 research validation.
+- Added dataclasses for `Candle`, `LiquidityLevel`, `SweepLifecycle`, `RouteCandidate`, `DeliveryHealth`, and `LifecycleSnapshot`.
+- Added compact behavior functions for level interaction, lifecycle classification, route target selection, and delivery health.
+- Added `tests/test_compact_lifecycle.py` covering no interaction, reclaim, accept, route target, active, stall, counterflow, fail, target-hit, and monitor-only snapshot cases.
+- Added `docs/COMPACT_LIFECYCLE_ENGINE_V9.md` as the module contract.
+
+### Preserved
+
+- No package version change.
+- No artifact-generation behavior change.
+- No OANDA Practice dashboard behavior change.
+- No event-log validator behavior change.
+- No Pine source import.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## Unreleased - v9 event log validator
 
 ### Added

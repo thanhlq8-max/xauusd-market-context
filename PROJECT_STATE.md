@@ -1,6 +1,6 @@
 # PROJECT_STATE — XAUUSD Market Context / LFX-2 v9 Foundation
 
-STATUS: V9_EVENT_LOG_VALIDATION_BRANCH
+STATUS: V9_COMPACT_LIFECYCLE_ENGINE_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
@@ -21,7 +21,7 @@ STATISTICAL_EDGE_CLAIM: NO
 
 This repository is being prepared as the GitHub foundation for a hybrid LFX-2 research/tooling stack.
 
-The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, and future extension points without changing market-context artifact generation behavior.
+The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, and future extension points without changing market-context artifact generation behavior.
 
 Current locked LFX-2 Pine reference outside this repository:
 
@@ -91,11 +91,10 @@ Hybrid MM-behavior research and validation toolkit.
 The correct near-term use is:
 
 - keep the existing CSV/OANDA artifact pipeline stable;
-- add v9 documentation and data schema;
-- define future module boundaries;
-- collect forward-validation cases;
-- validate event logs before building Python lifecycle modules;
-- only port Pine logic into Python modules after schema and validation contracts are locked.
+- validate event logs before building replay/dashboards;
+- port compact lifecycle primitives only under tests;
+- compare Pine logs and Python lifecycle outputs before any live connection;
+- keep future alert bridges monitor-only.
 
 ---
 
@@ -106,7 +105,8 @@ The correct near-term use is:
 | Pine monitor | External locked reference | Do not import in this branch |
 | Python artifact sidecar | Existing | Preserve artifact-generation behavior |
 | Event dataset schema | Validator added in v9.0-B | No data inference claim |
-| Liquidity node graph | Future | Implement only after event schema lock |
+| Compact lifecycle engine | Added in v9.0-C branch | Tests only; not connected to pipeline |
+| Liquidity node graph | Future | Implement after replay harness |
 | Research notebooks/reports | Future | Must use generated/logged data |
 | Alert bridge | Future | Monitor-only alerts first; no execution |
 
@@ -114,19 +114,20 @@ The correct near-term use is:
 
 ## 6. Current branch scope
 
-This branch implements Gate B validation scaffolding.
+This branch implements Gate C primitive engine scaffolding.
 
 Allowed in this branch:
 
-- add `xau_lfx.validation.event_log`;
-- add `xau-lfx validate-event-log`;
-- add committed synthetic event-log template;
-- add tests and CI coverage;
-- update event schema and CLI docs.
+- add `xau_lfx.engines.compact_lifecycle`;
+- add deterministic dataclasses for candle, liquidity level, lifecycle, route, and delivery health;
+- add unit tests for lifecycle and delivery states;
+- add compact lifecycle engine documentation;
+- update project state and changelog.
 
 Forbidden in this branch:
 
 - change market-context artifact generation behavior;
+- connect compact lifecycle to live pipeline;
 - move existing modules;
 - delete current docs/tests/examples;
 - add Pine source;
@@ -150,23 +151,31 @@ Status: COMPLETE / MERGED.
 
 ### Gate B — Validation dataset
 
-Status: IN PROGRESS.
+Status: COMPLETE / MERGED SCAFFOLD.
 
-- create logged event cases from live sessions;
-- record MFE/MAE/time-to-resolution;
-- separate screenshots from derived metrics;
-- avoid edge/profit claims until sample is sufficient;
-- validate event logs with `xau-lfx validate-event-log`.
+- event log schema exists;
+- committed synthetic template exists;
+- `xau-lfx validate-event-log` exists;
+- CI validates the event-log template.
 
 ### Gate C — Python engine port
 
+Status: IN PROGRESS.
+
+- compact lifecycle primitives added;
+- route target and delivery health skeleton added;
+- tests required before merge;
+- not connected to dashboard/live pipeline.
+
+### Gate D — Logged event replay harness
+
 Status: FUTURE.
 
-- port only compact v8.1-D lifecycle primitives;
-- keep Pine and Python output comparable;
-- add tests before any dashboard claims.
+- compare event-log rows with compact lifecycle outputs;
+- generate mismatch reports;
+- keep reports descriptive and monitor-only.
 
-### Gate D — Alert bridge
+### Gate E — Alert bridge
 
 Status: FUTURE.
 
@@ -178,8 +187,8 @@ Status: FUTURE.
 ## 8. Current decision
 
 ```text
-DECISION: Add event-log validation as v9.0-B scaffold.
-PATCH_TYPE: validation CLI + tests + docs.
+DECISION: Add compact lifecycle engine primitives as v9.0-C scaffold.
+PATCH_TYPE: isolated engine module + tests + docs.
 RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
 NEXT_ACTION: run CI, review PR, merge if clean.
 ```
