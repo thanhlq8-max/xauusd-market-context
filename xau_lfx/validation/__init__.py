@@ -1,5 +1,6 @@
 """Validation helpers for the v9 research stack."""
 
+from xau_lfx.validation.case_index import build_case_index, write_case_index
 from xau_lfx.validation.case_library import build_case_library_from_replay, write_case_library
 from xau_lfx.validation.event_log import validate_event_log
 from xau_lfx.validation.event_replay import replay_event_log, write_replay_report
@@ -13,4 +14,6 @@ __all__ = [
     "write_node_graph_report",
     "build_case_library_from_replay",
     "write_case_library",
+    "build_case_index",
+    "write_case_index",
 ]

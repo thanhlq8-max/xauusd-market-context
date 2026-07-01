@@ -1,5 +1,27 @@
 # Changelog
 
+## Unreleased - v9 case library index review workflow
+
+### Added
+
+- Added `xau_lfx.validation.case_index` for offline review indexing over generated case-library seed artifacts.
+- Added `xau_lfx.validation.case_index_cli` command boundary.
+- Added review statuses: `NEW`, `REVIEWED`, `ACCEPTED`, `REJECTED`, and `NEEDS_DATA`.
+- Added descriptive review priorities: `HIGH`, `MEDIUM`, and `LOW`.
+- Added JSON and Markdown index writer for `case_index.json` and `case_index.md`.
+- Added `tests/test_case_index.py` and `tests/test_case_index_cli.py`.
+- Added CI coverage for building the case review index from generated case-library seed output.
+- Added `docs/CASE_LIBRARY_INDEX_REVIEW_WORKFLOW_V9.md` as the review-index contract.
+
+### Preserved
+
+- No package version change.
+- No main market-context artifact-generation behavior change.
+- No OANDA Practice dashboard behavior change.
+- No Pine source import.
+- No live pipeline connection.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## Unreleased - v9 case library CLI artifact boundary
 
 ### Added
