@@ -10,16 +10,46 @@ __pycache__/
 build/
 dist/
 site/
+demo-site/
+demo-artifacts/
 
 # Local runtime artifacts
 artifacts/
+reports/
 *.db
 *.sqlite
+*.sqlite3
+*.log
 
-# Environments
+# V9 research data outputs
+# Keep committed fixtures under examples/. Keep raw/private research data local.
+data/raw/
+data/processed/
+data/private/
+data/events/*.csv
+data/events/*.jsonl
+*.parquet
+*.feather
+*.arrow
+
+# Notebook/runtime scratch
+.ipynb_checkpoints/
+research/.ipynb_checkpoints/
+
+# Patch/archive scratch
+*.patch
+*.diff
+*.rej
+*.orig
+*.zip
+*.tar
+*.tar.gz
+
+# Environments / credentials
 .venv/
 .env
 .env.*
+!.env.example
 
 # OS / IDE
 .DS_Store
