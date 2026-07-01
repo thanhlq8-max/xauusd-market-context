@@ -27,6 +27,7 @@ from xau_lfx.forbidden_language import assert_clean_language
 from xau_lfx.reports.market_context_report import write_market_context_report
 from xau_lfx.reports.static_site import write_static_site
 from xau_lfx.utils import write_json
+from xau_lfx.validation.event_log import validate_event_log
 
 
 RUN_ARTIFACT_KEYS = (
@@ -181,6 +182,12 @@ def main() -> None:
     validate_artifacts_parser = sub.add_parser("validate-artifacts")
     validate_artifacts_parser.add_argument("--artifact-dir", default="artifacts")
 
+    validate_event_log_parser = sub.add_parser(
+        "validate-event-log",
+        help="Validate a v9 forward-validation event log CSV.",
+    )
+    validate_event_log_parser.add_argument("--event-log", required=True)
+
     site_parser = sub.add_parser("site")
     site_parser.add_argument("--artifact-dir", default="artifacts")
     site_parser.add_argument("--out-dir", default="site")
@@ -210,6 +217,11 @@ def main() -> None:
         print(report if not args.write_md else str(artifact_paths(args.artifact_dir)["market_context_report"]))
     elif args.command == "validate-artifacts":
         result = validate_artifact_contract(args.artifact_dir)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        if result["status"] == "ERROR":
+            raise SystemExit(1)
+    elif args.command == "validate-event-log":
+        result = validate_event_log(args.event_log)
         print(json.dumps(result, indent=2, ensure_ascii=False))
         if result["status"] == "ERROR":
             raise SystemExit(1)
