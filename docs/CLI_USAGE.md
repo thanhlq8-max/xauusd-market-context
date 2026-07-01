@@ -118,6 +118,22 @@ The command checks generated JSON artifacts against the package artifact contrac
 
 Validation failure exits with code `1`.
 
+## Validate v9 event logs
+
+```bash
+xau-lfx validate-event-log --event-log data/events/event_log_template.csv
+```
+
+The command checks a forward-validation CSV against the v9 event dataset contract:
+
+- required columns are present;
+- timestamps include timezone information;
+- state enums are compatible with the monitor-only workflow;
+- sensitive columns such as token/account/position-size fields are rejected;
+- impossible terminal-state combinations are rejected.
+
+The validator does not score predictive usefulness and does not infer direction.
+
 ## Generate the Markdown report
 
 ```bash
