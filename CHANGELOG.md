@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased - v9 liquidity node graph schema
+
+### Added
+
+- Added `xau_lfx.engines.liquidity_nodes` with liquidity node graph schema primitives.
+- Added `LiquidityNode`, `NodeReaction`, and `NodeCluster` dataclasses.
+- Added node ID normalization, reaction update, freshness aging, quality scoring, serialization, and price-band clustering helpers.
+- Added `tests/test_liquidity_nodes.py` covering node creation, reaction updates, scoring, aging, serialization, clustering, and invalid input guards.
+- Added `docs/LIQUIDITY_NODE_GRAPH_V9.md` as the node graph schema contract.
+
+### Preserved
+
+- No package version change.
+- No artifact-generation behavior change.
+- No OANDA Practice dashboard behavior change.
+- No replay harness behavior change.
+- No Pine source import.
+- No live pipeline connection.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## Unreleased - v9 event replay harness
 
 ### Added
