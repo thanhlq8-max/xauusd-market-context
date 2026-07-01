@@ -1,5 +1,23 @@
 # Changelog
 
+## Unreleased - v9 event log validator
+
+### Added
+
+- Added `xau_lfx.validation.event_log` with a v9 forward-validation event-log CSV validator.
+- Added `xau-lfx validate-event-log --event-log <path>` CLI command.
+- Added committed `data/events/event_log_template.csv` synthetic template.
+- Added tests for valid templates, missing required columns, sensitive columns, delivery-state conflicts, and warning states.
+- Added CI coverage for validating the committed event-log template.
+
+### Preserved
+
+- No package version change.
+- No artifact-generation behavior change.
+- No OANDA Practice dashboard behavior change.
+- No Pine source import.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## Unreleased - v9 cleanup foundation
 
 ### Added
