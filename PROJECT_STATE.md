@@ -1,6 +1,6 @@
 # PROJECT_STATE — XAUUSD Market Context / LFX-2 v9 Foundation
 
-STATUS: V9_CASE_LIBRARY_CLI_ARTIFACT_BOUNDARY_BRANCH
+STATUS: V9_CASE_LIBRARY_INDEX_REVIEW_WORKFLOW_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
@@ -21,7 +21,7 @@ STATISTICAL_EDGE_CLAIM: NO
 
 This repository is being prepared as the GitHub foundation for a hybrid LFX-2 research/tooling stack.
 
-The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, liquidity node schema, node graph replay reports, case library seeds, offline case-library CLI boundary, and future extension points without changing market-context artifact generation behavior.
+The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, liquidity node schema, node graph replay reports, case library seeds, offline case-library CLI boundary, case review index, and future extension points without changing market-context artifact generation behavior.
 
 Current locked LFX-2 Pine reference outside this repository:
 
@@ -97,6 +97,7 @@ The correct near-term use is:
 - build liquidity node graph reports from replay-validated rows;
 - seed case-library summaries from node graph outputs;
 - expose case-library seed generation through an offline CLI boundary;
+- build offline case review index from generated case-library seeds;
 - keep future alert bridges monitor-only.
 
 ---
@@ -113,7 +114,8 @@ The correct near-term use is:
 | Liquidity node graph | Added in v9.0-E | Schema/scoring only; no live connection |
 | Node graph replay integration | Added in v9.0-F | Offline report only; no live connection |
 | Case library seed | Added in v9.0-G | Offline evidence summary only |
-| Case library CLI boundary | Added in v9.0-H branch | Explicit offline command only |
+| Case library CLI boundary | Added in v9.0-H | Explicit offline command only |
+| Case library index | Added in v9.0-I branch | Offline review workflow only |
 | Research notebooks/reports | Future | Must use generated/logged data |
 | Alert bridge | Future | Monitor-only alerts first; no execution |
 
@@ -121,24 +123,23 @@ The correct near-term use is:
 
 ## 6. Current branch scope
 
-This branch implements Gate H case-library CLI / artifact boundary.
+This branch implements Gate I case-library index / review workflow.
 
 Allowed in this branch:
 
-- add `xau_lfx.validation.case_library_cli`;
-- expose case-library seed generation through `python -m xau_lfx.validation.case_library_cli`;
-- write JSON/Markdown case-library seed outputs to explicit operator-selected `--out-dir`;
-- add tests for CLI success and error behavior;
-- add CI coverage and documentation.
+- add `xau_lfx.validation.case_index`;
+- add `xau_lfx.validation.case_index_cli`;
+- build case index from case-library seed JSON;
+- add review statuses `NEW`, `REVIEWED`, `ACCEPTED`, `REJECTED`, `NEEDS_DATA`;
+- preserve reviewer notes boundary;
+- write `case_index.json` and `case_index.md`;
+- add tests and documentation.
 
 Forbidden in this branch:
 
 - change market-context artifact generation behavior;
-- connect case library to live pipeline;
-- connect case library to alert bridge;
-- add `xau-lfx` main-pipeline command if it creates runtime coupling;
-- move existing modules;
-- delete current docs/tests/examples;
+- connect case index to live pipeline;
+- connect case index to alert bridge;
 - add Pine source;
 - add trading signal semantics;
 - add broker execution;
@@ -152,73 +153,50 @@ Forbidden in this branch:
 
 Status: COMPLETE / MERGED.
 
-- v9 roadmap exists.
-- repo structure target exists.
-- event schema draft exists.
-- cleanup audit exists.
-- CI passed before merge.
-
 ### Gate B — Validation dataset
 
 Status: COMPLETE / MERGED SCAFFOLD.
-
-- event log schema exists;
-- committed synthetic template exists;
-- `xau-lfx validate-event-log` exists;
-- CI validates the event-log template.
 
 ### Gate C — Python engine port
 
 Status: COMPLETE / MERGED SCAFFOLD.
 
-- compact lifecycle primitives exist;
-- route target and delivery health skeleton exist;
-- tests cover core lifecycle and delivery states;
-- not connected to dashboard/live pipeline.
-
 ### Gate D — Logged event replay harness
 
 Status: COMPLETE / MERGED SCAFFOLD.
-
-- replay compares event-log rows with compact lifecycle outputs;
-- replay report exists;
-- CI fails on replay mismatch;
-- still no live connection.
 
 ### Gate E — Liquidity node graph schema
 
 Status: COMPLETE / MERGED SCAFFOLD.
 
-- node object exists;
-- historical reaction fields exist;
-- node scoring skeleton exists;
-- clustering primitive exists;
-- node graph remains outside live operation.
-
 ### Gate F — Node graph replay integration
 
 Status: COMPLETE / MERGED SCAFFOLD.
-
-- node updates from replay rows exist;
-- node/cluster reports exist;
-- reports remain descriptive and monitor-only.
 
 ### Gate G — Node graph quality report / case library seed
 
 Status: COMPLETE / MERGED SCAFFOLD.
 
-- curated case summaries from replay and node graph outputs exist;
-- case library remains descriptive and evidence-based.
-
 ### Gate H — Case library CLI / artifact boundary
+
+Status: COMPLETE / MERGED SCAFFOLD.
+
+### Gate I — Case library index / review workflow
 
 Status: IN PROGRESS.
 
-- expose case-library generation as an explicit offline command;
-- keep output under explicit artifact boundary;
+- build offline review index from case-library seeds;
+- keep review workflow descriptive and monitor-only.
+
+### Gate J — Case review batch workflow / evidence pack
+
+Status: FUTURE.
+
+- group cases by review status;
+- build evidence pack for manual review;
 - no live dashboard connection.
 
-### Gate I — Alert bridge
+### Gate K — Alert bridge
 
 Status: FUTURE.
 
@@ -230,8 +208,8 @@ Status: FUTURE.
 ## 8. Current decision
 
 ```text
-DECISION: Add case library CLI / artifact boundary as v9.0-H scaffold.
-PATCH_TYPE: offline CLI module + tests + docs + CI.
+DECISION: Add case-library index / review workflow as v9.0-I scaffold.
+PATCH_TYPE: offline index module + CLI + tests + docs + CI.
 RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
 NEXT_ACTION: run CI, review PR, merge if clean.
 ```
