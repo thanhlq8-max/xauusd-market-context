@@ -1,5 +1,25 @@
 # Changelog
 
+## Unreleased - v9 node graph replay integration
+
+### Added
+
+- Added `xau_lfx.validation.node_graph_replay` for offline node graph reporting from replay-validated event rows.
+- Added node update derivation from trigger/source/price fields and lifecycle/delivery states.
+- Added JSON and Markdown node graph report writer.
+- Added `tests/test_node_graph_replay.py` covering successful node graph builds, replay rejection, mismatch rejection, and report writing.
+- Added `docs/NODE_GRAPH_REPLAY_INTEGRATION_V9.md` as the node graph replay integration contract.
+
+### Preserved
+
+- No package version change.
+- No artifact-generation behavior change.
+- No OANDA Practice dashboard behavior change.
+- No replay harness behavior change.
+- No Pine source import.
+- No live pipeline connection.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## Unreleased - v9 liquidity node graph schema
 
 ### Added
