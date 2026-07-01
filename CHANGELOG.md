@@ -1,5 +1,26 @@
 # Changelog
 
+## Unreleased - v9 event replay harness
+
+### Added
+
+- Added `xau_lfx.validation.event_replay` with logged event replay against compact lifecycle primitives.
+- Added `xau-lfx replay-event-log --event-log <path> --out-dir <path>` CLI command.
+- Added committed `data/events/event_replay_template.csv` synthetic replay template.
+- Added JSON and Markdown replay report writer.
+- Added `tests/test_event_replay.py` covering template replay, missing replay columns, mismatches, and report writing.
+- Added CI coverage for replaying the committed replay template.
+- Added `docs/EVENT_REPLAY_HARNESS_V9.md` as the replay harness contract.
+
+### Preserved
+
+- No package version change.
+- No artifact-generation behavior change.
+- No OANDA Practice dashboard behavior change.
+- No Pine source import.
+- No live pipeline connection.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## Unreleased - v9 compact lifecycle engine
 
 ### Added
