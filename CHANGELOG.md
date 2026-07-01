@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased - v9 case library CLI artifact boundary
+
+### Added
+
+- Added `xau_lfx.validation.case_library_cli` as an explicit offline command boundary for case-library seed generation.
+- Added `python -m xau_lfx.validation.case_library_cli --event-log <path> --out-dir <path>` command coverage.
+- Added CI coverage for building case-library seed artifacts from the committed replay template.
+- Added `tests/test_case_library_cli.py` covering successful output writing and non-zero error behavior.
+- Added `docs/CASE_LIBRARY_CLI_ARTIFACT_BOUNDARY_V9.md` as the CLI/artifact boundary contract.
+
+### Preserved
+
+- No package version change.
+- No main market-context artifact-generation behavior change.
+- No OANDA Practice dashboard behavior change.
+- No Pine source import.
+- No live pipeline connection.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## Unreleased - v9 case library seed
 
 ### Added
