@@ -1,6 +1,6 @@
 # PROJECT_STATE — XAUUSD Market Context / LFX-2 v9 Foundation
 
-STATUS: V9_REPO_CLEANUP_FOUNDATION_BRANCH
+STATUS: V9_EVENT_LOG_VALIDATION_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
@@ -19,9 +19,9 @@ STATISTICAL_EDGE_CLAIM: NO
 
 ## 1. Purpose
 
-This repository is being cleaned and prepared as the GitHub foundation for a hybrid LFX-2 research/tooling stack.
+This repository is being prepared as the GitHub foundation for a hybrid LFX-2 research/tooling stack.
 
-The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, and future extension points without changing runtime behavior in this cleanup branch.
+The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, and future extension points without changing market-context artifact generation behavior.
 
 Current locked LFX-2 Pine reference outside this repository:
 
@@ -29,7 +29,7 @@ Current locked LFX-2 Pine reference outside this repository:
 LFX-2 v8.1-D — COUNTERFLOW ROUTE ORIGIN TEXT
 ```
 
-This cleanup branch does **not** add or modify the Pine source. Pine source inclusion requires a separate explicit PR and must preserve the monitor-only contract.
+This branch does **not** add or modify the Pine source. Pine source inclusion requires a separate explicit PR and must preserve the monitor-only contract.
 
 ---
 
@@ -69,7 +69,7 @@ The repository must support those questions through auditable data, logs, and do
 - No claim of real retail positioning.
 - No claim of statistical edge without a formal logged validation dataset.
 - No claim of guaranteed profit.
-- No hidden behavior change under documentation cleanup.
+- No hidden behavior change under documentation or validation cleanup.
 - No deletion or file moves without a separate cleanup PR listing exact paths.
 
 ---
@@ -94,6 +94,7 @@ The correct near-term use is:
 - add v9 documentation and data schema;
 - define future module boundaries;
 - collect forward-validation cases;
+- validate event logs before building Python lifecycle modules;
 - only port Pine logic into Python modules after schema and validation contracts are locked.
 
 ---
@@ -102,64 +103,72 @@ The correct near-term use is:
 
 | Layer | Status | Rule |
 |---|---|---|
-| Pine monitor | External locked reference | Do not import in this cleanup branch |
-| Python artifact sidecar | Existing | Preserve runtime behavior |
-| Event dataset schema | Added as documentation | No data inference claim |
+| Pine monitor | External locked reference | Do not import in this branch |
+| Python artifact sidecar | Existing | Preserve artifact-generation behavior |
+| Event dataset schema | Validator added in v9.0-B | No data inference claim |
 | Liquidity node graph | Future | Implement only after event schema lock |
 | Research notebooks/reports | Future | Must use generated/logged data |
 | Alert bridge | Future | Monitor-only alerts first; no execution |
 
 ---
 
-## 6. Current cleanup scope
+## 6. Current branch scope
 
-This branch is documentation and repository hygiene only.
+This branch implements Gate B validation scaffolding.
 
 Allowed in this branch:
 
-- add project-state pointer;
-- add v9 roadmap;
-- add target repo structure;
-- add event schema draft;
-- add local artifact ignore rules;
-- add placeholder README files for future directories;
-- update README navigation.
+- add `xau_lfx.validation.event_log`;
+- add `xau-lfx validate-event-log`;
+- add committed synthetic event-log template;
+- add tests and CI coverage;
+- update event schema and CLI docs.
 
 Forbidden in this branch:
 
-- change Python package behavior;
+- change market-context artifact generation behavior;
 - move existing modules;
 - delete current docs/tests/examples;
 - add Pine source;
 - add trading signal semantics;
+- add broker execution;
 - publish package/release.
 
 ---
 
-## 7. Next development gates
+## 7. Development gates
 
 ### Gate A — Repo foundation
+
+Status: COMPLETE / MERGED.
 
 - v9 roadmap exists.
 - repo structure target exists.
 - event schema draft exists.
 - cleanup audit exists.
-- CI still passes.
+- CI passed before merge.
 
 ### Gate B — Validation dataset
+
+Status: IN PROGRESS.
 
 - create logged event cases from live sessions;
 - record MFE/MAE/time-to-resolution;
 - separate screenshots from derived metrics;
-- avoid edge/profit claims until sample is sufficient.
+- avoid edge/profit claims until sample is sufficient;
+- validate event logs with `xau-lfx validate-event-log`.
 
 ### Gate C — Python engine port
+
+Status: FUTURE.
 
 - port only compact v8.1-D lifecycle primitives;
 - keep Pine and Python output comparable;
 - add tests before any dashboard claims.
 
 ### Gate D — Alert bridge
+
+Status: FUTURE.
 
 - only emit monitor-only states such as `TRACK_RECLAIM`, `TRACK_ACCEPT`, `D_ACTIVE`, `D_STALL`, `D_FAILED`, `TARGET_HIT`;
 - no order placement.
@@ -169,8 +178,8 @@ Forbidden in this branch:
 ## 8. Current decision
 
 ```text
-DECISION: Prepare repository for v9 through non-destructive cleanup.
-PATCH_TYPE: documentation + hygiene only.
-RUNTIME_BEHAVIOR_CHANGED: NO.
-NEXT_ACTION: review PR, run CI, then merge if clean.
+DECISION: Add event-log validation as v9.0-B scaffold.
+PATCH_TYPE: validation CLI + tests + docs.
+RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
+NEXT_ACTION: run CI, review PR, merge if clean.
 ```
