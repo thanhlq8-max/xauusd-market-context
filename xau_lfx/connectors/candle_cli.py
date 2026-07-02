@@ -8,6 +8,7 @@ from typing import Any, Sequence
 
 from xau_lfx.connectors.base import SourceRequest
 from xau_lfx.connectors.mt5_bridge import MT5BridgeConnector
+from xau_lfx.connectors.oanda_http import oanda_http_transport
 from xau_lfx.connectors.oanda_rest import OandaRestConnector
 
 
@@ -30,7 +31,7 @@ def _write_output(payload: dict[str, Any], out_dir: str | Path) -> dict[str, str
 
 def _build_oanda(args: argparse.Namespace):
     token = args.oanda_token or os.getenv("OANDA_TOKEN")
-    transport = _json_transport_from_fixture(args.fixture_json) if args.fixture_json else None
+    transport = _json_transport_from_fixture(args.fixture_json) if args.fixture_json else oanda_http_transport
     return OandaRestConnector(
         token=token,
         api_url=args.oanda_api_url,
