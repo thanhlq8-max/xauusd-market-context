@@ -1,10 +1,10 @@
 # PROJECT_STATE — XAUUSD Market Context / LFX-2 v9.1 Foundation
 
-STATUS: V91_ROLLING_DATASET_QUALITY_BRANCH
+STATUS: V91_LIFECYCLE_CANDIDATE_PROPOSAL_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
-TARGET_DEVELOPMENT_TRACK: v9.1 — Monitor-only Rolling Dataset Quality Report
+TARGET_DEVELOPMENT_TRACK: v9.1 — Rolling Dataset Lifecycle Candidate Proposal
 PRIMARY_MODE: CONTROL
 TARGET_SYMBOL: XAUUSD
 TRADING_MODE: MONITOR_ONLY
@@ -19,18 +19,18 @@ STATISTICAL_EDGE_CLAIM: NO
 
 ## 1. Purpose
 
-This repository has completed the v9.0 offline validation/review governance lock and the v9.1-A through v9.1-F OHLCV ingestion/review dataset scaffolds.
+This repository has completed the v9.0 offline validation/review governance lock and the v9.1-A through v9.1-G OHLCV ingestion/review dataset scaffolds.
 
-The current branch implements v9.1-G as a rolling dataset quality report / coverage summary gate:
+The current branch implements v9.1-H as a proposal-only lifecycle candidate gate:
 
 ```text
-Input: rolling_event_dataset.csv
-Output: rolling_dataset_quality.json / rolling_dataset_quality.md
-Coverage: source, timeframe, session, lifecycle, delivery, terminal, dashboard, trader mode
-Inference: no lifecycle inference
+Input proposal: rolling_event_dataset.csv + rolling_dataset_quality.json
+Output proposal: lifecycle_candidates.json / lifecycle_candidates.md
+Implementation: NO
+Inference: candidate-only proposal, no lifecycle field mutation
 ```
 
-This branch does not implement a daemon loop, notification runtime, default live pipeline wiring, broker actions, Pine import, lifecycle inference, or execution behavior.
+This branch does not implement a daemon loop, notification runtime, default live pipeline wiring, broker actions, Pine import, lifecycle candidate runtime, lifecycle field mutation, or execution behavior.
 
 ---
 
@@ -70,7 +70,7 @@ The repository must support those questions through auditable data, logs, and do
 - No claim of real retail positioning.
 - No claim of statistical edge without a formal logged validation dataset.
 - No claim of guaranteed profit.
-- No hidden behavior change under quality report implementation.
+- No hidden behavior change under proposal documentation.
 
 ---
 
@@ -83,6 +83,7 @@ v9.1-C — OHLCV Fetch CLI / Scheduler Boundary: COMPLETE / MERGED
 v9.1-D — OHLCV Snapshot Validation / Source Freshness Gate: COMPLETE / MERGED
 v9.1-E — OHLCV Snapshot to Event Log Draft Mapper: COMPLETE / MERGED
 v9.1-F — Snapshot Event Log Append Boundary / Rolling Dataset: COMPLETE / MERGED
+v9.1-G — Rolling Dataset Quality Report / Coverage Summary: COMPLETE / MERGED
 ```
 
 ---
@@ -91,21 +92,18 @@ v9.1-F — Snapshot Event Log Append Boundary / Rolling Dataset: COMPLETE / MERG
 
 Allowed in this branch:
 
-- add rolling dataset quality report module;
-- add quality report CLI;
-- validate rolling event dataset before reporting;
-- summarize row count;
-- summarize source coverage;
-- summarize timeframe coverage;
-- summarize session / lifecycle / delivery / terminal / dashboard / trader-mode distribution;
-- summarize placeholder rows;
-- write JSON/Markdown reports;
-- add tests and CI quality-report command.
+- add lifecycle candidate proposal documentation;
+- define candidate-only labels;
+- define evidence requirements;
+- define forbidden mutation / promotion rules;
+- add governance tests for proposal-only and monitor-only boundaries.
 
 Forbidden in this branch:
 
+- implement lifecycle candidate runtime;
 - infer lifecycle / route / delivery behavior from OHLCV;
-- wire quality reporting into default `run-once` behavior;
+- mutate `rolling_event_dataset.csv`;
+- wire proposal into default `run-once` behavior;
 - add long-running daemon loop;
 - implement notification runtime;
 - add broker order actions;
@@ -116,13 +114,13 @@ Forbidden in this branch:
 
 ---
 
-## 6. Quality report rule
+## 6. Candidate proposal rule
 
 ```text
-rolling_event_dataset.csv → rolling_dataset_quality.json / .md
-validate dataset first
-summarize coverage only
-no behavior conclusion
+candidate artifact only
+candidate labels are review hints only
+no automatic lifecycle field overwrite
+human review / patch workflow required before promotion
 ```
 
 ---
@@ -130,9 +128,9 @@ no behavior conclusion
 ## 7. v9.1 next gates
 
 ```text
-v9.1-G: IN PROGRESS — Rolling Dataset Quality Report / Coverage Summary
-v9.1-H: FUTURE — Rolling Dataset Lifecycle Candidate Proposal
-v9.1-I: FUTURE — monitor-only notification bridge implementation requires separate approval
+v9.1-H: IN PROGRESS — Rolling Dataset Lifecycle Candidate Proposal
+v9.1-I: FUTURE — Lifecycle Candidate Artifact Implementation
+v9.1-J: FUTURE — monitor-only notification bridge implementation requires separate approval
 ```
 
 ---
@@ -140,8 +138,8 @@ v9.1-I: FUTURE — monitor-only notification bridge implementation requires sepa
 ## 8. Current decision
 
 ```text
-DECISION: Implement v9.1-G rolling dataset quality report / coverage summary.
-PATCH_TYPE: quality module + CLI + tests + docs + CI.
+DECISION: Add v9.1-H lifecycle candidate proposal.
+PATCH_TYPE: docs + governance tests only.
 RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
 NEXT_ACTION: run CI, review PR, merge if clean.
 ```
