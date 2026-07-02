@@ -53,7 +53,7 @@ class MT5BridgeConnector:
 
     def _rows(self, rates: Any, request: SourceRequest) -> list[dict[str, Any]]:
         rows: list[dict[str, Any]] = []
-        for rate in list(rates or []):
+        for rate in list(rates):
             ts = datetime.fromtimestamp(float(self._field(rate, "time")), tz=timezone.utc)
             rows.append(
                 normalize_candle(
@@ -75,7 +75,7 @@ class MT5BridgeConnector:
         return rows
 
     def fetch(self, request: SourceRequest) -> dict[str, Any]:
-        if self.mt5 is None:
+        if not self.mt5:
             return build_ohlcv_connector_payload(
                 source_id=self.source_id,
                 source_type=self.source_type,
