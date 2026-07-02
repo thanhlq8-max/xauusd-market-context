@@ -35,6 +35,7 @@ jobs:
       - run: python -m xau_lfx.connectors.rolling_event_dataset_cli --draft-csv snapshot-event-log/snapshot_event_log_draft.csv --dataset-csv rolling-dataset/rolling_event_dataset.csv --out-dir rolling-dataset
       - run: python -m xau_lfx.pipeline validate-event-log --event-log rolling-dataset/rolling_event_dataset.csv
       - run: python -m xau_lfx.connectors.rolling_dataset_quality_cli --dataset-csv rolling-dataset/rolling_event_dataset.csv --out-dir rolling-quality
+      - run: python -m xau_lfx.connectors.lifecycle_candidates_cli --dataset-csv rolling-dataset/rolling_event_dataset.csv --quality-json rolling-quality/rolling_dataset_quality.json --out-dir lifecycle-candidates
       - run: python -m xau_lfx.pipeline report --artifact-dir artifacts --write-md
       - run: python -m xau_lfx.pipeline site --artifact-dir artifacts --out-dir site
       - run: python -m xau_lfx.pipeline demo --out-dir demo-artifacts --site-dir demo-site
