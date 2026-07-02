@@ -1,0 +1,9 @@
+{
+  "patches": [
+    {
+      "case_id": "CASE:replay-001",
+      "review_status": "NEEDS_DATA",
+      "reviewer_notes": "Synthetic patch: request screenshot/session confirmation before acceptance."
+    }
+  ]
+}

@@ -1,5 +1,28 @@
 # Changelog
 
+## Unreleased - v9 reviewer notes patch workflow
+
+### Added
+
+- Added `xau_lfx.validation.review_patch` for controlled offline reviewer-note patching of case-index artifacts.
+- Added `xau_lfx.validation.review_patch_cli` command boundary.
+- Added committed `data/events/reviewer_notes_patch_template.json` patch template.
+- Added validation for allowed review statuses: `NEW`, `REVIEWED`, `ACCEPTED`, `REJECTED`, and `NEEDS_DATA`.
+- Added rejection for unsupported patch keys.
+- Added JSON and Markdown updated-index writer for `updated_case_index.json` and `updated_case_index.md`.
+- Added `tests/test_review_patch.py` and `tests/test_review_patch_cli.py`.
+- Added CI coverage for applying the reviewer notes patch workflow.
+- Added `docs/REVIEWER_NOTES_PATCH_WORKFLOW_V9.md` as the patch workflow contract.
+
+### Preserved
+
+- No package version change.
+- No main market-context artifact-generation behavior change.
+- No OANDA Practice dashboard behavior change.
+- No Pine source import.
+- No live pipeline connection.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## Unreleased - v9 case review batch evidence pack
 
 ### Added

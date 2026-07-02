@@ -1,6 +1,6 @@
 # PROJECT_STATE — XAUUSD Market Context / LFX-2 v9 Foundation
 
-STATUS: V9_CASE_REVIEW_BATCH_EVIDENCE_PACK_BRANCH
+STATUS: V9_REVIEWER_NOTES_PATCH_WORKFLOW_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
@@ -21,7 +21,7 @@ STATISTICAL_EDGE_CLAIM: NO
 
 This repository is being prepared as the GitHub foundation for a hybrid LFX-2 research/tooling stack.
 
-The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, liquidity node schema, node graph replay reports, case library seeds, offline case-library CLI boundary, case review index, evidence-pack workflow, and future extension points without changing market-context artifact generation behavior.
+The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, liquidity node schema, node graph replay reports, case library seeds, offline case-library CLI boundary, case review index, evidence-pack workflow, reviewer-note patch workflow, and future extension points without changing market-context artifact generation behavior.
 
 Current locked LFX-2 Pine reference outside this repository:
 
@@ -99,6 +99,7 @@ The correct near-term use is:
 - expose case-library seed generation through an offline CLI boundary;
 - build offline case review index from generated case-library seeds;
 - build evidence packs from case review index artifacts;
+- apply controlled reviewer-note patches to offline case-index artifacts;
 - keep future alert bridges monitor-only.
 
 ---
@@ -117,7 +118,8 @@ The correct near-term use is:
 | Case library seed | Added in v9.0-G | Offline evidence summary only |
 | Case library CLI boundary | Added in v9.0-H | Explicit offline command only |
 | Case library index | Added in v9.0-I | Offline review workflow only |
-| Evidence pack | Added in v9.0-J branch | Offline grouped review pack only |
+| Evidence pack | Added in v9.0-J | Offline grouped review pack only |
+| Reviewer notes patch workflow | Added in v9.0-K branch | Offline controlled patch only |
 | Research notebooks/reports | Future | Must use generated/logged data |
 | Alert bridge | Future | Monitor-only alerts first; no execution |
 
@@ -125,22 +127,24 @@ The correct near-term use is:
 
 ## 6. Current branch scope
 
-This branch implements Gate J case review batch workflow / evidence pack.
+This branch implements Gate K evidence pack index / reviewer notes patch workflow.
 
 Allowed in this branch:
 
-- add `xau_lfx.validation.evidence_pack`;
-- add `xau_lfx.validation.evidence_pack_cli`;
-- group cases by review status and priority;
-- write `evidence_pack.json` and `evidence_pack.md`;
-- add review checklist output;
+- add `xau_lfx.validation.review_patch`;
+- add `xau_lfx.validation.review_patch_cli`;
+- add committed reviewer-note patch template;
+- apply controlled `review_status` / `reviewer_notes` patches to `case_index.json`;
+- validate allowed review statuses;
+- reject unsupported patch keys;
+- write `updated_case_index.json` and `updated_case_index.md`;
 - add tests and documentation.
 
 Forbidden in this branch:
 
 - change market-context artifact generation behavior;
-- connect evidence pack to live pipeline;
-- connect evidence pack to alert bridge;
+- connect patch workflow to live pipeline;
+- connect patch workflow to alert bridge;
 - add Pine source;
 - add trading signal semantics;
 - add broker execution;
@@ -188,20 +192,23 @@ Status: COMPLETE / MERGED SCAFFOLD.
 
 ### Gate J — Case review batch workflow / evidence pack
 
-Status: IN PROGRESS.
-
-- group cases by review status;
-- build evidence pack for manual review;
-- no live dashboard connection.
+Status: COMPLETE / MERGED SCAFFOLD.
 
 ### Gate K — Evidence pack index / reviewer notes patch workflow
 
-Status: FUTURE.
+Status: IN PROGRESS.
 
 - apply controlled reviewer-note patches to offline case-index artifacts;
 - keep patch workflow auditable and monitor-only.
 
-### Gate L — Alert bridge
+### Gate L — Evidence pack review cycle lock / v9.0 final governance
+
+Status: FUTURE.
+
+- lock offline validation/review workflow;
+- document requirements before any alert bridge proposal.
+
+### Gate M — Alert bridge
 
 Status: FUTURE.
 
@@ -213,8 +220,8 @@ Status: FUTURE.
 ## 8. Current decision
 
 ```text
-DECISION: Add case review batch workflow / evidence pack as v9.0-J scaffold.
-PATCH_TYPE: offline evidence-pack module + CLI + tests + docs + CI.
+DECISION: Add reviewer notes patch workflow as v9.0-K scaffold.
+PATCH_TYPE: offline patch module + CLI + tests + docs + CI.
 RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
 NEXT_ACTION: run CI, review PR, merge if clean.
 ```

@@ -6,6 +6,7 @@ from xau_lfx.validation.event_log import validate_event_log
 from xau_lfx.validation.event_replay import replay_event_log, write_replay_report
 from xau_lfx.validation.evidence_pack import build_evidence_pack, write_evidence_pack
 from xau_lfx.validation.node_graph_replay import build_node_graph_from_replay, write_node_graph_report
+from xau_lfx.validation.review_patch import apply_review_patch, write_updated_case_index
 
 __all__ = [
     "validate_event_log",
@@ -19,4 +20,6 @@ __all__ = [
     "write_case_index",
     "build_evidence_pack",
     "write_evidence_pack",
+    "apply_review_patch",
+    "write_updated_case_index",
 ]
