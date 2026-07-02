@@ -1,6 +1,6 @@
 # PROJECT_STATE — XAUUSD Market Context / LFX-2 v9 Foundation
 
-STATUS: V9_REVIEWER_NOTES_PATCH_WORKFLOW_BRANCH
+STATUS: V9_FINAL_GOVERNANCE_LOCK_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
@@ -21,7 +21,7 @@ STATISTICAL_EDGE_CLAIM: NO
 
 This repository is being prepared as the GitHub foundation for a hybrid LFX-2 research/tooling stack.
 
-The current Python package remains a monitor-only market-context sidecar. The v9 track adds repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, liquidity node schema, node graph replay reports, case library seeds, offline case-library CLI boundary, case review index, evidence-pack workflow, reviewer-note patch workflow, and future extension points without changing market-context artifact generation behavior.
+The current Python package remains a monitor-only market-context sidecar. The v9 track now includes repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, liquidity node schema, node graph replay reports, case library seeds, offline case-library CLI boundary, case review index, evidence-pack workflow, reviewer-note patch workflow, and final governance lock without changing market-context artifact generation behavior.
 
 Current locked LFX-2 Pine reference outside this repository:
 
@@ -43,7 +43,7 @@ TradingView Pine monitor
 + validation dataset
 + case library
 + research reports
-+ optional alert bridge
++ optional notification bridge
 ```
 
 The system must answer these operator questions:
@@ -88,7 +88,7 @@ v9 target role:
 Hybrid MM-behavior research and validation toolkit.
 ```
 
-The correct near-term use is:
+The locked v9.0 use is:
 
 - keep the existing CSV/OANDA artifact pipeline stable;
 - validate event logs before building replay/dashboards;
@@ -100,7 +100,7 @@ The correct near-term use is:
 - build offline case review index from generated case-library seeds;
 - build evidence packs from case review index artifacts;
 - apply controlled reviewer-note patches to offline case-index artifacts;
-- keep future alert bridges monitor-only.
+- require governance evidence before any future notification bridge proposal.
 
 ---
 
@@ -110,7 +110,7 @@ The correct near-term use is:
 |---|---|---|
 | Pine monitor | External locked reference | Do not import in this branch |
 | Python artifact sidecar | Existing | Preserve artifact-generation behavior |
-| Event dataset schema | Validator added in v9.0-B | No data inference claim |
+| Event dataset schema | Added in v9.0-B | No data inference claim |
 | Compact lifecycle engine | Added in v9.0-C | Isolated tested primitives |
 | Event replay harness | Added in v9.0-D | CLI/report only; no live connection |
 | Liquidity node graph | Added in v9.0-E | Schema/scoring only; no live connection |
@@ -119,32 +119,28 @@ The correct near-term use is:
 | Case library CLI boundary | Added in v9.0-H | Explicit offline command only |
 | Case library index | Added in v9.0-I | Offline review workflow only |
 | Evidence pack | Added in v9.0-J | Offline grouped review pack only |
-| Reviewer notes patch workflow | Added in v9.0-K branch | Offline controlled patch only |
-| Research notebooks/reports | Future | Must use generated/logged data |
-| Alert bridge | Future | Monitor-only alerts first; no execution |
+| Reviewer notes patch workflow | Added in v9.0-K | Offline controlled patch only |
+| Final governance lock | Added in v9.0-L branch | Docs/tests only |
+| Notification bridge | Future proposal only | Requires separate approval |
 
 ---
 
 ## 6. Current branch scope
 
-This branch implements Gate K evidence pack index / reviewer notes patch workflow.
+This branch implements Gate L evidence pack review cycle lock / v9.0 final governance.
 
 Allowed in this branch:
 
-- add `xau_lfx.validation.review_patch`;
-- add `xau_lfx.validation.review_patch_cli`;
-- add committed reviewer-note patch template;
-- apply controlled `review_status` / `reviewer_notes` patches to `case_index.json`;
-- validate allowed review statuses;
-- reject unsupported patch keys;
-- write `updated_case_index.json` and `updated_case_index.md`;
-- add tests and documentation.
+- add final governance lock documentation;
+- add final workflow checklist;
+- add notification bridge precondition document;
+- add tests that enforce governance documents remain present and contain required boundaries.
 
 Forbidden in this branch:
 
 - change market-context artifact generation behavior;
-- connect patch workflow to live pipeline;
-- connect patch workflow to alert bridge;
+- connect any new live bridge;
+- add notification runtime;
 - add Pine source;
 - add trading signal semantics;
 - add broker execution;
@@ -196,32 +192,30 @@ Status: COMPLETE / MERGED SCAFFOLD.
 
 ### Gate K — Evidence pack index / reviewer notes patch workflow
 
-Status: IN PROGRESS.
-
-- apply controlled reviewer-note patches to offline case-index artifacts;
-- keep patch workflow auditable and monitor-only.
+Status: COMPLETE / MERGED SCAFFOLD.
 
 ### Gate L — Evidence pack review cycle lock / v9.0 final governance
 
-Status: FUTURE.
+Status: IN PROGRESS.
 
 - lock offline validation/review workflow;
-- document requirements before any alert bridge proposal.
+- document requirements before any notification bridge proposal;
+- add governance tests only.
 
-### Gate M — Alert bridge
+### Gate M — Notification bridge
 
-Status: FUTURE.
+Status: FUTURE PROPOSAL ONLY.
 
-- only emit monitor-only states such as `TRACK_RECLAIM`, `TRACK_ACCEPT`, `D_ACTIVE`, `D_STALL`, `D_FAILED`, `TARGET_HIT`;
-- no order placement.
+- monitor-only states may be proposed later;
+- no implementation in v9.0-L.
 
 ---
 
 ## 8. Current decision
 
 ```text
-DECISION: Add reviewer notes patch workflow as v9.0-K scaffold.
-PATCH_TYPE: offline patch module + CLI + tests + docs + CI.
+DECISION: Add v9.0 final governance lock as Gate L scaffold.
+PATCH_TYPE: docs + tests only.
 RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
 NEXT_ACTION: run CI, review PR, merge if clean.
 ```
