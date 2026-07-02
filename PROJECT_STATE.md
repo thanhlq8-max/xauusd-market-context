@@ -8,12 +8,20 @@ TARGET_DEVELOPMENT_TRACK: v9.1 — Monitor-only Rolling Event Dataset
 PRIMARY_MODE: CONTROL
 TARGET_SYMBOL: XAUUSD
 TRADING_MODE: MONITOR_ONLY
+AUTO_ENTRY: NO
+BUY_SELL_SIGNAL: NO
+STRATEGY_MODE: NO
+REAL_MM_INVENTORY_CLAIM: NO
+REAL_RETAIL_POSITIONING_CLAIM: NO
+STATISTICAL_EDGE_CLAIM: NO
 
 ---
 
 ## 1. Purpose
 
-This branch implements v9.1-F as a snapshot event-log append boundary / rolling dataset gate.
+This repository has completed the v9.0 offline validation/review governance lock, v9.1-A source proposal, v9.1-B OHLCV adapter implementation, v9.1-C fetch-once CLI boundary, v9.1-D snapshot validation gate, and v9.1-E snapshot event-log draft mapper.
+
+The current branch implements v9.1-F as a snapshot event-log append boundary / rolling dataset gate:
 
 ```text
 Input: snapshot_event_log_draft.csv
@@ -22,24 +30,89 @@ Protection: duplicate event_id / ts_utc / broker_source / timeframe key
 Inference: no lifecycle inference
 ```
 
-The current repository role remains a monitor-only research and validation toolkit. This branch does not add live bridge behavior, order workflow, Pine source, lifecycle inference, or default pipeline wiring.
+This branch does not implement a daemon loop, notification runtime, default live pipeline wiring, broker actions, Pine import, lifecycle inference, or execution behavior.
 
 ---
 
-## 2. Completed foundation
+## 2. Objective lock
+
+Build toward a practical desk-like hybrid stack for XAUUSD behavior monitoring:
 
 ```text
-v9.0 governance lock: COMPLETE / MERGED
-v9.1-A source proposal: COMPLETE / MERGED
-v9.1-B OHLCV adapters: COMPLETE / MERGED
-v9.1-C fetch-once CLI: COMPLETE / MERGED
-v9.1-D snapshot validation: COMPLETE / MERGED
-v9.1-E snapshot event-log draft mapper: COMPLETE / MERGED
+TradingView Pine monitor
++ Python data/event engine
++ validation dataset
++ case library
++ evidence packs
++ optional monitor-only notification bridge
+```
+
+The system must continue to answer:
+
+1. MM đã làm gì?
+2. MM đang làm gì?
+3. MM có thể làm gì tiếp?
+4. Trader nên theo dõi gì để đi theo MM?
+
+The repository must support those questions through auditable data, logs, and documentation. It must not become an unvalidated signal/auto-trading project.
+
+---
+
+## 3. Hard rules
+
+- No BUY/SELL commands.
+- No direct entry signal.
+- No SL/TP instruction.
+- No auto execution.
+- No `strategy()` conversion as default path.
+- No broker execution logic without separate explicit approval.
+- No claim of real MM inventory.
+- No claim of real retail positioning.
+- No claim of statistical edge without a formal logged validation dataset.
+- No claim of guaranteed profit.
+- No hidden behavior change under rolling dataset implementation.
+
+---
+
+## 4. v9.0 locked foundation
+
+Completed and merged gates:
+
+```text
+Gate A — Repo foundation
+Gate B — Event log validator
+Gate C — Compact lifecycle primitives
+Gate D — Event replay harness
+Gate E — Liquidity node graph schema
+Gate F — Node graph replay integration
+Gate G — Case library seed
+Gate H — Case library CLI / artifact boundary
+Gate I — Case library index / review workflow
+Gate J — Evidence pack workflow
+Gate K — Reviewer notes patch workflow
+Gate L — v9.0 final governance lock
 ```
 
 ---
 
-## 3. Current branch scope
+## 5. v9.1 source path
+
+Selected implementation path:
+
+```text
+A. OANDA REST primary
+B. MT5 Python bridge secondary
+```
+
+Not selected as primary:
+
+```text
+C. vendor REST primary
+```
+
+---
+
+## 6. Current branch scope
 
 Allowed in this branch:
 
@@ -57,13 +130,15 @@ Forbidden in this branch:
 - wire rolling dataset into default `run-once` behavior;
 - add long-running daemon loop;
 - implement notification runtime;
-- add broker or terminal order actions;
+- add broker order actions;
+- add MT5 order actions;
 - add Pine source;
+- add trading signal semantics;
 - publish package/release.
 
 ---
 
-## 4. Append rule
+## 7. Append rule
 
 ```text
 snapshot_event_log_draft.csv → rolling_event_dataset.csv
@@ -79,24 +154,64 @@ Duplicate key:
 event_id + ts_utc + broker_source + timeframe
 ```
 
+The append workflow creates a local rolling research dataset. It does not infer behavior conclusions.
+
 ---
 
-## 5. v9.1 gates
+## 8. Volume rule
 
 ```text
-v9.1-A: COMPLETE / MERGED
-v9.1-B: COMPLETE / MERGED
-v9.1-C: COMPLETE / MERGED
-v9.1-D: COMPLETE / MERGED
-v9.1-E: COMPLETE / MERGED
-v9.1-F: IN PROGRESS
-v9.1-G: FUTURE — Rolling Dataset Quality Report / Coverage Summary
-v9.1-H: FUTURE — monitor-only notification bridge implementation requires separate approval
+XAUUSD tick_volume = quote activity / source-specific activity proxy.
+It is not centralized traded volume.
 ```
 
 ---
 
-## 6. Current decision
+## 9. v9.1 development gates
+
+### v9.1-A — Notification bridge proposal + OHLCV data source decision
+
+Status: COMPLETE / MERGED.
+
+### v9.1-B — OHLCV adapter implementation
+
+Status: COMPLETE / MERGED.
+
+### v9.1-C — OHLCV Fetch CLI / Scheduler Boundary
+
+Status: COMPLETE / MERGED.
+
+### v9.1-D — OHLCV Snapshot Validation / Source Freshness Gate
+
+Status: COMPLETE / MERGED.
+
+### v9.1-E — OHLCV Snapshot to Event Log Draft Mapper
+
+Status: COMPLETE / MERGED.
+
+### v9.1-F — Snapshot Event Log Append Boundary / Rolling Dataset
+
+Status: IN PROGRESS.
+
+- append validated draft rows into a rolling local event dataset;
+- duplicate protection;
+- no lifecycle inference.
+
+### v9.1-G — Rolling Dataset Quality Report / Coverage Summary
+
+Status: FUTURE.
+
+- summarize dataset row counts;
+- summarize source and timeframe coverage;
+- no lifecycle inference.
+
+### v9.1-H — Monitor-only notification bridge implementation
+
+Status: FUTURE / REQUIRES SEPARATE APPROVAL.
+
+---
+
+## 10. Current decision
 
 ```text
 DECISION: Implement v9.1-F snapshot event-log append boundary / rolling dataset.
