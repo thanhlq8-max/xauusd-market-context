@@ -1,10 +1,10 @@
-# PROJECT_STATE — XAUUSD Market Context / LFX-2 v9 Foundation
+# PROJECT_STATE — XAUUSD Market Context / LFX-2 v9.1 Foundation
 
-STATUS: V9_FINAL_GOVERNANCE_LOCK_BRANCH
+STATUS: V91_NOTIFICATION_BRIDGE_PROPOSAL_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
-TARGET_DEVELOPMENT_TRACK: v9.0 — Desk-like Hybrid Research Stack
+TARGET_DEVELOPMENT_TRACK: v9.1 — Monitor-only Notification Bridge Proposal
 PRIMARY_MODE: CONTROL
 TARGET_SYMBOL: XAUUSD
 TRADING_MODE: MONITOR_ONLY
@@ -19,17 +19,9 @@ STATISTICAL_EDGE_CLAIM: NO
 
 ## 1. Purpose
 
-This repository is being prepared as the GitHub foundation for a hybrid LFX-2 research/tooling stack.
+This repository has completed the v9.0 offline validation/review governance lock. The current branch starts v9.1-A as a proposal-only step for a future monitor-only notification bridge and OHLCV data-source decision.
 
-The current Python package remains a monitor-only market-context sidecar. The v9 track now includes repository structure, validation discipline, event dataset design, compact lifecycle primitives, replay validation, liquidity node schema, node graph replay reports, case library seeds, offline case-library CLI boundary, case review index, evidence-pack workflow, reviewer-note patch workflow, and final governance lock without changing market-context artifact generation behavior.
-
-Current locked LFX-2 Pine reference outside this repository:
-
-```text
-LFX-2 v8.1-D — COUNTERFLOW ROUTE ORIGIN TEXT
-```
-
-This branch does **not** add or modify the Pine source. Pine source inclusion requires a separate explicit PR and must preserve the monitor-only contract.
+This branch does not implement notification runtime, live data ingestion, broker actions, Pine import, or execution behavior.
 
 ---
 
@@ -42,11 +34,11 @@ TradingView Pine monitor
 + Python data/event engine
 + validation dataset
 + case library
-+ research reports
-+ optional notification bridge
++ evidence packs
++ optional monitor-only notification bridge
 ```
 
-The system must answer these operator questions:
+The system must continue to answer:
 
 1. MM đã làm gì?
 2. MM đang làm gì?
@@ -70,77 +62,46 @@ The repository must support those questions through auditable data, logs, and do
 - No claim of statistical edge without a formal logged validation dataset.
 - No claim of guaranteed profit.
 - No hidden behavior change under documentation or validation cleanup.
-- No deletion or file moves without a separate cleanup PR listing exact paths.
 
 ---
 
-## 4. Current repository role
+## 4. v9.0 locked foundation
 
-Current repo role:
+Completed and merged gates:
 
 ```text
-XAUUSD market-context artifact generator + validation/documentation sidecar.
+Gate A — Repo foundation
+Gate B — Event log validator
+Gate C — Compact lifecycle primitives
+Gate D — Event replay harness
+Gate E — Liquidity node graph schema
+Gate F — Node graph replay integration
+Gate G — Case library seed
+Gate H — Case library CLI / artifact boundary
+Gate I — Case library index / review workflow
+Gate J — Evidence pack workflow
+Gate K — Reviewer notes patch workflow
+Gate L — v9.0 final governance lock
 ```
-
-v9 target role:
-
-```text
-Hybrid MM-behavior research and validation toolkit.
-```
-
-The locked v9.0 use is:
-
-- keep the existing CSV/OANDA artifact pipeline stable;
-- validate event logs before building replay/dashboards;
-- port compact lifecycle primitives only under tests;
-- replay logged rows against compact lifecycle outputs;
-- build liquidity node graph reports from replay-validated rows;
-- seed case-library summaries from node graph outputs;
-- expose case-library seed generation through an offline CLI boundary;
-- build offline case review index from generated case-library seeds;
-- build evidence packs from case review index artifacts;
-- apply controlled reviewer-note patches to offline case-index artifacts;
-- require governance evidence before any future notification bridge proposal.
 
 ---
 
-## 5. Target v9 layers
-
-| Layer | Status | Rule |
-|---|---|---|
-| Pine monitor | External locked reference | Do not import in this branch |
-| Python artifact sidecar | Existing | Preserve artifact-generation behavior |
-| Event dataset schema | Added in v9.0-B | No data inference claim |
-| Compact lifecycle engine | Added in v9.0-C | Isolated tested primitives |
-| Event replay harness | Added in v9.0-D | CLI/report only; no live connection |
-| Liquidity node graph | Added in v9.0-E | Schema/scoring only; no live connection |
-| Node graph replay integration | Added in v9.0-F | Offline report only; no live connection |
-| Case library seed | Added in v9.0-G | Offline evidence summary only |
-| Case library CLI boundary | Added in v9.0-H | Explicit offline command only |
-| Case library index | Added in v9.0-I | Offline review workflow only |
-| Evidence pack | Added in v9.0-J | Offline grouped review pack only |
-| Reviewer notes patch workflow | Added in v9.0-K | Offline controlled patch only |
-| Final governance lock | Added in v9.0-L branch | Docs/tests only |
-| Notification bridge | Future proposal only | Requires separate approval |
-
----
-
-## 6. Current branch scope
-
-This branch implements Gate L evidence pack review cycle lock / v9.0 final governance.
+## 5. v9.1-A current scope
 
 Allowed in this branch:
 
-- add final governance lock documentation;
-- add final workflow checklist;
-- add notification bridge precondition document;
-- add tests that enforce governance documents remain present and contain required boundaries.
+- add notification bridge proposal document;
+- add OHLCV data source decision document;
+- add data input adapter contract proposal;
+- add tests that enforce proposal-only and monitor-only boundaries;
+- update project state and changelog.
 
 Forbidden in this branch:
 
-- change market-context artifact generation behavior;
-- connect any new live bridge;
-- add notification runtime;
+- implement notification runtime;
+- connect live feeds;
+- add broker API actions;
+- add MT5 order actions;
 - add Pine source;
 - add trading signal semantics;
 - add broker execution;
@@ -148,73 +109,64 @@ Forbidden in this branch:
 
 ---
 
-## 7. Development gates
+## 6. OHLCV data source decision
 
-### Gate A — Repo foundation
+Current proposal decision:
 
-Status: COMPLETE / MERGED.
+```text
+Primary candidate: broker REST API source, with OANDA REST candles first.
+Secondary candidate: MT5 Python bridge for broker-feed parity.
+Fallback candidate: external vendor REST API for independent reference only.
+```
 
-### Gate B — Validation dataset
+Reason:
 
-Status: COMPLETE / MERGED SCAFFOLD.
+```text
+Broker REST is best for unattended cloud refresh.
+MT5 is best for matching the trader's execution broker chart.
+Vendor API is useful as backup/reference but not broker-feed-equivalent.
+```
 
-### Gate C — Python engine port
+Volume rule:
 
-Status: COMPLETE / MERGED SCAFFOLD.
+```text
+XAUUSD volume must be treated as tick count / quote activity / source-specific proxy, not centralized traded volume.
+```
 
-### Gate D — Logged event replay harness
+---
 
-Status: COMPLETE / MERGED SCAFFOLD.
+## 7. v9.1 development gates
 
-### Gate E — Liquidity node graph schema
-
-Status: COMPLETE / MERGED SCAFFOLD.
-
-### Gate F — Node graph replay integration
-
-Status: COMPLETE / MERGED SCAFFOLD.
-
-### Gate G — Node graph quality report / case library seed
-
-Status: COMPLETE / MERGED SCAFFOLD.
-
-### Gate H — Case library CLI / artifact boundary
-
-Status: COMPLETE / MERGED SCAFFOLD.
-
-### Gate I — Case library index / review workflow
-
-Status: COMPLETE / MERGED SCAFFOLD.
-
-### Gate J — Case review batch workflow / evidence pack
-
-Status: COMPLETE / MERGED SCAFFOLD.
-
-### Gate K — Evidence pack index / reviewer notes patch workflow
-
-Status: COMPLETE / MERGED SCAFFOLD.
-
-### Gate L — Evidence pack review cycle lock / v9.0 final governance
+### v9.1-A — Notification bridge proposal + OHLCV data source decision
 
 Status: IN PROGRESS.
 
-- lock offline validation/review workflow;
-- document requirements before any notification bridge proposal;
-- add governance tests only.
+- proposal only;
+- docs/tests only;
+- no runtime implementation.
 
-### Gate M — Notification bridge
+### v9.1-B — OHLCV adapter implementation
 
-Status: FUTURE PROPOSAL ONLY.
+Status: FUTURE / REQUIRES SOURCE SELECTION.
 
-- monitor-only states may be proposed later;
-- no implementation in v9.0-L.
+The user must select one primary source before implementation:
+
+```text
+A. OANDA REST primary
+B. MT5 Python bridge primary
+C. vendor REST primary
+```
+
+### v9.1-C — Monitor-only notification bridge implementation
+
+Status: FUTURE / REQUIRES SEPARATE APPROVAL.
 
 ---
 
 ## 8. Current decision
 
 ```text
-DECISION: Add v9.0 final governance lock as Gate L scaffold.
+DECISION: Add v9.1-A proposal documents for notification bridge and OHLCV source selection.
 PATCH_TYPE: docs + tests only.
 RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
 NEXT_ACTION: run CI, review PR, merge if clean.
