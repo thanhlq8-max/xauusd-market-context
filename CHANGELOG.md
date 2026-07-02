@@ -1,5 +1,24 @@
 # Changelog
 
+## Unreleased - v9 final governance lock
+
+### Added
+
+- Added `docs/V9_FINAL_GOVERNANCE_LOCK.md` to lock the offline v9.0 validation and review workflow.
+- Added `docs/V9_FINAL_WORKFLOW_CHECKLIST.md` with required offline artifacts and commands.
+- Added `docs/V9_ALERT_BRIDGE_PRECONDITIONS.md` to document preconditions for any future monitor-only notification bridge proposal.
+- Added `tests/test_v9_final_governance.py` to keep final governance documents present and boundary-complete.
+
+### Preserved
+
+- No package version change.
+- No Python runtime module behavior change.
+- No main market-context artifact-generation behavior change.
+- No OANDA Practice dashboard behavior change.
+- No Pine source import.
+- No live bridge implementation.
+- No trading signal, broker execution, position sizing, account-risk logic, inventory claim, or profitability claim.
+
 ## Unreleased - v9 reviewer notes patch workflow
 
 ### Added
