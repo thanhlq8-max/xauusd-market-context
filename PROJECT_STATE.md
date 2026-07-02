@@ -1,10 +1,10 @@
 # PROJECT_STATE — XAUUSD Market Context / LFX-2 v9.1 Foundation
 
-STATUS: V91_NOTIFICATION_BRIDGE_PROPOSAL_BRANCH
+STATUS: V91_OHLCV_ADAPTER_IMPLEMENTATION_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
-TARGET_DEVELOPMENT_TRACK: v9.1 — Monitor-only Notification Bridge Proposal
+TARGET_DEVELOPMENT_TRACK: v9.1 — Monitor-only OHLCV Adapter Layer
 PRIMARY_MODE: CONTROL
 TARGET_SYMBOL: XAUUSD
 TRADING_MODE: MONITOR_ONLY
@@ -19,9 +19,16 @@ STATISTICAL_EDGE_CLAIM: NO
 
 ## 1. Purpose
 
-This repository has completed the v9.0 offline validation/review governance lock. The current branch starts v9.1-A as a proposal-only step for a future monitor-only notification bridge and OHLCV data-source decision.
+This repository has completed the v9.0 offline validation/review governance lock and the v9.1-A notification bridge / OHLCV source proposal.
 
-This branch does not implement notification runtime, live data ingestion, broker actions, Pine import, or execution behavior.
+The current branch implements v9.1-B as an isolated monitor-only OHLCV adapter layer:
+
+```text
+Primary: OANDA REST connector scaffold
+Secondary: MT5 Python bridge connector scaffold
+```
+
+This branch does not implement notification runtime, default live pipeline wiring, broker actions, Pine import, or execution behavior.
 
 ---
 
@@ -61,7 +68,7 @@ The repository must support those questions through auditable data, logs, and do
 - No claim of real retail positioning.
 - No claim of statistical edge without a formal logged validation dataset.
 - No claim of guaranteed profit.
-- No hidden behavior change under documentation or validation cleanup.
+- No hidden behavior change under adapter implementation.
 
 ---
 
@@ -86,88 +93,89 @@ Gate L — v9.0 final governance lock
 
 ---
 
-## 5. v9.1-A current scope
+## 5. v9.1 source decision
+
+Selected implementation path:
+
+```text
+A. OANDA REST primary
+B. MT5 Python bridge secondary
+```
+
+Not selected as primary in this branch:
+
+```text
+C. vendor REST primary
+```
+
+---
+
+## 6. Current branch scope
 
 Allowed in this branch:
 
-- add notification bridge proposal document;
-- add OHLCV data source decision document;
-- add data input adapter contract proposal;
-- add tests that enforce proposal-only and monitor-only boundaries;
-- update project state and changelog.
+- add normalized OHLCV candle contract;
+- add OANDA REST connector scaffold;
+- add MT5 Python bridge connector scaffold;
+- add tests using injected/mock transports only;
+- add implementation documentation;
+- preserve existing artifact pipeline behavior.
 
 Forbidden in this branch:
 
+- wire adapters into default `run-once` behavior;
+- add long-running scheduler;
 - implement notification runtime;
-- connect live feeds;
-- add broker API actions;
+- add broker order actions;
 - add MT5 order actions;
 - add Pine source;
 - add trading signal semantics;
-- add broker execution;
 - publish package/release.
 
 ---
 
-## 6. OHLCV data source decision
-
-Current proposal decision:
+## 7. Volume rule
 
 ```text
-Primary candidate: broker REST API source, with OANDA REST candles first.
-Secondary candidate: MT5 Python bridge for broker-feed parity.
-Fallback candidate: external vendor REST API for independent reference only.
-```
-
-Reason:
-
-```text
-Broker REST is best for unattended cloud refresh.
-MT5 is best for matching the trader's execution broker chart.
-Vendor API is useful as backup/reference but not broker-feed-equivalent.
-```
-
-Volume rule:
-
-```text
-XAUUSD volume must be treated as tick count / quote activity / source-specific proxy, not centralized traded volume.
+XAUUSD tick_volume = quote activity / source-specific activity proxy.
+It is not centralized traded volume.
 ```
 
 ---
 
-## 7. v9.1 development gates
+## 8. v9.1 development gates
 
 ### v9.1-A — Notification bridge proposal + OHLCV data source decision
 
-Status: IN PROGRESS.
-
-- proposal only;
-- docs/tests only;
-- no runtime implementation.
+Status: COMPLETE / MERGED.
 
 ### v9.1-B — OHLCV adapter implementation
 
-Status: FUTURE / REQUIRES SOURCE SELECTION.
+Status: IN PROGRESS.
 
-The user must select one primary source before implementation:
+- OANDA REST connector scaffold;
+- MT5 Python bridge connector scaffold;
+- no default live pipeline connection.
 
-```text
-A. OANDA REST primary
-B. MT5 Python bridge primary
-C. vendor REST primary
-```
+### v9.1-C — OHLCV Fetch CLI / Scheduler Boundary
 
-### v9.1-C — Monitor-only notification bridge implementation
+Status: FUTURE.
+
+- expose fetch-once command;
+- document 60-second / 300-second scheduler usage;
+- no execution behavior.
+
+### v9.1-D — Monitor-only notification bridge implementation
 
 Status: FUTURE / REQUIRES SEPARATE APPROVAL.
 
 ---
 
-## 8. Current decision
+## 9. Current decision
 
 ```text
-DECISION: Add v9.1-A proposal documents for notification bridge and OHLCV source selection.
-PATCH_TYPE: docs + tests only.
+DECISION: Implement v9.1-B OHLCV adapters with OANDA primary and MT5 bridge secondary.
+PATCH_TYPE: isolated connector modules + tests + docs.
 RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
 NEXT_ACTION: run CI, review PR, merge if clean.
 ```
