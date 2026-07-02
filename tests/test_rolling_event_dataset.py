@@ -6,7 +6,7 @@ from pathlib import Path
 
 from xau_lfx.connectors.rolling_event_dataset import append_event_log_draft, write_append_report
 from xau_lfx.connectors.snapshot_event_mapper import build_event_log_draft_from_snapshot, write_event_log_draft
-from xau_lfx.validation.event_log import EXPECTED_COLUMNS, validate_event_log
+from xau_lfx.validation.event_log import validate_event_log
 
 
 def _snapshot_payload(ts_utc="2026-07-02T01:00:00+00:00"):
@@ -48,6 +48,7 @@ def _validation_payload():
 
 
 def _write_json(tmp_path: Path, name: str, payload: dict) -> Path:
+    tmp_path.mkdir(parents=True, exist_ok=True)
     path = tmp_path / name
     path.write_text(json.dumps(payload), encoding="utf-8")
     return path
