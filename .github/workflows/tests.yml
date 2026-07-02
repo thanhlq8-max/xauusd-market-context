@@ -28,6 +28,7 @@ jobs:
       - run: python -m xau_lfx.validation.case_index_cli --case-library case-library-seed/case_library_seed.json --out-dir case-index
       - run: python -m xau_lfx.validation.evidence_pack_cli --case-index case-index/case_index.json --out-dir evidence-pack
       - run: python -m xau_lfx.validation.review_patch_cli --case-index case-index/case_index.json --patch-file data/events/reviewer_notes_patch_template.json --out-dir updated-case-index
+      - run: python -m xau_lfx.connectors.candle_cli --source oanda --symbol XAUUSD --timeframe M1 --limit 1 --fixture-json data/events/oanda_candles_fixture.json --oanda-token test-token --out-dir normalized-ohlcv
       - run: python -m xau_lfx.pipeline report --artifact-dir artifacts --write-md
       - run: python -m xau_lfx.pipeline site --artifact-dir artifacts --out-dir site
       - run: python -m xau_lfx.pipeline demo --out-dir demo-artifacts --site-dir demo-site

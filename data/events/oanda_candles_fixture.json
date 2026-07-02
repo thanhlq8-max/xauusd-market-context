@@ -1,0 +1,17 @@
+{
+  "instrument": "XAU_USD",
+  "granularity": "M1",
+  "candles": [
+    {
+      "time": "2026-07-02T01:00:00Z",
+      "complete": true,
+      "volume": 12,
+      "mid": {
+        "o": "3300.0",
+        "h": "3301.0",
+        "l": "3299.5",
+        "c": "3300.5"
+      }
+    }
+  ]
+}
