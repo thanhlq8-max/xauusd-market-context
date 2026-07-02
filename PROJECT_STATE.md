@@ -1,10 +1,10 @@
 # PROJECT_STATE — XAUUSD Market Context / LFX-2 v9.1 Foundation
 
-STATUS: V91_SNAPSHOT_EVENT_LOG_MAPPER_BRANCH
+STATUS: V91_ROLLING_EVENT_DATASET_BRANCH
 PROJECT: xauusd-market-context
 UPSTREAM_SYSTEM: LFX-2 — Liquidity Field Engine
 CURRENT_REPO_PACKAGE_VERSION: v2.8.0
-TARGET_DEVELOPMENT_TRACK: v9.1 — Monitor-only Snapshot Event Log Draft Mapper
+TARGET_DEVELOPMENT_TRACK: v9.1 — Monitor-only Rolling Event Dataset
 PRIMARY_MODE: CONTROL
 TARGET_SYMBOL: XAUUSD
 TRADING_MODE: MONITOR_ONLY
@@ -19,15 +19,15 @@ STATISTICAL_EDGE_CLAIM: NO
 
 ## 1. Purpose
 
-This repository has completed the v9.0 offline validation/review governance lock, v9.1-A source proposal, v9.1-B OHLCV adapter implementation, v9.1-C fetch-once CLI boundary, and v9.1-D snapshot validation gate.
+This repository has completed the v9.0 offline validation/review governance lock, v9.1-A source proposal, v9.1-B OHLCV adapter implementation, v9.1-C fetch-once CLI boundary, v9.1-D snapshot validation gate, and v9.1-E snapshot event-log draft mapper.
 
-The current branch implements v9.1-E as an OHLCV snapshot to event-log draft mapper:
+The current branch implements v9.1-F as a snapshot event-log append boundary / rolling dataset gate:
 
 ```text
-Input: normalized_ohlcv.json + ohlcv_snapshot_validation.json
-Precondition: validation status OK
-Output: snapshot_event_log_draft.csv / .json / validation report
-Inference: no lifecycle inference yet
+Input: snapshot_event_log_draft.csv
+Output: rolling_event_dataset.csv + append report JSON/Markdown
+Protection: duplicate event_id / ts_utc / broker_source / timeframe key
+Inference: no lifecycle inference
 ```
 
 This branch does not implement a daemon loop, notification runtime, default live pipeline wiring, broker actions, Pine import, lifecycle inference, or execution behavior.
@@ -70,7 +70,7 @@ The repository must support those questions through auditable data, logs, and do
 - No claim of real retail positioning.
 - No claim of statistical edge without a formal logged validation dataset.
 - No claim of guaranteed profit.
-- No hidden behavior change under mapper implementation.
+- No hidden behavior change under rolling dataset implementation.
 
 ---
 
@@ -116,19 +116,18 @@ C. vendor REST primary
 
 Allowed in this branch:
 
-- add snapshot-to-event-log draft mapper module;
-- add mapper CLI;
-- require `ohlcv_snapshot_validation.status == OK`;
-- write `snapshot_event_log_draft.csv` and `.json`;
-- write `snapshot_event_log_validation.json` from the event-log validator;
-- preserve source metadata through broker_source, review_notes, and JSON report;
-- keep lifecycle_state as `NO_SWEEP` and delivery_state as `D_NONE`;
-- add tests and CI fixture mapping command.
+- add rolling event dataset append module;
+- add append CLI;
+- validate draft event-log CSV before append;
+- append valid draft rows into `rolling_event_dataset.csv`;
+- skip duplicate rows by `event_id + ts_utc + broker_source + timeframe`;
+- write append report JSON/Markdown;
+- add tests and CI fixture append command.
 
 Forbidden in this branch:
 
 - infer lifecycle / route / delivery behavior from OHLCV;
-- wire mapper into default `run-once` behavior;
+- wire rolling dataset into default `run-once` behavior;
 - add long-running daemon loop;
 - implement notification runtime;
 - add broker order actions;
@@ -139,18 +138,23 @@ Forbidden in this branch:
 
 ---
 
-## 7. Mapping rule
+## 7. Append rule
 
 ```text
-Validated OHLCV row → draft event-log row
-lifecycle_state = NO_SWEEP
-delivery_state = D_NONE
-session = UNKNOWN
-manual_review_result = blank
-review_notes = source metadata + no_lifecycle_inference
+snapshot_event_log_draft.csv → rolling_event_dataset.csv
+validate draft first
+append only non-duplicate rows
+validate output dataset after append
+write report
 ```
 
-The mapper creates review-ready draft rows, not behavior conclusions.
+Duplicate key:
+
+```text
+event_id + ts_utc + broker_source + timeframe
+```
+
+The append workflow creates a local rolling research dataset. It does not infer behavior conclusions.
 
 ---
 
@@ -183,21 +187,25 @@ Status: COMPLETE / MERGED.
 
 ### v9.1-E — OHLCV Snapshot to Event Log Draft Mapper
 
-Status: IN PROGRESS.
-
-- create draft event-log rows from validated snapshots;
-- no lifecycle inference;
-- no notification or execution behavior.
+Status: COMPLETE / MERGED.
 
 ### v9.1-F — Snapshot Event Log Append Boundary / Rolling Dataset
 
-Status: FUTURE.
+Status: IN PROGRESS.
 
 - append validated draft rows into a rolling local event dataset;
 - duplicate protection;
 - no lifecycle inference.
 
-### v9.1-G — Monitor-only notification bridge implementation
+### v9.1-G — Rolling Dataset Quality Report / Coverage Summary
+
+Status: FUTURE.
+
+- summarize dataset row counts;
+- summarize source and timeframe coverage;
+- no lifecycle inference.
+
+### v9.1-H — Monitor-only notification bridge implementation
 
 Status: FUTURE / REQUIRES SEPARATE APPROVAL.
 
@@ -206,8 +214,8 @@ Status: FUTURE / REQUIRES SEPARATE APPROVAL.
 ## 10. Current decision
 
 ```text
-DECISION: Implement v9.1-E OHLCV snapshot to event-log draft mapper.
-PATCH_TYPE: mapper module + CLI + tests + docs + CI.
+DECISION: Implement v9.1-F snapshot event-log append boundary / rolling dataset.
+PATCH_TYPE: append module + CLI + tests + docs + CI.
 RUNTIME_ARTIFACT_GENERATION_CHANGED: NO.
 NEXT_ACTION: run CI, review PR, merge if clean.
 ```

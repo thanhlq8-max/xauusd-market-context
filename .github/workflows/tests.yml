@@ -32,6 +32,8 @@ jobs:
       - run: python -m xau_lfx.connectors.candle_snapshot_cli --snapshot normalized-ohlcv/normalized_ohlcv.json --out-dir ohlcv-validation --skip-freshness-check
       - run: python -m xau_lfx.connectors.snapshot_event_mapper_cli --snapshot normalized-ohlcv/normalized_ohlcv.json --validation ohlcv-validation/ohlcv_snapshot_validation.json --out-dir snapshot-event-log
       - run: python -m xau_lfx.pipeline validate-event-log --event-log snapshot-event-log/snapshot_event_log_draft.csv
+      - run: python -m xau_lfx.connectors.rolling_event_dataset_cli --draft-csv snapshot-event-log/snapshot_event_log_draft.csv --dataset-csv rolling-dataset/rolling_event_dataset.csv --out-dir rolling-dataset
+      - run: python -m xau_lfx.pipeline validate-event-log --event-log rolling-dataset/rolling_event_dataset.csv
       - run: python -m xau_lfx.pipeline report --artifact-dir artifacts --write-md
       - run: python -m xau_lfx.pipeline site --artifact-dir artifacts --out-dir site
       - run: python -m xau_lfx.pipeline demo --out-dir demo-artifacts --site-dir demo-site
